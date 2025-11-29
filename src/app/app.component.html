@@ -1,0 +1,1188 @@
+<div class="container">
+  <header class="header">
+    <h1>Психодіагностика</h1>
+    <p class="subtitle">Аналіз результатів тестування</p>
+  </header>
+
+  <main class="main-content">
+    <!-- Upload Zone -->
+    <div
+      class="upload-zone"
+      [class.dragging]="isDragging"
+      [class.hidden]="respondents.length > 0"
+      (dragover)="onDragOver($event)"
+      (dragleave)="onDragLeave($event)"
+      (drop)="onDrop($event)">
+      <div class="upload-content" *ngIf="!isLoading">
+        <div class="upload-icon">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="48"
+            height="48"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.5"
+            stroke-linecap="round"
+            stroke-linejoin="round">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+            <polyline points="17 8 12 3 7 8" />
+            <line x1="12" y1="3" x2="12" y2="15" />
+          </svg>
+        </div>
+        <p class="upload-text">Перетягніть CSV файл сюди</p>
+        <span class="upload-divider">або</span>
+        <label class="upload-button">
+          Обрати файл
+          <input
+            type="file"
+            accept=".csv"
+            (change)="onFileSelected($event)"
+            hidden />
+        </label>
+      </div>
+
+      <div class="loading-content" *ngIf="isLoading">
+        <div class="spinner"></div>
+        <p>Обробка файлу...</p>
+      </div>
+    </div>
+
+    <!-- Error Message -->
+    <div class="error-message" *ngIf="errorMessage">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="20"
+        height="20"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round">
+        <circle cx="12" cy="12" r="10" />
+        <line x1="12" y1="8" x2="12" y2="12" />
+        <line x1="12" y1="16" x2="12.01" y2="16" />
+      </svg>
+      {{ errorMessage }}
+    </div>
+
+    <!-- Results Section -->
+    <div class="results-section" *ngIf="respondents.length > 0">
+      <!-- Header with file info -->
+      <div class="results-header">
+        <div class="file-info">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round">
+            <path
+              d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+            <polyline points="14 2 14 8 20 8" />
+            <line x1="16" y1="13" x2="8" y2="13" />
+            <line x1="16" y1="17" x2="8" y2="17" />
+            <polyline points="10 9 9 9 8 9" />
+          </svg>
+          <span class="file-name">{{ fileName }}</span>
+          <span class="respondent-count"
+            >{{ respondents.length }} респондентів</span
+          >
+        </div>
+        <button class="clear-button" (click)="clearData()">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18" />
+            <line x1="6" y1="6" x2="18" y2="18" />
+          </svg>
+          Очистити
+        </button>
+      </div>
+
+      <!-- Tabs -->
+      <div class="tabs">
+        <button
+          class="tab"
+          [class.active]="activeTab === 'san'"
+          (click)="setActiveTab('san')">
+          <span class="tab-icon">📊</span>
+          САН
+        </button>
+        <button
+          class="tab"
+          [class.active]="activeTab === 'shtepa'"
+          (click)="setActiveTab('shtepa')">
+          <span class="tab-icon">🧠</span>
+          Штепа
+        </button>
+        <button
+          class="tab"
+          [class.active]="activeTab === 'basicph'"
+          (click)="setActiveTab('basicph')">
+          <span class="tab-icon">💪</span>
+          Basic Ph
+        </button>
+        <button
+          class="tab"
+          [class.active]="activeTab === 'personalresource'"
+          (click)="setActiveTab('personalresource')">
+          <span class="tab-icon">✨</span>
+          Особ. ресурси
+        </button>
+        <button
+          class="tab"
+          [class.active]="activeTab === 'ryff'"
+          (click)="setActiveTab('ryff')">
+          <span class="tab-icon">🌟</span>
+          Ryff
+        </button>
+      </div>
+
+      <!-- САН Tab Content -->
+      <div class="tab-content" *ngIf="activeTab === 'san'">
+        <!-- Overall Statistics -->
+        <div class="overall-stats">
+          <h2>Загальні показники САН</h2>
+          <div class="stats-grid">
+            <div class="stat-card wellbeing">
+              <div class="stat-label">Самопочуття</div>
+              <div
+                class="stat-value"
+                [class]="getSanScaleClass(overallWellbeing)">
+                {{ overallWellbeing }}
+              </div>
+              <div class="stat-bar">
+                <div
+                  class="stat-bar-fill"
+                  [style.width.%]="(overallWellbeing / 7) * 100"></div>
+              </div>
+            </div>
+            <div class="stat-card activity">
+              <div class="stat-label">Активність</div>
+              <div
+                class="stat-value"
+                [class]="getSanScaleClass(overallActivity)">
+                {{ overallActivity }}
+              </div>
+              <div class="stat-bar">
+                <div
+                  class="stat-bar-fill"
+                  [style.width.%]="(overallActivity / 7) * 100"></div>
+              </div>
+            </div>
+            <div class="stat-card mood">
+              <div class="stat-label">Настрій</div>
+              <div class="stat-value" [class]="getSanScaleClass(overallMood)">
+                {{ overallMood }}
+              </div>
+              <div class="stat-bar">
+                <div
+                  class="stat-bar-fill"
+                  [style.width.%]="(overallMood / 7) * 100"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Individual САН Results -->
+        <div class="individual-results">
+          <h2>Результати по респондентах</h2>
+          <div class="respondents-list">
+            <div
+              class="respondent-card"
+              *ngFor="let r of respondents; let i = index">
+              <div class="respondent-header">
+                <div class="respondent-info">
+                  <span class="respondent-number">#{{ i + 1 }}</span>
+                  <span class="respondent-email">{{ r.email }}</span>
+                  <span class="respondent-age">{{ r.age }} років</span>
+                </div>
+                <span class="respondent-timestamp">{{ r.timestamp }}</span>
+              </div>
+              <div class="respondent-scores">
+                <div class="score-item">
+                  <span class="score-label">Самопочуття</span>
+                  <div class="score-bar-container">
+                    <div
+                      class="score-bar wellbeing"
+                      [style.width.%]="(r.san.wellbeing / 7) * 100"></div>
+                  </div>
+                  <span
+                    class="score-value"
+                    [class]="getSanScaleClass(r.san.wellbeing)"
+                    >{{ r.san.wellbeing }}</span
+                  >
+                </div>
+                <div class="score-item">
+                  <span class="score-label">Активність</span>
+                  <div class="score-bar-container">
+                    <div
+                      class="score-bar activity"
+                      [style.width.%]="(r.san.activity / 7) * 100"></div>
+                  </div>
+                  <span
+                    class="score-value"
+                    [class]="getSanScaleClass(r.san.activity)"
+                    >{{ r.san.activity }}</span
+                  >
+                </div>
+                <div class="score-item">
+                  <span class="score-label">Настрій</span>
+                  <div class="score-bar-container">
+                    <div
+                      class="score-bar mood"
+                      [style.width.%]="(r.san.mood / 7) * 100"></div>
+                  </div>
+                  <span
+                    class="score-value"
+                    [class]="getSanScaleClass(r.san.mood)"
+                    >{{ r.san.mood }}</span
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Штепа Tab Content -->
+      <div class="tab-content" *ngIf="activeTab === 'shtepa'">
+        <!-- Overall Штепа Statistics -->
+        <div class="overall-stats shtepa-stats">
+          <h2>Загальні показники психологічної ресурсності</h2>
+          <div class="shtepa-overall">
+            <div class="shtepa-total-card">
+              <div class="stat-label">Загальний рівень</div>
+              <div class="stat-value large" [class]="overallShtepaLevel.class">
+                {{ overallShtepaScore }}
+              </div>
+              <div class="stat-sublabel">балів (середнє)</div>
+              <div class="level-badge" [class]="overallShtepaLevel.class">
+                {{ overallShtepaLevel.level }}
+              </div>
+            </div>
+            <div class="level-legend">
+              <div class="legend-item">
+                <span class="legend-color not-diagnosed"></span>
+                <span>0–56: не діагностується</span>
+              </div>
+              <div class="legend-item">
+                <span class="legend-color low"></span>
+                <span>57–69: низький рівень</span>
+              </div>
+              <div class="legend-item">
+                <span class="legend-color medium"></span>
+                <span>70–92: середній рівень</span>
+              </div>
+              <div class="legend-item">
+                <span class="legend-color high"></span>
+                <span>93–106: високий рівень</span>
+              </div>
+              <div class="legend-item">
+                <span class="legend-color doubtful"></span>
+                <span>107–112: сумнівні дані</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Individual Штепа Results -->
+        <div class="individual-results">
+          <h2>Результати по респондентах</h2>
+          <div class="respondents-list">
+            <div
+              class="respondent-card shtepa-card"
+              *ngFor="let r of respondents; let i = index">
+              <div class="respondent-header">
+                <div class="respondent-info">
+                  <span class="respondent-number">#{{ i + 1 }}</span>
+                  <span class="respondent-email">{{ r.email }}</span>
+                  <span class="respondent-age">{{ r.age }} років</span>
+                </div>
+                <div class="shtepa-total">
+                  <span class="total-score" [class]="r.shtepa.totalLevelClass">
+                    {{ r.shtepa.totalScore }}
+                  </span>
+                  <span class="total-label">балів</span>
+                </div>
+              </div>
+              <div class="shtepa-level-row">
+                <span class="level-badge" [class]="r.shtepa.totalLevelClass">
+                  {{ r.shtepa.totalLevel }}
+                </span>
+              </div>
+              <div class="shtepa-categories">
+                <div
+                  class="category-item"
+                  *ngFor="let cat of r.shtepa.categories">
+                  <span class="category-name">{{ cat.name }}</span>
+                  <div class="category-bar-container">
+                    <div
+                      class="category-bar"
+                      [class]="getShtepaScoreClass(cat.score, cat.maxScore)"
+                      [style.width.%]="(cat.score / cat.maxScore) * 100"></div>
+                  </div>
+                  <span
+                    class="category-score"
+                    [class]="getShtepaScoreClass(cat.score, cat.maxScore)">
+                    {{ cat.score }}/{{ cat.maxScore }}
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Basic Ph Tab Content -->
+      <div class="tab-content" *ngIf="activeTab === 'basicph'">
+        <!-- Overall Basic Ph Statistics -->
+        <div class="overall-stats basicph-stats">
+          <h2>Загальні показники Basic Ph</h2>
+          <div class="basicph-overall">
+            <div class="basicph-categories-grid">
+              <div
+                class="basicph-stat-card"
+                *ngFor="let catDef of basicPhCategories">
+                <div class="basicph-code">{{ catDef.code }}</div>
+                <div class="basicph-name">{{ catDef.name }}</div>
+                <div
+                  class="basicph-value"
+                  [class]="
+                    getBasicPhScoreClass(
+                      getOverallBasicPhCategory(catDef.code),
+                      36
+                    )
+                  ">
+                  {{ getOverallBasicPhCategory(catDef.code) }}
+                </div>
+                <div class="basicph-max">/ 36</div>
+                <div class="basicph-bar">
+                  <div
+                    class="basicph-bar-fill"
+                    [class]="
+                      getBasicPhScoreClass(
+                        getOverallBasicPhCategory(catDef.code),
+                        36
+                      )
+                    "
+                    [style.width.%]="
+                      (getOverallBasicPhCategory(catDef.code) / 36) * 100
+                    "></div>
+                </div>
+              </div>
+            </div>
+            <div class="basicph-total-summary">
+              <span class="total-label">Загальна сума (середнє):</span>
+              <span class="total-value">{{ overallBasicPhTotal }}</span>
+              <span class="total-max">/ 216</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Individual Basic Ph Results -->
+        <div class="individual-results">
+          <h2>Результати по респондентах</h2>
+          <div class="respondents-list">
+            <div
+              class="respondent-card basicph-card"
+              *ngFor="let r of respondents; let i = index">
+              <div class="respondent-header">
+                <div class="respondent-info">
+                  <span class="respondent-number">#{{ i + 1 }}</span>
+                  <span class="respondent-email">{{ r.email }}</span>
+                  <span class="respondent-age">{{ r.age }} років</span>
+                </div>
+                <div class="basicph-total">
+                  <span class="total-score">{{ r.basicPh.totalScore }}</span>
+                  <span class="total-label">/ 216</span>
+                </div>
+              </div>
+              <div class="basicph-categories-row">
+                <div
+                  class="basicph-category-item"
+                  *ngFor="let cat of r.basicPh.categories">
+                  <div class="cat-header">
+                    <span class="cat-code">{{ cat.code }}</span>
+                    <span
+                      class="cat-score"
+                      [class]="getBasicPhScoreClass(cat.score, cat.maxScore)">
+                      {{ cat.score }}
+                    </span>
+                  </div>
+                  <div class="cat-name">{{ cat.name }}</div>
+                  <div class="cat-bar-container">
+                    <div
+                      class="cat-bar"
+                      [class]="getBasicPhScoreClass(cat.score, cat.maxScore)"
+                      [style.width.%]="(cat.score / cat.maxScore) * 100"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Personal Resource Tab Content -->
+      <div class="tab-content" *ngIf="activeTab === 'personalresource'">
+        <!-- Overall Personal Resource Statistics -->
+        <div class="overall-stats pr-stats">
+          <h2>
+            Загальні показники особистісних ресурсів (О. Савченко, С. Сукач)
+          </h2>
+          <div class="pr-overall">
+            <div class="pr-categories-grid">
+              <!-- Достатність -->
+              <div class="pr-stat-card sufficiency">
+                <div class="pr-category-name">Достатність</div>
+                <div class="pr-score-row">
+                  <span
+                    class="pr-value"
+                    [class]="
+                      overallPersonalResourceSufficiency < 13
+                        ? 'low'
+                        : overallPersonalResourceSufficiency <= 21
+                        ? 'medium'
+                        : 'high'
+                    ">
+                    {{ overallPersonalResourceSufficiency }}
+                  </span>
+                  <span class="pr-max">/ 30</span>
+                </div>
+                <div class="pr-bar">
+                  <div
+                    class="pr-bar-fill"
+                    [class]="
+                      overallPersonalResourceSufficiency < 13
+                        ? 'low'
+                        : overallPersonalResourceSufficiency <= 21
+                        ? 'medium'
+                        : 'high'
+                    "
+                    [style.width.%]="
+                      (overallPersonalResourceSufficiency / 30) * 100
+                    "></div>
+                </div>
+                <div class="pr-legend-mini">
+                  &lt;13: низький · 13-21: середній · &gt;21: високий
+                </div>
+              </div>
+
+              <!-- Стратегії подолання -->
+              <div class="pr-stat-card coping">
+                <div class="pr-category-name">Стратегії подолання</div>
+                <div class="pr-score-row">
+                  <span
+                    class="pr-value"
+                    [class]="
+                      overallPersonalResourceCoping < 13
+                        ? 'low'
+                        : overallPersonalResourceCoping <= 18
+                        ? 'medium'
+                        : 'high'
+                    ">
+                    {{ overallPersonalResourceCoping }}
+                  </span>
+                  <span class="pr-max">/ 20</span>
+                </div>
+                <div class="pr-bar">
+                  <div
+                    class="pr-bar-fill"
+                    [class]="
+                      overallPersonalResourceCoping < 13
+                        ? 'low'
+                        : overallPersonalResourceCoping <= 18
+                        ? 'medium'
+                        : 'high'
+                    "
+                    [style.width.%]="
+                      (overallPersonalResourceCoping / 20) * 100
+                    "></div>
+                </div>
+                <div class="pr-legend-mini">
+                  &lt;13: низький · 13-18: середній · &gt;18: високий
+                </div>
+              </div>
+
+              <!-- Емоційна спустошеність -->
+              <div class="pr-stat-card exhaustion">
+                <div class="pr-category-name">Емоційна спустошеність</div>
+                <div class="pr-score-row">
+                  <span
+                    class="pr-value"
+                    [class]="
+                      overallPersonalResourceExhaustion < 8
+                        ? 'high'
+                        : overallPersonalResourceExhaustion <= 12
+                        ? 'medium'
+                        : 'low'
+                    ">
+                    {{ overallPersonalResourceExhaustion }}
+                  </span>
+                  <span class="pr-max">/ 15</span>
+                </div>
+                <div class="pr-bar">
+                  <div
+                    class="pr-bar-fill exhaustion-bar"
+                    [class]="
+                      overallPersonalResourceExhaustion < 8
+                        ? 'high'
+                        : overallPersonalResourceExhaustion <= 12
+                        ? 'medium'
+                        : 'low'
+                    "
+                    [style.width.%]="
+                      (overallPersonalResourceExhaustion / 15) * 100
+                    "></div>
+                </div>
+                <div class="pr-legend-mini">
+                  &lt;8: низький ✓ · 8-12: середній · &gt;12: високий ✗
+                </div>
+              </div>
+            </div>
+
+            <!-- Total -->
+            <div class="pr-total-card">
+              <div class="pr-formula">
+                Загальний рівень = Достатність + Стратегії − Спустошеність
+              </div>
+              <div class="pr-total-row">
+                <span
+                  class="pr-total-value"
+                  [class]="overallPersonalResourceLevel.class">
+                  {{ overallPersonalResourceTotal }}
+                </span>
+                <span
+                  class="level-badge"
+                  [class]="overallPersonalResourceLevel.class">
+                  {{ overallPersonalResourceLevel.level }}
+                </span>
+              </div>
+              <div class="pr-legend-mini">
+                &lt;15: низький · 15-30: середній · &gt;30: високий
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Individual Personal Resource Results -->
+        <div class="individual-results">
+          <h2>Результати по респондентах</h2>
+          <div class="respondents-list">
+            <div
+              class="respondent-card pr-card"
+              *ngFor="let r of respondents; let i = index">
+              <div class="respondent-header">
+                <div class="respondent-info">
+                  <span class="respondent-number">#{{ i + 1 }}</span>
+                  <span class="respondent-email">{{ r.email }}</span>
+                  <span class="respondent-age">{{ r.age }} років</span>
+                </div>
+                <div class="pr-total-header">
+                  <span
+                    class="total-score"
+                    [class]="r.personalResource.totalLevelClass">
+                    {{ r.personalResource.totalScore }}
+                  </span>
+                  <span
+                    class="level-badge small"
+                    [class]="r.personalResource.totalLevelClass">
+                    {{ r.personalResource.totalLevel }}
+                  </span>
+                </div>
+              </div>
+              <div class="pr-categories-row">
+                <!-- Достатність -->
+                <div class="pr-category-item">
+                  <div class="pr-cat-header">
+                    <span class="pr-cat-name">{{
+                      r.personalResource.sufficiency.name
+                    }}</span>
+                    <span
+                      class="pr-cat-score"
+                      [class]="r.personalResource.sufficiency.levelClass">
+                      {{ r.personalResource.sufficiency.score }}
+                    </span>
+                  </div>
+                  <div class="pr-cat-bar-container">
+                    <div
+                      class="pr-cat-bar"
+                      [class]="r.personalResource.sufficiency.levelClass"
+                      [style.width.%]="
+                        (r.personalResource.sufficiency.score /
+                          r.personalResource.sufficiency.maxScore) *
+                        100
+                      "></div>
+                  </div>
+                  <span
+                    class="pr-cat-level"
+                    [class]="r.personalResource.sufficiency.levelClass">
+                    {{ r.personalResource.sufficiency.level }}
+                  </span>
+                </div>
+
+                <!-- Стратегії подолання -->
+                <div class="pr-category-item">
+                  <div class="pr-cat-header">
+                    <span class="pr-cat-name">{{
+                      r.personalResource.copingStrategies.name
+                    }}</span>
+                    <span
+                      class="pr-cat-score"
+                      [class]="r.personalResource.copingStrategies.levelClass">
+                      {{ r.personalResource.copingStrategies.score }}
+                    </span>
+                  </div>
+                  <div class="pr-cat-bar-container">
+                    <div
+                      class="pr-cat-bar"
+                      [class]="r.personalResource.copingStrategies.levelClass"
+                      [style.width.%]="
+                        (r.personalResource.copingStrategies.score /
+                          r.personalResource.copingStrategies.maxScore) *
+                        100
+                      "></div>
+                  </div>
+                  <span
+                    class="pr-cat-level"
+                    [class]="r.personalResource.copingStrategies.levelClass">
+                    {{ r.personalResource.copingStrategies.level }}
+                  </span>
+                </div>
+
+                <!-- Емоційна спустошеність -->
+                <div class="pr-category-item exhaustion-item">
+                  <div class="pr-cat-header">
+                    <span class="pr-cat-name">{{
+                      r.personalResource.emotionalExhaustion.name
+                    }}</span>
+                    <span
+                      class="pr-cat-score"
+                      [class]="
+                        r.personalResource.emotionalExhaustion.levelClass
+                      ">
+                      {{ r.personalResource.emotionalExhaustion.score }}
+                    </span>
+                  </div>
+                  <div class="pr-cat-bar-container">
+                    <div
+                      class="pr-cat-bar exhaustion-bar"
+                      [class]="
+                        r.personalResource.emotionalExhaustion.levelClass
+                      "
+                      [style.width.%]="
+                        (r.personalResource.emotionalExhaustion.score /
+                          r.personalResource.emotionalExhaustion.maxScore) *
+                        100
+                      "></div>
+                  </div>
+                  <span
+                    class="pr-cat-level"
+                    [class]="r.personalResource.emotionalExhaustion.levelClass">
+                    {{ r.personalResource.emotionalExhaustion.level }}
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Ryff Tab Content -->
+      <div class="tab-content" *ngIf="activeTab === 'ryff'">
+        <!-- Overall Ryff Statistics -->
+        <div class="overall-stats ryff-stats">
+          <h2>Психологічне благополуччя (Ryff)</h2>
+          <div class="ryff-overall">
+            <!-- Categories Grid -->
+            <div class="ryff-categories-grid">
+              <!-- Відносини -->
+              <div class="ryff-stat-card">
+                <div class="ryff-category-name">Відносини</div>
+                <div class="ryff-score-row">
+                  <span
+                    class="ryff-value"
+                    [class]="
+                      getRyffCategoryLevel(
+                        overallRyffRelationships,
+                        ryffCategories.relationships.lowThreshold,
+                        ryffCategories.relationships.highThreshold
+                      ).class
+                    ">
+                    {{ overallRyffRelationships }}
+                  </span>
+                  <span class="ryff-max">/ 84</span>
+                </div>
+                <div class="ryff-bar">
+                  <div
+                    class="ryff-bar-fill"
+                    [class]="
+                      getRyffCategoryLevel(
+                        overallRyffRelationships,
+                        ryffCategories.relationships.lowThreshold,
+                        ryffCategories.relationships.highThreshold
+                      ).class
+                    "
+                    [style.width.%]="
+                      (overallRyffRelationships / 84) * 100
+                    "></div>
+                </div>
+                <div class="ryff-legend-mini">
+                  &lt;53: низ · 53-74: сер · &gt;74: вис
+                </div>
+              </div>
+
+              <!-- Автономія -->
+              <div class="ryff-stat-card">
+                <div class="ryff-category-name">Автономія</div>
+                <div class="ryff-score-row">
+                  <span
+                    class="ryff-value"
+                    [class]="
+                      getRyffCategoryLevel(
+                        overallRyffAutonomy,
+                        ryffCategories.autonomy.lowThreshold,
+                        ryffCategories.autonomy.highThreshold
+                      ).class
+                    ">
+                    {{ overallRyffAutonomy }}
+                  </span>
+                  <span class="ryff-max">/ 84</span>
+                </div>
+                <div class="ryff-bar">
+                  <div
+                    class="ryff-bar-fill"
+                    [class]="
+                      getRyffCategoryLevel(
+                        overallRyffAutonomy,
+                        ryffCategories.autonomy.lowThreshold,
+                        ryffCategories.autonomy.highThreshold
+                      ).class
+                    "
+                    [style.width.%]="(overallRyffAutonomy / 84) * 100"></div>
+                </div>
+                <div class="ryff-legend-mini">
+                  &lt;48: низ · 48-62: сер · &gt;62: вис
+                </div>
+              </div>
+
+              <!-- Середовище -->
+              <div class="ryff-stat-card">
+                <div class="ryff-category-name">Середовище</div>
+                <div class="ryff-score-row">
+                  <span
+                    class="ryff-value"
+                    [class]="
+                      getRyffCategoryLevel(
+                        overallRyffEnvironment,
+                        ryffCategories.environment.lowThreshold,
+                        ryffCategories.environment.highThreshold
+                      ).class
+                    ">
+                    {{ overallRyffEnvironment }}
+                  </span>
+                  <span class="ryff-max">/ 84</span>
+                </div>
+                <div class="ryff-bar">
+                  <div
+                    class="ryff-bar-fill"
+                    [class]="
+                      getRyffCategoryLevel(
+                        overallRyffEnvironment,
+                        ryffCategories.environment.lowThreshold,
+                        ryffCategories.environment.highThreshold
+                      ).class
+                    "
+                    [style.width.%]="(overallRyffEnvironment / 84) * 100"></div>
+                </div>
+                <div class="ryff-legend-mini">
+                  &lt;51: низ · 51-71: сер · &gt;71: вис
+                </div>
+              </div>
+
+              <!-- Зростання -->
+              <div class="ryff-stat-card">
+                <div class="ryff-category-name">Зростання</div>
+                <div class="ryff-score-row">
+                  <span
+                    class="ryff-value"
+                    [class]="
+                      getRyffCategoryLevel(
+                        overallRyffGrowth,
+                        ryffCategories.growth.lowThreshold,
+                        ryffCategories.growth.highThreshold
+                      ).class
+                    ">
+                    {{ overallRyffGrowth }}
+                  </span>
+                  <span class="ryff-max">/ 84</span>
+                </div>
+                <div class="ryff-bar">
+                  <div
+                    class="ryff-bar-fill"
+                    [class]="
+                      getRyffCategoryLevel(
+                        overallRyffGrowth,
+                        ryffCategories.growth.lowThreshold,
+                        ryffCategories.growth.highThreshold
+                      ).class
+                    "
+                    [style.width.%]="(overallRyffGrowth / 84) * 100"></div>
+                </div>
+                <div class="ryff-legend-mini">
+                  &lt;53: низ · 53-71: сер · &gt;71: вис
+                </div>
+              </div>
+
+              <!-- Цілі -->
+              <div class="ryff-stat-card">
+                <div class="ryff-category-name">Цілі</div>
+                <div class="ryff-score-row">
+                  <span
+                    class="ryff-value"
+                    [class]="
+                      getRyffCategoryLevel(
+                        overallRyffPurpose,
+                        ryffCategories.purpose.lowThreshold,
+                        ryffCategories.purpose.highThreshold
+                      ).class
+                    ">
+                    {{ overallRyffPurpose }}
+                  </span>
+                  <span class="ryff-max">/ 84</span>
+                </div>
+                <div class="ryff-bar">
+                  <div
+                    class="ryff-bar-fill"
+                    [class]="
+                      getRyffCategoryLevel(
+                        overallRyffPurpose,
+                        ryffCategories.purpose.lowThreshold,
+                        ryffCategories.purpose.highThreshold
+                      ).class
+                    "
+                    [style.width.%]="(overallRyffPurpose / 84) * 100"></div>
+                </div>
+                <div class="ryff-legend-mini">
+                  &lt;54: низ · 54-75: сер · &gt;75: вис
+                </div>
+              </div>
+
+              <!-- Самосприйняття -->
+              <div class="ryff-stat-card">
+                <div class="ryff-category-name">Самосприйняття</div>
+                <div class="ryff-score-row">
+                  <span
+                    class="ryff-value"
+                    [class]="
+                      getRyffCategoryLevel(
+                        overallRyffSelfAcceptance,
+                        ryffCategories.selfAcceptance.lowThreshold,
+                        ryffCategories.selfAcceptance.highThreshold
+                      ).class
+                    ">
+                    {{ overallRyffSelfAcceptance }}
+                  </span>
+                  <span class="ryff-max">/ 84</span>
+                </div>
+                <div class="ryff-bar">
+                  <div
+                    class="ryff-bar-fill"
+                    [class]="
+                      getRyffCategoryLevel(
+                        overallRyffSelfAcceptance,
+                        ryffCategories.selfAcceptance.lowThreshold,
+                        ryffCategories.selfAcceptance.highThreshold
+                      ).class
+                    "
+                    [style.width.%]="
+                      (overallRyffSelfAcceptance / 84) * 100
+                    "></div>
+                </div>
+                <div class="ryff-legend-mini">
+                  &lt;49: низ · 49-71: сер · &gt;71: вис
+                </div>
+              </div>
+            </div>
+
+            <!-- Total -->
+            <div class="ryff-total-card">
+              <div class="ryff-total-label">Загальний бал</div>
+              <div class="ryff-total-row">
+                <span class="ryff-total-value" [class]="overallRyffLevel.class">
+                  {{ overallRyffTotal }}
+                </span>
+                <span class="ryff-total-max">/ 504</span>
+                <span class="level-badge" [class]="overallRyffLevel.class">
+                  {{ overallRyffLevel.level }}
+                </span>
+              </div>
+              <div class="ryff-legend-mini">
+                &lt;315: низький · 315-413: середній · &gt;413: високий
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Individual Ryff Results -->
+        <div class="individual-results">
+          <h2>Результати по респондентах</h2>
+          <div class="respondents-list">
+            <div
+              class="respondent-card ryff-card"
+              *ngFor="let r of respondents; let i = index">
+              <div class="respondent-header">
+                <div class="respondent-info">
+                  <span class="respondent-number">#{{ i + 1 }}</span>
+                  <span class="respondent-email">{{ r.email }}</span>
+                  <span class="respondent-age">{{ r.age }} років</span>
+                </div>
+                <div class="ryff-total-header">
+                  <span class="total-score" [class]="r.ryff.totalLevelClass">
+                    {{ r.ryff.totalScore }}
+                  </span>
+                  <span class="total-max">/ 504</span>
+                  <span
+                    class="level-badge small"
+                    [class]="r.ryff.totalLevelClass">
+                    {{ r.ryff.totalLevel }}
+                  </span>
+                </div>
+              </div>
+              <div class="ryff-categories-row">
+                <!-- Відносини -->
+                <div
+                  class="ryff-category-item clickable"
+                  (click)="openRyffDetail(r, 'relationships')"
+                  title="Натисніть для деталей">
+                  <div class="ryff-cat-header">
+                    <span class="ryff-cat-name">Відносини</span>
+                    <span
+                      class="ryff-cat-score"
+                      [class]="r.ryff.relationships.levelClass">
+                      {{ r.ryff.relationships.score }}
+                    </span>
+                  </div>
+                  <div class="ryff-cat-bar-container">
+                    <div
+                      class="ryff-cat-bar"
+                      [class]="r.ryff.relationships.levelClass"
+                      [style.width.%]="
+                        (r.ryff.relationships.score / 84) * 100
+                      "></div>
+                  </div>
+                  <span
+                    class="ryff-cat-level"
+                    [class]="r.ryff.relationships.levelClass">
+                    {{ r.ryff.relationships.level }}
+                  </span>
+                  <span class="click-hint">🔍</span>
+                </div>
+
+                <!-- Автономія -->
+                <div
+                  class="ryff-category-item clickable"
+                  (click)="openRyffDetail(r, 'autonomy')"
+                  title="Натисніть для деталей">
+                  <div class="ryff-cat-header">
+                    <span class="ryff-cat-name">Автономія</span>
+                    <span
+                      class="ryff-cat-score"
+                      [class]="r.ryff.autonomy.levelClass">
+                      {{ r.ryff.autonomy.score }}
+                    </span>
+                  </div>
+                  <div class="ryff-cat-bar-container">
+                    <div
+                      class="ryff-cat-bar"
+                      [class]="r.ryff.autonomy.levelClass"
+                      [style.width.%]="
+                        (r.ryff.autonomy.score / 84) * 100
+                      "></div>
+                  </div>
+                  <span
+                    class="ryff-cat-level"
+                    [class]="r.ryff.autonomy.levelClass">
+                    {{ r.ryff.autonomy.level }}
+                  </span>
+                  <span class="click-hint">🔍</span>
+                </div>
+
+                <!-- Середовище -->
+                <div
+                  class="ryff-category-item clickable"
+                  (click)="openRyffDetail(r, 'environment')"
+                  title="Натисніть для деталей">
+                  <div class="ryff-cat-header">
+                    <span class="ryff-cat-name">Середовище</span>
+                    <span
+                      class="ryff-cat-score"
+                      [class]="r.ryff.environment.levelClass">
+                      {{ r.ryff.environment.score }}
+                    </span>
+                  </div>
+                  <div class="ryff-cat-bar-container">
+                    <div
+                      class="ryff-cat-bar"
+                      [class]="r.ryff.environment.levelClass"
+                      [style.width.%]="
+                        (r.ryff.environment.score / 84) * 100
+                      "></div>
+                  </div>
+                  <span
+                    class="ryff-cat-level"
+                    [class]="r.ryff.environment.levelClass">
+                    {{ r.ryff.environment.level }}
+                  </span>
+                  <span class="click-hint">🔍</span>
+                </div>
+
+                <!-- Зростання -->
+                <div
+                  class="ryff-category-item clickable"
+                  (click)="openRyffDetail(r, 'growth')"
+                  title="Натисніть для деталей">
+                  <div class="ryff-cat-header">
+                    <span class="ryff-cat-name">Зростання</span>
+                    <span
+                      class="ryff-cat-score"
+                      [class]="r.ryff.growth.levelClass">
+                      {{ r.ryff.growth.score }}
+                    </span>
+                  </div>
+                  <div class="ryff-cat-bar-container">
+                    <div
+                      class="ryff-cat-bar"
+                      [class]="r.ryff.growth.levelClass"
+                      [style.width.%]="(r.ryff.growth.score / 84) * 100"></div>
+                  </div>
+                  <span
+                    class="ryff-cat-level"
+                    [class]="r.ryff.growth.levelClass">
+                    {{ r.ryff.growth.level }}
+                  </span>
+                  <span class="click-hint">🔍</span>
+                </div>
+
+                <!-- Цілі -->
+                <div
+                  class="ryff-category-item clickable"
+                  (click)="openRyffDetail(r, 'purpose')"
+                  title="Натисніть для деталей">
+                  <div class="ryff-cat-header">
+                    <span class="ryff-cat-name">Цілі</span>
+                    <span
+                      class="ryff-cat-score"
+                      [class]="r.ryff.purpose.levelClass">
+                      {{ r.ryff.purpose.score }}
+                    </span>
+                  </div>
+                  <div class="ryff-cat-bar-container">
+                    <div
+                      class="ryff-cat-bar"
+                      [class]="r.ryff.purpose.levelClass"
+                      [style.width.%]="(r.ryff.purpose.score / 84) * 100"></div>
+                  </div>
+                  <span
+                    class="ryff-cat-level"
+                    [class]="r.ryff.purpose.levelClass">
+                    {{ r.ryff.purpose.level }}
+                  </span>
+                  <span class="click-hint">🔍</span>
+                </div>
+
+                <!-- Самосприйняття -->
+                <div
+                  class="ryff-category-item clickable"
+                  (click)="openRyffDetail(r, 'selfAcceptance')"
+                  title="Натисніть для деталей">
+                  <div class="ryff-cat-header">
+                    <span class="ryff-cat-name">Самосприйняття</span>
+                    <span
+                      class="ryff-cat-score"
+                      [class]="r.ryff.selfAcceptance.levelClass">
+                      {{ r.ryff.selfAcceptance.score }}
+                    </span>
+                  </div>
+                  <div class="ryff-cat-bar-container">
+                    <div
+                      class="ryff-cat-bar"
+                      [class]="r.ryff.selfAcceptance.levelClass"
+                      [style.width.%]="
+                        (r.ryff.selfAcceptance.score / 84) * 100
+                      "></div>
+                  </div>
+                  <span
+                    class="ryff-cat-level"
+                    [class]="r.ryff.selfAcceptance.levelClass">
+                    {{ r.ryff.selfAcceptance.level }}
+                  </span>
+                  <span class="click-hint">🔍</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<!-- Ryff Detail Modal -->
+<div
+  class="modal-overlay"
+  *ngIf="showRyffDetailModal"
+  (click)="closeRyffDetail()">
+  <div
+    class="modal-content ryff-detail-modal"
+    (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h3>{{ ryffDetailCategory }}</h3>
+      <button class="modal-close" (click)="closeRyffDetail()">×</button>
+    </div>
+    <div class="modal-body">
+      <div class="respondent-info-modal" *ngIf="ryffDetailRespondent">
+        <span class="email">{{ ryffDetailRespondent.email }}</span>
+      </div>
+
+      <div class="questions-table">
+        <div class="table-header">
+          <span class="col-num">№</span>
+          <span class="col-raw">Відповідь</span>
+          <span class="col-reversed">Обернена?</span>
+          <span class="col-final">Бал</span>
+        </div>
+        <div class="table-row" *ngFor="let q of ryffDetailQuestions">
+          <span class="col-num">Q{{ q.num }}</span>
+          <span class="col-raw">{{ q.rawAnswer }}</span>
+          <span class="col-reversed" [class.yes]="q.isReversed">
+            {{ q.isReversed ? 'Так' : 'Ні' }}
+          </span>
+          <span class="col-final" [class.reversed]="q.isReversed">
+            {{ q.finalAnswer }}
+          </span>
+        </div>
+      </div>
+
+      <div class="modal-total">
+        <span class="total-label">Загальний бал:</span>
+        <span class="total-value">{{ ryffDetailTotal }}</span>
+        <span class="total-max">/ 84</span>
+      </div>
+    </div>
+  </div>
+</div>

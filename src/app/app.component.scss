@@ -1,0 +1,1795 @@
+// Variables
+$primary: #6366f1;
+$primary-dark: #4f46e5;
+$bg-dark: #0f0f1a;
+$bg-card: #1a1a2e;
+$bg-card-hover: #252542;
+$text-primary: #f1f1f4;
+$text-secondary: #9898a6;
+$border-color: #2d2d44;
+$error: #ef4444;
+
+// Scale colors
+$wellbeing-color: #22c55e;
+$activity-color: #f59e0b;
+$mood-color: #ec4899;
+
+// Score level colors
+$high-color: #22c55e;
+$medium-color: #f59e0b;
+$low-color: #ef4444;
+$not-diagnosed-color: #6b7280;
+$doubtful-color: #8b5cf6;
+
+.container {
+  min-height: 100vh;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 3rem;
+
+  h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 3rem;
+    font-weight: 700;
+    color: $text-primary;
+    margin: 0;
+    letter-spacing: -0.02em;
+
+    background: linear-gradient(
+      135deg,
+      $wellbeing-color 0%,
+      $activity-color 50%,
+      $mood-color 100%
+    );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .subtitle {
+    color: $text-secondary;
+    font-size: 1.1rem;
+    margin-top: 0.5rem;
+    letter-spacing: 0.1em;
+  }
+}
+
+.main-content {
+  width: 100%;
+  max-width: 1200px;
+}
+
+// Upload Zone
+.upload-zone {
+  background: $bg-card;
+  border: 2px dashed $border-color;
+  border-radius: 16px;
+  padding: 4rem 2rem;
+  text-align: center;
+  transition: all 0.3s ease;
+  cursor: pointer;
+
+  &:hover {
+    border-color: $primary;
+    background: $bg-card-hover;
+  }
+
+  &.dragging {
+    border-color: $primary;
+    background: rgba($primary, 0.1);
+    transform: scale(1.01);
+  }
+
+  &.hidden {
+    display: none;
+  }
+}
+
+.upload-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.upload-icon {
+  color: $primary;
+  opacity: 0.8;
+  margin-bottom: 0.5rem;
+}
+
+.upload-text {
+  color: $text-primary;
+  font-size: 1.25rem;
+  margin: 0;
+}
+
+.upload-divider {
+  color: $text-secondary;
+  font-size: 0.9rem;
+}
+
+.upload-button {
+  background: $primary;
+  color: white;
+  padding: 0.75rem 2rem;
+  border-radius: 8px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background: $primary-dark;
+    transform: translateY(-1px);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+}
+
+.loading-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  color: $text-secondary;
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid $border-color;
+  border-top-color: $primary;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+// Error Message
+.error-message {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba($error, 0.1);
+  border: 1px solid rgba($error, 0.3);
+  color: $error;
+  padding: 1rem 1.5rem;
+  border-radius: 8px;
+  margin-top: 1rem;
+}
+
+// Results Section
+.results-section {
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.results-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.25rem 1.5rem;
+  background: $bg-card;
+  border-radius: 12px;
+  margin-bottom: 1rem;
+}
+
+.file-info {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: $text-secondary;
+
+  svg {
+    color: $primary;
+  }
+
+  .file-name {
+    color: $text-primary;
+    font-weight: 500;
+  }
+
+  .respondent-count {
+    background: rgba($primary, 0.15);
+    color: $primary;
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 500;
+  }
+}
+
+.clear-button {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: transparent;
+  border: 1px solid $border-color;
+  color: $text-secondary;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover {
+    border-color: $error;
+    color: $error;
+    background: rgba($error, 0.1);
+  }
+}
+
+// Tabs
+.tabs {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+  background: $bg-card;
+  padding: 0.5rem;
+  border-radius: 12px;
+}
+
+.tab {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 1rem 1.5rem;
+  background: transparent;
+  border: none;
+  color: $text-secondary;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+
+  .tab-icon {
+    font-size: 1.2rem;
+  }
+
+  &:hover {
+    color: $text-primary;
+    background: rgba(white, 0.05);
+  }
+
+  &.active {
+    background: $primary;
+    color: white;
+  }
+}
+
+.tab-content {
+  animation: fadeIn 0.3s ease;
+}
+
+// Overall Statistics
+.overall-stats {
+  background: $bg-card;
+  border-radius: 16px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+
+  h2 {
+    color: $text-primary;
+    font-size: 1.25rem;
+    margin: 0 0 1.25rem 0;
+    font-weight: 600;
+  }
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.stat-card {
+  background: $bg-card-hover;
+  border-radius: 12px;
+  padding: 1.25rem;
+  text-align: center;
+
+  &.wellbeing {
+    border-left: 3px solid $wellbeing-color;
+  }
+  &.activity {
+    border-left: 3px solid $activity-color;
+  }
+  &.mood {
+    border-left: 3px solid $mood-color;
+  }
+}
+
+.stat-label {
+  color: $text-secondary;
+  font-size: 0.9rem;
+  margin-bottom: 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.stat-sublabel {
+  color: $text-secondary;
+  font-size: 0.8rem;
+  margin-top: -0.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.stat-value {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+
+  &.large {
+    font-size: 3.5rem;
+  }
+
+  &.high {
+    color: $high-color;
+  }
+  &.medium {
+    color: $medium-color;
+  }
+  &.low {
+    color: $low-color;
+  }
+  &.not-diagnosed {
+    color: $not-diagnosed-color;
+  }
+  &.doubtful {
+    color: $doubtful-color;
+  }
+}
+
+.stat-bar {
+  height: 6px;
+  background: rgba(white, 0.1);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.stat-bar-fill {
+  height: 100%;
+  border-radius: 3px;
+  transition: width 0.5s ease;
+
+  .wellbeing & {
+    background: linear-gradient(
+      90deg,
+      $wellbeing-color,
+      lighten($wellbeing-color, 10%)
+    );
+  }
+  .activity & {
+    background: linear-gradient(
+      90deg,
+      $activity-color,
+      lighten($activity-color, 10%)
+    );
+  }
+  .mood & {
+    background: linear-gradient(90deg, $mood-color, lighten($mood-color, 10%));
+  }
+}
+
+// Штепа Specific Styles
+.shtepa-stats {
+  .shtepa-overall {
+    display: flex;
+    gap: 2rem;
+    align-items: flex-start;
+
+    @media (max-width: 768px) {
+      flex-direction: column;
+    }
+  }
+
+  .shtepa-total-card {
+    background: $bg-card-hover;
+    border-radius: 12px;
+    padding: 2rem;
+    text-align: center;
+    min-width: 250px;
+  }
+
+  .level-legend {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    padding: 1rem;
+    background: $bg-card-hover;
+    border-radius: 12px;
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    color: $text-secondary;
+    font-size: 0.9rem;
+  }
+
+  .legend-color {
+    width: 16px;
+    height: 16px;
+    border-radius: 4px;
+
+    &.not-diagnosed {
+      background: $not-diagnosed-color;
+    }
+    &.low {
+      background: $low-color;
+    }
+    &.medium {
+      background: $medium-color;
+    }
+    &.high {
+      background: $high-color;
+    }
+    &.doubtful {
+      background: $doubtful-color;
+    }
+  }
+}
+
+.level-badge {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 600;
+
+  &.not-diagnosed {
+    background: rgba($not-diagnosed-color, 0.2);
+    color: $not-diagnosed-color;
+  }
+  &.low {
+    background: rgba($low-color, 0.2);
+    color: $low-color;
+  }
+  &.medium {
+    background: rgba($medium-color, 0.2);
+    color: $medium-color;
+  }
+  &.high {
+    background: rgba($high-color, 0.2);
+    color: $high-color;
+  }
+  &.doubtful {
+    background: rgba($doubtful-color, 0.2);
+    color: $doubtful-color;
+  }
+}
+
+// Individual Results
+.individual-results {
+  h2 {
+    color: $text-primary;
+    font-size: 1.25rem;
+    margin: 0 0 1rem 0;
+    font-weight: 600;
+  }
+}
+
+.respondents-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.respondent-card {
+  background: $bg-card;
+  border-radius: 12px;
+  padding: 1.25rem;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+  }
+}
+
+.respondent-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid $border-color;
+}
+
+.respondent-info {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.respondent-number {
+  background: $primary;
+  color: white;
+  padding: 0.25rem 0.5rem;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.respondent-email {
+  color: $text-primary;
+  font-weight: 500;
+}
+
+.respondent-age {
+  color: $text-secondary;
+  font-size: 0.9rem;
+}
+
+.respondent-timestamp {
+  color: $text-secondary;
+  font-size: 0.85rem;
+}
+
+.respondent-scores {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.score-item {
+  display: grid;
+  grid-template-columns: 120px 1fr 50px;
+  align-items: center;
+  gap: 1rem;
+}
+
+.score-label {
+  color: $text-secondary;
+  font-size: 0.9rem;
+}
+
+.score-bar-container {
+  height: 8px;
+  background: rgba(white, 0.1);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.score-bar {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 0.5s ease;
+
+  &.wellbeing {
+    background: linear-gradient(
+      90deg,
+      $wellbeing-color,
+      lighten($wellbeing-color, 15%)
+    );
+  }
+  &.activity {
+    background: linear-gradient(
+      90deg,
+      $activity-color,
+      lighten($activity-color, 15%)
+    );
+  }
+  &.mood {
+    background: linear-gradient(90deg, $mood-color, lighten($mood-color, 15%));
+  }
+}
+
+.score-value {
+  text-align: right;
+  font-weight: 600;
+  font-size: 1rem;
+
+  &.high {
+    color: $high-color;
+  }
+  &.medium {
+    color: $medium-color;
+  }
+  &.low {
+    color: $low-color;
+  }
+}
+
+// Штепа Card Specific
+.shtepa-card {
+  .respondent-header {
+    border-bottom: none;
+    margin-bottom: 0.5rem;
+    padding-bottom: 0;
+  }
+
+  .shtepa-total {
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+
+    .total-score {
+      font-size: 2rem;
+      font-weight: 700;
+
+      &.high {
+        color: $high-color;
+      }
+      &.medium {
+        color: $medium-color;
+      }
+      &.low {
+        color: $low-color;
+      }
+      &.not-diagnosed {
+        color: $not-diagnosed-color;
+      }
+      &.doubtful {
+        color: $doubtful-color;
+      }
+    }
+
+    .total-label {
+      color: $text-secondary;
+      font-size: 0.9rem;
+    }
+  }
+
+  .shtepa-level-row {
+    margin-bottom: 1rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid $border-color;
+  }
+}
+
+.shtepa-categories {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.75rem;
+
+  @media (max-width: 900px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.category-item {
+  display: grid;
+  grid-template-columns: 1fr 100px 50px;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.5rem;
+  background: $bg-card-hover;
+  border-radius: 8px;
+}
+
+.category-name {
+  color: $text-secondary;
+  font-size: 0.85rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.category-bar-container {
+  height: 6px;
+  background: rgba(white, 0.1);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.category-bar {
+  height: 100%;
+  border-radius: 3px;
+  transition: width 0.5s ease;
+
+  &.high {
+    background: linear-gradient(90deg, $high-color, lighten($high-color, 15%));
+  }
+  &.medium {
+    background: linear-gradient(
+      90deg,
+      $medium-color,
+      lighten($medium-color, 15%)
+    );
+  }
+  &.low {
+    background: linear-gradient(90deg, $low-color, lighten($low-color, 15%));
+  }
+}
+
+.category-score {
+  text-align: right;
+  font-weight: 600;
+  font-size: 0.85rem;
+
+  &.high {
+    color: $high-color;
+  }
+  &.medium {
+    color: $medium-color;
+  }
+  &.low {
+    color: $low-color;
+  }
+}
+
+// Basic Ph Specific Styles
+$basicph-b-color: #8b5cf6; // Belief
+$basicph-a-color: #ec4899; // Affect
+$basicph-s-color: #06b6d4; // Social
+$basicph-i-color: #f59e0b; // Imagination
+$basicph-c-color: #22c55e; // Cognitive
+$basicph-ph-color: #ef4444; // Physical
+
+.basicph-stats {
+  .basicph-overall {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .basicph-categories-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 1rem;
+
+    @media (max-width: 1100px) {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    @media (max-width: 600px) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  .basicph-stat-card {
+    background: $bg-card-hover;
+    border-radius: 12px;
+    padding: 1.25rem;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.25rem;
+  }
+
+  .basicph-code {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: $primary;
+    background: rgba($primary, 0.15);
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    margin-bottom: 0.5rem;
+  }
+
+  .basicph-name {
+    color: $text-secondary;
+    font-size: 0.8rem;
+    text-align: center;
+    min-height: 2.4em;
+    display: flex;
+    align-items: center;
+  }
+
+  .basicph-value {
+    font-size: 2rem;
+    font-weight: 700;
+
+    &.high {
+      color: $high-color;
+    }
+    &.medium {
+      color: $medium-color;
+    }
+    &.low {
+      color: $low-color;
+    }
+  }
+
+  .basicph-max {
+    color: $text-secondary;
+    font-size: 0.85rem;
+    margin-top: -0.25rem;
+  }
+
+  .basicph-bar {
+    width: 100%;
+    height: 6px;
+    background: rgba(white, 0.1);
+    border-radius: 3px;
+    overflow: hidden;
+    margin-top: 0.5rem;
+  }
+
+  .basicph-bar-fill {
+    height: 100%;
+    border-radius: 3px;
+    transition: width 0.5s ease;
+
+    &.high {
+      background: linear-gradient(
+        90deg,
+        $high-color,
+        lighten($high-color, 15%)
+      );
+    }
+    &.medium {
+      background: linear-gradient(
+        90deg,
+        $medium-color,
+        lighten($medium-color, 15%)
+      );
+    }
+    &.low {
+      background: linear-gradient(90deg, $low-color, lighten($low-color, 15%));
+    }
+  }
+
+  .basicph-total-summary {
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 1rem;
+    background: $bg-card-hover;
+    border-radius: 12px;
+
+    .total-label {
+      color: $text-secondary;
+      font-size: 1rem;
+    }
+
+    .total-value {
+      font-size: 2rem;
+      font-weight: 700;
+      color: $primary;
+    }
+
+    .total-max {
+      color: $text-secondary;
+      font-size: 1rem;
+    }
+  }
+}
+
+// Basic Ph Card Specific
+.basicph-card {
+  .respondent-header {
+    border-bottom: none;
+    margin-bottom: 0.5rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid $border-color;
+  }
+
+  .basicph-total {
+    display: flex;
+    align-items: baseline;
+    gap: 0.25rem;
+
+    .total-score {
+      font-size: 1.75rem;
+      font-weight: 700;
+      color: $primary;
+    }
+
+    .total-label {
+      color: $text-secondary;
+      font-size: 0.9rem;
+    }
+  }
+}
+
+.basicph-categories-row {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 0.75rem;
+
+  @media (max-width: 900px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  @media (max-width: 500px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.basicph-category-item {
+  background: $bg-card-hover;
+  border-radius: 10px;
+  padding: 0.75rem;
+  text-align: center;
+
+  .cat-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.25rem;
+  }
+
+  .cat-code {
+    font-weight: 700;
+    font-size: 1rem;
+    color: $primary;
+    background: rgba($primary, 0.15);
+    padding: 0.2rem 0.5rem;
+    border-radius: 6px;
+  }
+
+  .cat-score {
+    font-weight: 700;
+    font-size: 1.25rem;
+
+    &.high {
+      color: $high-color;
+    }
+    &.medium {
+      color: $medium-color;
+    }
+    &.low {
+      color: $low-color;
+    }
+  }
+
+  .cat-name {
+    color: $text-secondary;
+    font-size: 0.75rem;
+    margin-bottom: 0.5rem;
+    min-height: 2em;
+  }
+
+  .cat-bar-container {
+    height: 5px;
+    background: rgba(white, 0.1);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+
+  .cat-bar {
+    height: 100%;
+    border-radius: 3px;
+    transition: width 0.5s ease;
+
+    &.high {
+      background: linear-gradient(
+        90deg,
+        $high-color,
+        lighten($high-color, 15%)
+      );
+    }
+    &.medium {
+      background: linear-gradient(
+        90deg,
+        $medium-color,
+        lighten($medium-color, 15%)
+      );
+    }
+    &.low {
+      background: linear-gradient(90deg, $low-color, lighten($low-color, 15%));
+    }
+  }
+}
+
+// Personal Resource Specific Styles
+.pr-stats {
+  .pr-overall {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .pr-categories-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+
+    @media (max-width: 800px) {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .pr-stat-card {
+    background: $bg-card-hover;
+    border-radius: 12px;
+    padding: 1.25rem;
+    text-align: center;
+
+    &.sufficiency {
+      border-left: 3px solid $wellbeing-color;
+    }
+    &.coping {
+      border-left: 3px solid $activity-color;
+    }
+    &.exhaustion {
+      border-left: 3px solid $mood-color;
+    }
+  }
+
+  .pr-category-name {
+    color: $text-secondary;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.75rem;
+  }
+
+  .pr-score-row {
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    gap: 0.25rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .pr-value {
+    font-size: 2.5rem;
+    font-weight: 700;
+
+    &.high {
+      color: $high-color;
+    }
+    &.medium {
+      color: $medium-color;
+    }
+    &.low {
+      color: $low-color;
+    }
+  }
+
+  .pr-max {
+    color: $text-secondary;
+    font-size: 1rem;
+  }
+
+  .pr-bar {
+    height: 6px;
+    background: rgba(white, 0.1);
+    border-radius: 3px;
+    overflow: hidden;
+    margin-bottom: 0.75rem;
+  }
+
+  .pr-bar-fill {
+    height: 100%;
+    border-radius: 3px;
+    transition: width 0.5s ease;
+
+    &.high {
+      background: linear-gradient(
+        90deg,
+        $high-color,
+        lighten($high-color, 15%)
+      );
+    }
+    &.medium {
+      background: linear-gradient(
+        90deg,
+        $medium-color,
+        lighten($medium-color, 15%)
+      );
+    }
+    &.low {
+      background: linear-gradient(90deg, $low-color, lighten($low-color, 15%));
+    }
+  }
+
+  .pr-legend-mini {
+    color: $text-secondary;
+    font-size: 0.75rem;
+    opacity: 0.8;
+  }
+
+  .pr-total-card {
+    background: $bg-card-hover;
+    border-radius: 12px;
+    padding: 1.5rem;
+    text-align: center;
+  }
+
+  .pr-formula {
+    color: $text-secondary;
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+    font-style: italic;
+  }
+
+  .pr-total-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .pr-total-value {
+    font-size: 3rem;
+    font-weight: 700;
+
+    &.high {
+      color: $high-color;
+    }
+    &.medium {
+      color: $medium-color;
+    }
+    &.low {
+      color: $low-color;
+    }
+  }
+}
+
+// Personal Resource Card Specific
+.pr-card {
+  .respondent-header {
+    border-bottom: 1px solid $border-color;
+    margin-bottom: 1rem;
+    padding-bottom: 1rem;
+  }
+
+  .pr-total-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+
+    .total-score {
+      font-size: 1.75rem;
+      font-weight: 700;
+
+      &.high {
+        color: $high-color;
+      }
+      &.medium {
+        color: $medium-color;
+      }
+      &.low {
+        color: $low-color;
+      }
+    }
+
+    .level-badge.small {
+      font-size: 0.75rem;
+      padding: 0.35rem 0.75rem;
+    }
+  }
+}
+
+.pr-categories-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+
+  @media (max-width: 700px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.pr-category-item {
+  background: $bg-card-hover;
+  border-radius: 10px;
+  padding: 1rem;
+
+  &.exhaustion-item {
+    .pr-cat-bar.exhaustion-bar {
+      // Reverse colors for exhaustion (low is good)
+    }
+  }
+}
+
+.pr-cat-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.pr-cat-name {
+  color: $text-secondary;
+  font-size: 0.85rem;
+}
+
+.pr-cat-score {
+  font-weight: 700;
+  font-size: 1.25rem;
+
+  &.high {
+    color: $high-color;
+  }
+  &.medium {
+    color: $medium-color;
+  }
+  &.low {
+    color: $low-color;
+  }
+}
+
+.pr-cat-bar-container {
+  height: 6px;
+  background: rgba(white, 0.1);
+  border-radius: 3px;
+  overflow: hidden;
+  margin-bottom: 0.5rem;
+}
+
+.pr-cat-bar {
+  height: 100%;
+  border-radius: 3px;
+  transition: width 0.5s ease;
+
+  &.high {
+    background: linear-gradient(90deg, $high-color, lighten($high-color, 15%));
+  }
+  &.medium {
+    background: linear-gradient(
+      90deg,
+      $medium-color,
+      lighten($medium-color, 15%)
+    );
+  }
+  &.low {
+    background: linear-gradient(90deg, $low-color, lighten($low-color, 15%));
+  }
+}
+
+.pr-cat-level {
+  font-size: 0.8rem;
+  font-weight: 500;
+
+  &.high {
+    color: $high-color;
+  }
+  &.medium {
+    color: $medium-color;
+  }
+  &.low {
+    color: $low-color;
+  }
+}
+
+// ============================================================================
+// RYFF PSYCHOLOGICAL WELL-BEING STYLES
+// ============================================================================
+
+.ryff-stats {
+  .ryff-overall {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .ryff-categories-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+
+    @media (max-width: 900px) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    @media (max-width: 600px) {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .ryff-stat-card {
+    background: $bg-card-hover;
+    border-radius: 12px;
+    padding: 1.25rem;
+    text-align: center;
+    border-left: 3px solid $primary;
+  }
+
+  .ryff-category-name {
+    color: $text-primary;
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 0.75rem;
+  }
+
+  .ryff-score-row {
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    gap: 0.25rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .ryff-value {
+    font-size: 2.25rem;
+    font-weight: 700;
+
+    &.high {
+      color: $high-color;
+    }
+    &.medium {
+      color: $medium-color;
+    }
+    &.low {
+      color: $low-color;
+    }
+  }
+
+  .ryff-max {
+    color: $text-secondary;
+    font-size: 0.9rem;
+  }
+
+  .ryff-bar {
+    height: 6px;
+    background: rgba(white, 0.1);
+    border-radius: 3px;
+    overflow: hidden;
+    margin-bottom: 0.75rem;
+  }
+
+  .ryff-bar-fill {
+    height: 100%;
+    border-radius: 3px;
+    transition: width 0.5s ease;
+
+    &.high {
+      background: linear-gradient(
+        90deg,
+        $high-color,
+        lighten($high-color, 15%)
+      );
+    }
+    &.medium {
+      background: linear-gradient(
+        90deg,
+        $medium-color,
+        lighten($medium-color, 15%)
+      );
+    }
+    &.low {
+      background: linear-gradient(90deg, $low-color, lighten($low-color, 15%));
+    }
+  }
+
+  .ryff-legend-mini {
+    color: $text-secondary;
+    font-size: 0.7rem;
+    opacity: 0.8;
+  }
+
+  .ryff-total-card {
+    background: $bg-card-hover;
+    border-radius: 12px;
+    padding: 1.5rem;
+    text-align: center;
+    border: 1px solid $border-color;
+  }
+
+  .ryff-total-label {
+    color: $text-secondary;
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 1rem;
+  }
+
+  .ryff-total-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .ryff-total-value {
+    font-size: 3rem;
+    font-weight: 700;
+
+    &.high {
+      color: $high-color;
+    }
+    &.medium {
+      color: $medium-color;
+    }
+    &.low {
+      color: $low-color;
+    }
+  }
+
+  .ryff-total-max {
+    color: $text-secondary;
+    font-size: 1.25rem;
+  }
+}
+
+// Ryff Individual Card
+.ryff-card {
+  .respondent-header {
+    border-bottom: 1px solid $border-color;
+    margin-bottom: 1rem;
+    padding-bottom: 1rem;
+  }
+
+  .ryff-total-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+
+    .total-score {
+      font-size: 1.75rem;
+      font-weight: 700;
+
+      &.high {
+        color: $high-color;
+      }
+      &.medium {
+        color: $medium-color;
+      }
+      &.low {
+        color: $low-color;
+      }
+    }
+
+    .total-max {
+      color: $text-secondary;
+      font-size: 1rem;
+    }
+
+    .level-badge.small {
+      font-size: 0.75rem;
+      padding: 0.35rem 0.75rem;
+    }
+  }
+}
+
+.ryff-categories-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+
+  @media (max-width: 900px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media (max-width: 600px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.ryff-category-item {
+  background: $bg-card-hover;
+  border-radius: 10px;
+  padding: 1rem;
+}
+
+.ryff-cat-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.ryff-cat-name {
+  color: $text-secondary;
+  font-size: 0.85rem;
+}
+
+.ryff-cat-score {
+  font-weight: 700;
+  font-size: 1.25rem;
+
+  &.high {
+    color: $high-color;
+  }
+  &.medium {
+    color: $medium-color;
+  }
+  &.low {
+    color: $low-color;
+  }
+}
+
+.ryff-cat-bar-container {
+  height: 6px;
+  background: rgba(white, 0.1);
+  border-radius: 3px;
+  overflow: hidden;
+  margin-bottom: 0.5rem;
+}
+
+.ryff-cat-bar {
+  height: 100%;
+  border-radius: 3px;
+  transition: width 0.5s ease;
+
+  &.high {
+    background: linear-gradient(90deg, $high-color, lighten($high-color, 15%));
+  }
+  &.medium {
+    background: linear-gradient(
+      90deg,
+      $medium-color,
+      lighten($medium-color, 15%)
+    );
+  }
+  &.low {
+    background: linear-gradient(90deg, $low-color, lighten($low-color, 15%));
+  }
+}
+
+.ryff-cat-level {
+  font-size: 0.8rem;
+  font-weight: 500;
+
+  &.high {
+    color: $high-color;
+  }
+  &.medium {
+    color: $medium-color;
+  }
+  &.low {
+    color: $low-color;
+  }
+}
+
+// Clickable category items
+.ryff-category-item.clickable {
+  cursor: pointer;
+  position: relative;
+  transition: all 0.2s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba($primary, 0.3);
+    border: 1px solid rgba($primary, 0.5);
+  }
+
+  .click-hint {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    font-size: 0.75rem;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+  }
+
+  &:hover .click-hint {
+    opacity: 1;
+  }
+}
+
+// ============================================================================
+// MODAL STYLES
+// ============================================================================
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.75);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  backdrop-filter: blur(4px);
+  animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.modal-content {
+  background: $bg-card;
+  border-radius: 16px;
+  max-width: 600px;
+  width: 90%;
+  max-height: 80vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+  border: 1px solid $border-color;
+  animation: slideIn 0.3s ease;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.25rem 1.5rem;
+  background: $bg-card-hover;
+  border-bottom: 1px solid $border-color;
+
+  h3 {
+    margin: 0;
+    color: $text-primary;
+    font-size: 1.25rem;
+    font-weight: 600;
+  }
+}
+
+.modal-close {
+  background: none;
+  border: none;
+  color: $text-secondary;
+  font-size: 1.75rem;
+  cursor: pointer;
+  padding: 0;
+  line-height: 1;
+  transition: color 0.2s ease;
+
+  &:hover {
+    color: $text-primary;
+  }
+}
+
+.modal-body {
+  padding: 1.5rem;
+  overflow-y: auto;
+}
+
+.respondent-info-modal {
+  margin-bottom: 1.25rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid $border-color;
+
+  .email {
+    color: $text-secondary;
+    font-size: 0.95rem;
+  }
+}
+
+.questions-table {
+  background: $bg-card-hover;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.table-header {
+  display: grid;
+  grid-template-columns: 60px 1fr 100px 80px;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
+  background: rgba($primary, 0.15);
+  font-weight: 600;
+  font-size: 0.85rem;
+  color: $text-secondary;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.table-row {
+  display: grid;
+  grid-template-columns: 60px 1fr 100px 80px;
+  gap: 0.5rem;
+  padding: 0.6rem 1rem;
+  border-bottom: 1px solid rgba($border-color, 0.5);
+  font-size: 0.9rem;
+  transition: background 0.15s ease;
+
+  &:last-child {
+    border-bottom: none;
+  }
+
+  &:hover {
+    background: rgba(white, 0.03);
+  }
+}
+
+.col-num {
+  color: $text-secondary;
+  font-weight: 500;
+}
+
+.col-raw {
+  color: $text-primary;
+  text-align: center;
+}
+
+.col-reversed {
+  text-align: center;
+  color: $text-secondary;
+
+  &.yes {
+    color: $medium-color;
+    font-weight: 600;
+  }
+}
+
+.col-final {
+  text-align: center;
+  font-weight: 700;
+  color: $high-color;
+
+  &.reversed {
+    color: $medium-color;
+  }
+}
+
+.modal-total {
+  margin-top: 1.25rem;
+  padding: 1rem;
+  background: $bg-card-hover;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+
+  .total-label {
+    color: $text-secondary;
+    font-size: 1rem;
+  }
+
+  .total-value {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: $primary;
+  }
+
+  .total-max {
+    color: $text-secondary;
+    font-size: 1rem;
+  }
+}
+
+// Scrollbar
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: $bg-dark;
+}
+
+::-webkit-scrollbar-thumb {
+  background: $border-color;
+  border-radius: 4px;
+
+  &:hover {
+    background: lighten($border-color, 10%);
+  }
+}
