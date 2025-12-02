@@ -65,15 +65,69 @@ $doubtful-color: #8b5cf6;
   max-width: 1200px;
 }
 
+// Upload Zones Container - Side by Side
+.upload-zones-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  margin-bottom: 2rem;
+
+  @media (max-width: 900px) {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+}
+
+.upload-zone-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.upload-zone-label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
+  border-radius: 10px 10px 0 0;
+  font-weight: 600;
+  font-size: 1rem;
+  letter-spacing: 0.02em;
+
+  .label-icon {
+    font-size: 1.25rem;
+  }
+
+  .label-text {
+    text-transform: uppercase;
+  }
+
+  &.before-label {
+    background: linear-gradient(135deg, rgba(#3b82f6, 0.2) 0%, rgba(#06b6d4, 0.15) 100%);
+    color: #3b82f6;
+    border-left: 3px solid #3b82f6;
+  }
+
+  &.after-label {
+    background: linear-gradient(135deg, rgba(#22c55e, 0.2) 0%, rgba(#84cc16, 0.15) 100%);
+    color: #22c55e;
+    border-left: 3px solid #22c55e;
+  }
+}
+
 // Upload Zone
 .upload-zone {
   background: $bg-card;
   border: 2px dashed $border-color;
-  border-radius: 16px;
-  padding: 4rem 2rem;
+  border-radius: 0 0 16px 16px;
+  padding: 2.5rem 1.5rem;
   text-align: center;
   transition: all 0.3s ease;
   cursor: pointer;
+  min-height: 220px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
   &:hover {
     border-color: $primary;
@@ -83,11 +137,73 @@ $doubtful-color: #8b5cf6;
   &.dragging {
     border-color: $primary;
     background: rgba($primary, 0.1);
-    transform: scale(1.01);
+    transform: scale(1.02);
+  }
+
+  &.has-data {
+    border-style: solid;
+    border-color: $high-color;
+    background: rgba($high-color, 0.05);
+    cursor: default;
   }
 
   &.hidden {
     display: none;
+  }
+}
+
+// Upload success state
+.upload-success {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+
+  .success-icon {
+    width: 48px;
+    height: 48px;
+    background: rgba($high-color, 0.2);
+    color: $high-color;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    font-weight: bold;
+  }
+
+  .success-filename {
+    color: $text-primary;
+    font-weight: 600;
+    font-size: 0.95rem;
+    margin: 0;
+    word-break: break-word;
+    max-width: 100%;
+  }
+
+  .success-count {
+    color: $high-color;
+    font-size: 0.9rem;
+    margin: 0;
+    font-weight: 500;
+  }
+
+  .clear-file-btn {
+    margin-top: 0.5rem;
+    background: transparent;
+    border: 1px solid $border-color;
+    color: $text-secondary;
+    padding: 0.4rem 1rem;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+    &:hover {
+      border-color: $medium-color;
+      color: $medium-color;
+      background: rgba($medium-color, 0.1);
+    }
   }
 }
 
@@ -238,6 +354,222 @@ $doubtful-color: #8b5cf6;
     color: $error;
     background: rgba($error, 0.1);
   }
+}
+
+// Dataset Toggle
+.dataset-toggle {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.dataset-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 1rem 1.5rem;
+  background: $bg-card;
+  border: 2px solid $border-color;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+  overflow: hidden;
+
+  .dataset-icon {
+    font-size: 1.5rem;
+  }
+
+  .dataset-label {
+    font-weight: 700;
+    font-size: 1rem;
+    color: $text-secondary;
+  }
+
+  .dataset-filename {
+    font-size: 0.75rem;
+    color: $text-secondary;
+    max-width: 150px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .dataset-count {
+    background: rgba($primary, 0.2);
+    color: $primary;
+    padding: 0.15rem 0.5rem;
+    border-radius: 10px;
+    font-size: 0.75rem;
+    font-weight: 600;
+  }
+
+  .no-data-hint {
+    font-size: 0.75rem;
+    color: $text-secondary;
+    opacity: 0.6;
+    font-style: italic;
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  &:not(:disabled):hover {
+    border-color: $primary;
+    background: $bg-card-hover;
+  }
+
+  &.before-btn {
+    &.active {
+      border-color: #3b82f6;
+      background: rgba(#3b82f6, 0.1);
+      
+      .dataset-label {
+        color: #3b82f6;
+      }
+    }
+  }
+
+  &.after-btn {
+    &.active {
+      border-color: #22c55e;
+      background: rgba(#22c55e, 0.1);
+      
+      .dataset-label {
+        color: #22c55e;
+      }
+    }
+  }
+
+  &.active::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+  }
+
+  &.before-btn.active::before {
+    background: linear-gradient(90deg, #3b82f6, #06b6d4);
+  }
+
+  &.after-btn.active::before {
+    background: linear-gradient(90deg, #22c55e, #84cc16);
+  }
+}
+
+// Upload more section
+.upload-more-section {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+
+.upload-more-btn {
+  background: transparent;
+  border: 1px dashed $border-color;
+  color: $text-secondary;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover {
+    border-color: $primary;
+    color: $primary;
+    background: rgba($primary, 0.05);
+  }
+}
+
+// Current dataset badge
+.current-dataset-badge {
+  padding: 0.35rem 0.75rem;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+
+  &.before {
+    background: rgba(#3b82f6, 0.2);
+    color: #3b82f6;
+  }
+
+  &.after {
+    background: rgba(#22c55e, 0.2);
+    color: #22c55e;
+  }
+}
+
+// Continue section
+.continue-section {
+  text-align: center;
+  margin-top: 1rem;
+
+  .continue-hint {
+    color: $text-secondary;
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+  }
+}
+
+// Export Section
+.export-section {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 1.5rem;
+  background: linear-gradient(135deg, rgba(#22c55e, 0.1) 0%, rgba(#3b82f6, 0.1) 100%);
+  border: 1px solid rgba(#22c55e, 0.3);
+  border-radius: 12px;
+  margin-bottom: 1rem;
+
+  @media (max-width: 600px) {
+    flex-direction: column;
+    text-align: center;
+  }
+}
+
+.export-button {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+
+  svg {
+    flex-shrink: 0;
+  }
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(#22c55e, 0.4);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+}
+
+.export-hint {
+  color: $text-secondary;
+  font-size: 0.85rem;
+  flex: 1;
 }
 
 // Tabs

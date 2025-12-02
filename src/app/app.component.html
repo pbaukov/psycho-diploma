@@ -1,77 +1,176 @@
 <div class="container">
   <header class="header">
     <h1>Психодіагностика</h1>
-    <p class="subtitle">Аналіз результатів тестування</p>
+    <p class="subtitle">Аналіз результатів тестування до/після</p>
   </header>
 
   <main class="main-content">
-    <!-- Upload Zone -->
-    <div
-      class="upload-zone"
-      [class.dragging]="isDragging"
-      [class.hidden]="respondents.length > 0"
-      (dragover)="onDragOver($event)"
-      (dragleave)="onDragLeave($event)"
-      (drop)="onDrop($event)">
-      <div class="upload-content" *ngIf="!isLoading">
-        <div class="upload-icon">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="48"
-            height="48"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="1.5"
-            stroke-linecap="round"
-            stroke-linejoin="round">
-            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-            <polyline points="17 8 12 3 7 8" />
-            <line x1="12" y1="3" x2="12" y2="15" />
-          </svg>
+    <!-- Upload Zones Container - Show until both files are uploaded -->
+    <div class="upload-zones-container" *ngIf="!hasBeforeData || !hasAfterData">
+      <!-- BEFORE Upload Zone -->
+      <div class="upload-zone-wrapper">
+        <div class="upload-zone-label before-label">
+          <span class="label-icon">📋</span>
+          <span class="label-text">ДО (Before)</span>
         </div>
-        <p class="upload-text">Перетягніть CSV файл сюди</p>
-        <span class="upload-divider">або</span>
-        <label class="upload-button">
-          Обрати файл
-          <input
-            type="file"
-            accept=".csv"
-            (change)="onFileSelected($event)"
-            hidden />
-        </label>
+        <div
+          class="upload-zone"
+          [class.dragging]="isDraggingBefore"
+          [class.has-data]="hasBeforeData"
+          (dragover)="onDragOver($event, 'before')"
+          (dragleave)="onDragLeave($event, 'before')"
+          (drop)="onDrop($event, 'before')">
+          <div class="upload-content" *ngIf="!isLoadingBefore && !hasBeforeData">
+            <div class="upload-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                <polyline points="17 8 12 3 7 8" />
+                <line x1="12" y1="3" x2="12" y2="15" />
+              </svg>
+            </div>
+            <p class="upload-text">Перетягніть CSV файл</p>
+            <span class="upload-divider">або</span>
+            <label class="upload-button">
+              Обрати файл
+              <input type="file" accept=".csv" (change)="onFileSelected($event, 'before')" hidden />
+            </label>
+          </div>
+          <div class="upload-success" *ngIf="hasBeforeData && !isLoadingBefore">
+            <div class="success-icon">✓</div>
+            <p class="success-filename">{{ beforeFileName }}</p>
+            <p class="success-count">{{ beforeRespondents.length }} респондентів</p>
+            <button class="clear-file-btn" (click)="clearData('before')">Змінити файл</button>
+          </div>
+          <div class="loading-content" *ngIf="isLoadingBefore">
+            <div class="spinner"></div>
+            <p>Обробка файлу...</p>
+          </div>
+        </div>
+        <div class="error-message" *ngIf="errorMessageBefore">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10" />
+            <line x1="12" y1="8" x2="12" y2="12" />
+            <line x1="12" y1="16" x2="12.01" y2="16" />
+          </svg>
+          {{ errorMessageBefore }}
+        </div>
       </div>
 
-      <div class="loading-content" *ngIf="isLoading">
-        <div class="spinner"></div>
-        <p>Обробка файлу...</p>
+      <!-- AFTER Upload Zone -->
+      <div class="upload-zone-wrapper">
+        <div class="upload-zone-label after-label">
+          <span class="label-icon">📊</span>
+          <span class="label-text">ПІСЛЯ (After)</span>
+        </div>
+        <div
+          class="upload-zone"
+          [class.dragging]="isDraggingAfter"
+          [class.has-data]="hasAfterData"
+          (dragover)="onDragOver($event, 'after')"
+          (dragleave)="onDragLeave($event, 'after')"
+          (drop)="onDrop($event, 'after')">
+          <div class="upload-content" *ngIf="!isLoadingAfter && !hasAfterData">
+            <div class="upload-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                <polyline points="17 8 12 3 7 8" />
+                <line x1="12" y1="3" x2="12" y2="15" />
+              </svg>
+            </div>
+            <p class="upload-text">Перетягніть CSV файл</p>
+            <span class="upload-divider">або</span>
+            <label class="upload-button">
+              Обрати файл
+              <input type="file" accept=".csv" (change)="onFileSelected($event, 'after')" hidden />
+            </label>
+          </div>
+          <div class="upload-success" *ngIf="hasAfterData && !isLoadingAfter">
+            <div class="success-icon">✓</div>
+            <p class="success-filename">{{ afterFileName }}</p>
+            <p class="success-count">{{ afterRespondents.length }} респондентів</p>
+            <button class="clear-file-btn" (click)="clearData('after')">Змінити файл</button>
+          </div>
+          <div class="loading-content" *ngIf="isLoadingAfter">
+            <div class="spinner"></div>
+            <p>Обробка файлу...</p>
+          </div>
+        </div>
+        <div class="error-message" *ngIf="errorMessageAfter">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10" />
+            <line x1="12" y1="8" x2="12" y2="12" />
+            <line x1="12" y1="16" x2="12.01" y2="16" />
+          </svg>
+          {{ errorMessageAfter }}
+        </div>
       </div>
     </div>
 
-    <!-- Error Message -->
-    <div class="error-message" *ngIf="errorMessage">
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="20"
-        height="20"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round">
-        <circle cx="12" cy="12" r="10" />
-        <line x1="12" y1="8" x2="12" y2="12" />
-        <line x1="12" y1="16" x2="12.01" y2="16" />
-      </svg>
-      {{ errorMessage }}
+    <!-- Hint when only one file is uploaded -->
+    <div class="continue-section" *ngIf="hasAnyData && (!hasBeforeData || !hasAfterData)">
+      <p class="continue-hint">
+        Завантажте обидва файли для повного порівняння результатів
+      </p>
     </div>
 
     <!-- Results Section -->
-    <div class="results-section" *ngIf="respondents.length > 0">
+    <div class="results-section" *ngIf="hasAnyData">
+      <!-- Dataset Toggle -->
+      <div class="dataset-toggle">
+        <button
+          class="dataset-btn before-btn"
+          [class.active]="activeDataset === 'before'"
+          [class.has-data]="hasBeforeData"
+          [disabled]="!hasBeforeData"
+          (click)="setActiveDataset('before')">
+          <span class="dataset-icon">📋</span>
+          <span class="dataset-label">ДО</span>
+          <span class="dataset-filename" *ngIf="hasBeforeData">{{ beforeFileName }}</span>
+          <span class="dataset-count" *ngIf="hasBeforeData">{{ beforeRespondents.length }}</span>
+          <span class="no-data-hint" *ngIf="!hasBeforeData">Не завантажено</span>
+        </button>
+        <button
+          class="dataset-btn after-btn"
+          [class.active]="activeDataset === 'after'"
+          [class.has-data]="hasAfterData"
+          [disabled]="!hasAfterData"
+          (click)="setActiveDataset('after')">
+          <span class="dataset-icon">📊</span>
+          <span class="dataset-label">ПІСЛЯ</span>
+          <span class="dataset-filename" *ngIf="hasAfterData">{{ afterFileName }}</span>
+          <span class="dataset-count" *ngIf="hasAfterData">{{ afterRespondents.length }}</span>
+          <span class="no-data-hint" *ngIf="!hasAfterData">Не завантажено</span>
+        </button>
+      </div>
+
+      <!-- Export Button - Only when both files are uploaded -->
+      <div class="export-section" *ngIf="hasBothData">
+        <button class="export-button" (click)="exportToCSV()">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+            <polyline points="7 10 12 15 17 10" />
+            <line x1="12" y1="15" x2="12" y2="3" />
+          </svg>
+          Експорт для SPSS (CSV)
+        </button>
+        <span class="export-hint">Об'єднані дані "до" та "після" для статистичного аналізу</span>
+      </div>
+
       <!-- Header with file info -->
       <div class="results-header">
         <div class="file-info">
+          <span class="current-dataset-badge" [class]="activeDataset">
+            {{ activeDataset === 'before' ? 'ДО' : 'ПІСЛЯ' }}
+          </span>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="20"
@@ -90,9 +189,7 @@
             <polyline points="10 9 9 9 8 9" />
           </svg>
           <span class="file-name">{{ fileName }}</span>
-          <span class="respondent-count"
-            >{{ respondents.length }} респондентів</span
-          >
+          <span class="respondent-count">{{ respondents.length }} респондентів</span>
         </div>
         <button class="clear-button" (click)="clearData()">
           <svg
@@ -108,7 +205,7 @@
             <line x1="18" y1="6" x2="6" y2="18" />
             <line x1="6" y1="6" x2="18" y2="18" />
           </svg>
-          Очистити
+          Очистити все
         </button>
       </div>
 

@@ -243,6 +243,7 @@ interface Respondent {
   timestamp: string;
   email: string;
   age: string;
+  group: string; // Група - 4th column in CSV
   sanAnswers: number[]; // 30 converted answers (1-7 scale)
   san: SanResult;
   shtepaAnswers: boolean[]; // 67 answers (true = Так, false = Ні)
@@ -282,11 +283,27 @@ export class AppComponent {
   // ============================================================================
   // STATE
   // ============================================================================
-  respondents: Respondent[] = []; // All parsed respondent data
-  fileName: string = ''; // Current CSV filename
-  isDragging: boolean = false; // Drag & drop state
-  isLoading: boolean = false; // File processing state
-  errorMessage: string = ''; // Error display
+
+  // Before/After data storage
+  beforeRespondents: Respondent[] = []; // "Before" CSV data
+  afterRespondents: Respondent[] = []; // "After" CSV data
+  beforeFileName: string = ''; // Before CSV filename
+  afterFileName: string = ''; // After CSV filename
+
+  // Current view state
+  activeDataset: 'before' | 'after' = 'before'; // Which dataset to display
+
+  // Drag & drop states for each upload zone
+  isDraggingBefore: boolean = false;
+  isDraggingAfter: boolean = false;
+
+  // Loading states
+  isLoadingBefore: boolean = false;
+  isLoadingAfter: boolean = false;
+
+  // Error messages
+  errorMessageBefore: string = '';
+  errorMessageAfter: string = '';
 
   // Ryff detail modal state
   showRyffDetailModal: boolean = false;
@@ -299,6 +316,35 @@ export class AppComponent {
     isReversed: boolean;
   }[] = [];
   activeTab: 'san' | 'shtepa' | 'basicph' | 'personalresource' | 'ryff' = 'san';
+
+  // Computed getters for current dataset
+  get respondents(): Respondent[] {
+    return this.activeDataset === 'before'
+      ? this.beforeRespondents
+      : this.afterRespondents;
+  }
+
+  get fileName(): string {
+    return this.activeDataset === 'before'
+      ? this.beforeFileName
+      : this.afterFileName;
+  }
+
+  get hasBeforeData(): boolean {
+    return this.beforeRespondents.length > 0;
+  }
+
+  get hasAfterData(): boolean {
+    return this.afterRespondents.length > 0;
+  }
+
+  get hasAnyData(): boolean {
+    return this.hasBeforeData || this.hasAfterData;
+  }
+
+  get hasBothData(): boolean {
+    return this.hasBeforeData && this.hasAfterData;
+  }
 
   // ============================================================================
   // САН CONFIGURATION
@@ -718,57 +764,102 @@ export class AppComponent {
   ryffTotalLowThreshold = 315;
   ryffTotalHighThreshold = 413;
 
-  onDragOver(event: DragEvent): void {
+  // ============================================================================
+  // DRAG & DROP HANDLERS
+  // ============================================================================
+
+  onDragOver(event: DragEvent, type: 'before' | 'after'): void {
     event.preventDefault();
     event.stopPropagation();
-    this.isDragging = true;
+    if (type === 'before') {
+      this.isDraggingBefore = true;
+    } else {
+      this.isDraggingAfter = true;
+    }
   }
 
-  onDragLeave(event: DragEvent): void {
+  onDragLeave(event: DragEvent, type: 'before' | 'after'): void {
     event.preventDefault();
     event.stopPropagation();
-    this.isDragging = false;
+    if (type === 'before') {
+      this.isDraggingBefore = false;
+    } else {
+      this.isDraggingAfter = false;
+    }
   }
 
-  onDrop(event: DragEvent): void {
+  onDrop(event: DragEvent, type: 'before' | 'after'): void {
     event.preventDefault();
     event.stopPropagation();
-    this.isDragging = false;
+
+    if (type === 'before') {
+      this.isDraggingBefore = false;
+    } else {
+      this.isDraggingAfter = false;
+    }
 
     const files = event.dataTransfer?.files;
     if (files && files.length > 0) {
-      this.handleFile(files[0]);
+      this.handleFile(files[0], type);
     }
   }
 
-  onFileSelected(event: Event): void {
+  onFileSelected(event: Event, type: 'before' | 'after'): void {
     const input = event.target as HTMLInputElement;
     if (input.files && input.files.length > 0) {
-      this.handleFile(input.files[0]);
+      this.handleFile(input.files[0], type);
     }
   }
 
-  handleFile(file: File): void {
+  handleFile(file: File, type: 'before' | 'after'): void {
     if (!file.name.endsWith('.csv')) {
-      this.errorMessage = 'Please upload a CSV file';
+      if (type === 'before') {
+        this.errorMessageBefore = 'Please upload a CSV file';
+      } else {
+        this.errorMessageAfter = 'Please upload a CSV file';
+      }
       return;
     }
 
-    this.errorMessage = '';
-    this.isLoading = true;
-    this.fileName = file.name;
+    // Clear error and set loading state
+    if (type === 'before') {
+      this.errorMessageBefore = '';
+      this.isLoadingBefore = true;
+      this.beforeFileName = file.name;
+    } else {
+      this.errorMessageAfter = '';
+      this.isLoadingAfter = true;
+      this.afterFileName = file.name;
+    }
 
     const reader = new FileReader();
     reader.onload = (e) => {
       const content = e.target?.result as string;
-      this.parseAndTransformCSV(content);
-      this.isLoading = false;
+      this.parseAndTransformCSV(content, type);
+      if (type === 'before') {
+        this.isLoadingBefore = false;
+        // Auto-switch to view the uploaded data
+        this.activeDataset = 'before';
+      } else {
+        this.isLoadingAfter = false;
+        this.activeDataset = 'after';
+      }
     };
     reader.onerror = () => {
-      this.errorMessage = 'Error reading file';
-      this.isLoading = false;
+      if (type === 'before') {
+        this.errorMessageBefore = 'Error reading file';
+        this.isLoadingBefore = false;
+      } else {
+        this.errorMessageAfter = 'Error reading file';
+        this.isLoadingAfter = false;
+      }
     };
     reader.readAsText(file);
+  }
+
+  // Switch between before/after datasets
+  setActiveDataset(dataset: 'before' | 'after'): void {
+    this.activeDataset = dataset;
   }
 
   // ============================================================================
@@ -781,30 +872,39 @@ export class AppComponent {
    * CSV Column Layout (0-indexed):
    *   0:       Timestamp
    *   1:       Email
-   *   2:       Age
-   *   3-32:    САН questions (30 questions)
-   *   33-99:   Штепа questions (67 questions)
-   *   100-135: Basic Ph questions (36 questions)
-   *   136-148: Особистісні ресурси questions (13 questions)
-   *   149-232: Ryff questions (84 questions)
+   *   2:       Група (Group)
+   *   3:       Age
+   *   4-33:    САН questions (30 questions)
+   *   34-100:  Штепа questions (67 questions)
+   *   101-136: Basic Ph questions (36 questions)
+   *   137-149: Особистісні ресурси questions (13 questions)
+   *   150-233: Ryff questions (84 questions)
    *
-   * Total: 233 columns required
+   * Total: 234 columns required
    */
-  parseAndTransformCSV(content: string): void {
+  parseAndTransformCSV(
+    content: string,
+    type: 'before' | 'after' = 'before'
+  ): void {
     const lines = content.split('\n').filter((line) => line.trim() !== '');
 
     if (lines.length < 2) {
-      this.errorMessage =
-        'CSV file must have a header and at least one data row';
+      if (type === 'before') {
+        this.errorMessageBefore =
+          'CSV file must have a header and at least one data row';
+      } else {
+        this.errorMessageAfter =
+          'CSV file must have a header and at least one data row';
+      }
       return;
     }
 
     // Skip header row, process data rows
     const dataRows = lines.slice(1);
-    this.respondents = [];
+    const respondents: Respondent[] = [];
 
-    // Expected columns: 3 + 30 + 67 + 36 + 13 + 84 = 233
-    const minColumns = 3 + 30 + 67 + 36 + 13 + 84; // 233
+    // Expected columns: 4 (meta) + 30 + 67 + 36 + 13 + 84 = 234
+    const minColumns = 4 + 30 + 67 + 36 + 13 + 84; // 234
 
     for (const line of dataRows) {
       const columns = this.parseCSVLine(line);
@@ -818,13 +918,14 @@ export class AppComponent {
 
       const timestamp = columns[0];
       const email = columns[1];
-      const age = columns[2];
+      const group = columns[2]; // Група - 3rd column (index 2)
+      const age = columns[3]; // Age - 4th column (index 3)
 
-      // === САН Processing (columns 3-32, 30 questions) ===
+      // === САН Processing (columns 4-33, 30 questions) ===
       const sanAnswers: number[] = [];
       for (let i = 0; i < 30; i++) {
         const questionNum = i + 1;
-        const rawValue = columns[3 + i];
+        const rawValue = columns[4 + i];
         const isReversed = this.reversedQuestions.includes(questionNum);
         const convertedValue = this.convertSanAnswer(
           rawValue,
@@ -841,33 +942,33 @@ export class AppComponent {
         mood: this.calculateAverage(sanAnswers, this.moodQuestions),
       };
 
-      // === Штепа Processing (columns 33-99, 67 questions) ===
+      // === Штепа Processing (columns 34-100, 67 questions) ===
       const shtepaAnswers: boolean[] = [];
       for (let i = 0; i < 67; i++) {
         const questionNum = i + 1;
-        const rawValue = columns[33 + i];
+        const rawValue = columns[34 + i];
         const answer = this.convertShtepaAnswer(rawValue, questionNum, email);
         shtepaAnswers.push(answer);
       }
 
       const shtepa = this.calculateShtepaResults(shtepaAnswers);
 
-      // === Basic Ph Processing (columns 100-135, 36 questions) ===
+      // === Basic Ph Processing (columns 101-136, 36 questions) ===
       const basicPhAnswers: number[] = [];
       for (let i = 0; i < 36; i++) {
         const questionNum = i + 1;
-        const rawValue = columns[100 + i];
+        const rawValue = columns[101 + i];
         const answer = this.convertBasicPhAnswer(rawValue, questionNum, email);
         basicPhAnswers.push(answer);
       }
 
       const basicPh = this.calculateBasicPhResults(basicPhAnswers);
 
-      // === Personal Resource Processing (columns 136-148, 13 questions) ===
+      // === Personal Resource Processing (columns 137-149, 13 questions) ===
       const personalResourceAnswers: number[] = [];
       for (let i = 0; i < 13; i++) {
         const questionNum = i + 1;
-        const rawValue = columns[136 + i];
+        const rawValue = columns[137 + i];
         const answer = this.convertPersonalResourceAnswer(
           rawValue,
           questionNum,
@@ -880,21 +981,22 @@ export class AppComponent {
         personalResourceAnswers
       );
 
-      // === Ryff Processing (columns 149-232, 84 questions) ===
+      // === Ryff Processing (columns 150-233, 84 questions) ===
       const ryffAnswers: number[] = [];
       for (let i = 0; i < 84; i++) {
         const questionNum = i + 1;
-        const rawValue = columns[149 + i];
+        const rawValue = columns[150 + i];
         const answer = this.convertRyffAnswer(rawValue, questionNum, email);
         ryffAnswers.push(answer);
       }
 
       const ryff = this.calculateRyffResults(ryffAnswers);
 
-      this.respondents.push({
+      respondents.push({
         timestamp,
         email,
         age,
+        group,
         sanAnswers,
         san,
         shtepaAnswers,
@@ -908,8 +1010,20 @@ export class AppComponent {
       });
     }
 
-    if (this.respondents.length === 0) {
-      this.errorMessage = 'No valid data rows found in CSV';
+    if (respondents.length === 0) {
+      if (type === 'before') {
+        this.errorMessageBefore = 'No valid data rows found in CSV';
+      } else {
+        this.errorMessageAfter = 'No valid data rows found in CSV';
+      }
+      return;
+    }
+
+    // Store in the appropriate array based on type
+    if (type === 'before') {
+      this.beforeRespondents = respondents;
+    } else {
+      this.afterRespondents = respondents;
     }
   }
 
@@ -1574,10 +1688,232 @@ export class AppComponent {
     return result;
   }
 
-  clearData(): void {
-    this.respondents = [];
-    this.fileName = '';
-    this.errorMessage = '';
+  clearData(type?: 'before' | 'after'): void {
+    if (type === 'before') {
+      this.beforeRespondents = [];
+      this.beforeFileName = '';
+      this.errorMessageBefore = '';
+    } else if (type === 'after') {
+      this.afterRespondents = [];
+      this.afterFileName = '';
+      this.errorMessageAfter = '';
+    } else {
+      // Clear all
+      this.beforeRespondents = [];
+      this.afterRespondents = [];
+      this.beforeFileName = '';
+      this.afterFileName = '';
+      this.errorMessageBefore = '';
+      this.errorMessageAfter = '';
+      this.activeDataset = 'before';
+    }
+  }
+
+  // ============================================================================
+  // EXPORT TO CSV (SPSS-compatible)
+  // ============================================================================
+
+  /**
+   * Export combined before/after data to CSV for SPSS analysis
+   * Matches respondents by email address
+   *
+   * Column structure:
+   * - email, user_id
+   * - САН: wellbeing_before, wellbeing_after, activity_before, activity_after, mood_before, mood_after
+   * - Штепа: shtepa_total_before, shtepa_total_after
+   * - Basic Ph: B_before, B_after, A_before, A_after, S_before, S_after, I_before, I_after, C_before, C_after, Ph_before, Ph_after
+   * - Савченко-Сукач: sufficiency_before, sufficiency_after, coping_before, coping_after, exhaustion_before, exhaustion_after
+   * - Ryff: relationships_before, relationships_after, autonomy_before, autonomy_after, environment_before, environment_after,
+   *         growth_before, growth_after, purpose_before, purpose_after, selfAcceptance_before, selfAcceptance_after
+   */
+  exportToCSV(): void {
+    if (!this.hasBothData) {
+      return;
+    }
+
+    // Create a map of before respondents by email
+    const beforeMap = new Map<string, Respondent>();
+    for (const r of this.beforeRespondents) {
+      beforeMap.set(r.email.toLowerCase().trim(), r);
+    }
+
+    // Create a map of after respondents by email
+    const afterMap = new Map<string, Respondent>();
+    for (const r of this.afterRespondents) {
+      afterMap.set(r.email.toLowerCase().trim(), r);
+    }
+
+    // Get all unique emails
+    const allEmails = new Set<string>();
+    beforeMap.forEach((_, email) => allEmails.add(email));
+    afterMap.forEach((_, email) => allEmails.add(email));
+
+    // CSV Header
+    const headers = [
+      'email',
+      'user_id',
+      'group', // Група from original CSV
+      // САН (3 metrics × 2)
+      'san_wellbeing_before',
+      'san_wellbeing_after',
+      'san_activity_before',
+      'san_activity_after',
+      'san_mood_before',
+      'san_mood_after',
+      // Штепа (1 metric × 2)
+      'shtepa_total_before',
+      'shtepa_total_after',
+      // Basic Ph (6 metrics × 2)
+      'basicph_B_before',
+      'basicph_B_after',
+      'basicph_A_before',
+      'basicph_A_after',
+      'basicph_S_before',
+      'basicph_S_after',
+      'basicph_I_before',
+      'basicph_I_after',
+      'basicph_C_before',
+      'basicph_C_after',
+      'basicph_Ph_before',
+      'basicph_Ph_after',
+      // Савченко-Сукач (3 metrics × 2)
+      'personal_sufficiency_before',
+      'personal_sufficiency_after',
+      'personal_coping_before',
+      'personal_coping_after',
+      'personal_exhaustion_before',
+      'personal_exhaustion_after',
+      // Ryff (6 metrics × 2)
+      'ryff_relationships_before',
+      'ryff_relationships_after',
+      'ryff_autonomy_before',
+      'ryff_autonomy_after',
+      'ryff_environment_before',
+      'ryff_environment_after',
+      'ryff_growth_before',
+      'ryff_growth_after',
+      'ryff_purpose_before',
+      'ryff_purpose_after',
+      'ryff_selfAcceptance_before',
+      'ryff_selfAcceptance_after',
+    ];
+
+    // Build rows
+    const rows: string[][] = [];
+    let userId = 1;
+
+    for (const email of allEmails) {
+      const before = beforeMap.get(email);
+      const after = afterMap.get(email);
+
+      // Helper to get value or empty string
+      const getVal = (value: number | undefined): string => {
+        return value !== undefined ? value.toString() : '';
+      };
+
+      // Helper to get Basic Ph category score
+      const getBasicPhScore = (
+        r: Respondent | undefined,
+        code: string
+      ): string => {
+        if (!r) return '';
+        const cat = r.basicPh.categories.find((c) => c.code === code);
+        return cat ? cat.score.toString() : '';
+      };
+
+      // Get group from before or after (should be same, use before as primary)
+      const group = before?.group || after?.group || '';
+
+      const row = [
+        email,
+        userId.toString(),
+        group,
+        // САН
+        getVal(before?.san.wellbeing),
+        getVal(after?.san.wellbeing),
+        getVal(before?.san.activity),
+        getVal(after?.san.activity),
+        getVal(before?.san.mood),
+        getVal(after?.san.mood),
+        // Штепа
+        getVal(before?.shtepa.totalScore),
+        getVal(after?.shtepa.totalScore),
+        // Basic Ph
+        getBasicPhScore(before, 'B'),
+        getBasicPhScore(after, 'B'),
+        getBasicPhScore(before, 'A'),
+        getBasicPhScore(after, 'A'),
+        getBasicPhScore(before, 'S'),
+        getBasicPhScore(after, 'S'),
+        getBasicPhScore(before, 'I'),
+        getBasicPhScore(after, 'I'),
+        getBasicPhScore(before, 'C'),
+        getBasicPhScore(after, 'C'),
+        getBasicPhScore(before, 'Ph'),
+        getBasicPhScore(after, 'Ph'),
+        // Савченко-Сукач
+        getVal(before?.personalResource.sufficiency.score),
+        getVal(after?.personalResource.sufficiency.score),
+        getVal(before?.personalResource.copingStrategies.score),
+        getVal(after?.personalResource.copingStrategies.score),
+        getVal(before?.personalResource.emotionalExhaustion.score),
+        getVal(after?.personalResource.emotionalExhaustion.score),
+        // Ryff
+        getVal(before?.ryff.relationships.score),
+        getVal(after?.ryff.relationships.score),
+        getVal(before?.ryff.autonomy.score),
+        getVal(after?.ryff.autonomy.score),
+        getVal(before?.ryff.environment.score),
+        getVal(after?.ryff.environment.score),
+        getVal(before?.ryff.growth.score),
+        getVal(after?.ryff.growth.score),
+        getVal(before?.ryff.purpose.score),
+        getVal(after?.ryff.purpose.score),
+        getVal(before?.ryff.selfAcceptance.score),
+        getVal(after?.ryff.selfAcceptance.score),
+      ];
+
+      rows.push(row);
+      userId++;
+    }
+
+    // Convert to CSV string
+    const csvContent = [
+      headers.join(','),
+      ...rows.map((row) => row.map((cell) => `"${cell}"`).join(',')),
+    ].join('\n');
+
+    // Download the file
+    this.downloadFile(
+      csvContent,
+      'psycho_data_export.csv',
+      'text/csv;charset=utf-8;'
+    );
+  }
+
+  /**
+   * Helper method to trigger file download
+   */
+  private downloadFile(
+    content: string,
+    filename: string,
+    mimeType: string
+  ): void {
+    // Add BOM for proper UTF-8 encoding in Excel/SPSS
+    const BOM = '\uFEFF';
+    const blob = new Blob([BOM + content], { type: mimeType });
+    const url = window.URL.createObjectURL(blob);
+
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = filename;
+    link.style.display = 'none';
+
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+
+    window.URL.revokeObjectURL(url);
   }
 
   setActiveTab(
