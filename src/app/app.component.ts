@@ -1753,49 +1753,122 @@ export class AppComponent {
       'email',
       'user_id',
       'group', // Група from original CSV
-      // САН (3 metrics × 2)
+      // САН (3 metrics × 3 [before, after, delta] + totals)
       'san_wellbeing_before',
       'san_wellbeing_after',
+      'san_wellbeing_delta',
       'san_activity_before',
       'san_activity_after',
+      'san_activity_delta',
       'san_mood_before',
       'san_mood_after',
-      // Штепа (1 metric × 2)
+      'san_mood_delta',
+      'san_total_before',
+      'san_total_after',
+      'san_total_delta',
+      // Штепа (14 categories × 3 + totals)
+      'shtepa_confidence_before',
+      'shtepa_confidence_after',
+      'shtepa_confidence_delta',
+      'shtepa_kindness_before',
+      'shtepa_kindness_after',
+      'shtepa_kindness_delta',
+      'shtepa_help_before',
+      'shtepa_help_after',
+      'shtepa_help_delta',
+      'shtepa_success_before',
+      'shtepa_success_after',
+      'shtepa_success_delta',
+      'shtepa_love_before',
+      'shtepa_love_after',
+      'shtepa_love_delta',
+      'shtepa_creativity_before',
+      'shtepa_creativity_after',
+      'shtepa_creativity_delta',
+      'shtepa_faith_before',
+      'shtepa_faith_after',
+      'shtepa_faith_delta',
+      'shtepa_wisdom_before',
+      'shtepa_wisdom_after',
+      'shtepa_wisdom_delta',
+      'shtepa_selfwork_before',
+      'shtepa_selfwork_after',
+      'shtepa_selfwork_delta',
+      'shtepa_career_before',
+      'shtepa_career_after',
+      'shtepa_career_delta',
+      'shtepa_responsibility_before',
+      'shtepa_responsibility_after',
+      'shtepa_responsibility_delta',
+      'shtepa_resourceknowledge_before',
+      'shtepa_resourceknowledge_after',
+      'shtepa_resourceknowledge_delta',
+      'shtepa_resourcerenew_before',
+      'shtepa_resourcerenew_after',
+      'shtepa_resourcerenew_delta',
+      'shtepa_resourceuse_before',
+      'shtepa_resourceuse_after',
+      'shtepa_resourceuse_delta',
       'shtepa_total_before',
       'shtepa_total_after',
-      // Basic Ph (6 metrics × 2)
+      'shtepa_total_delta',
+      // Basic Ph (6 metrics × 3 + totals)
       'basicph_B_before',
       'basicph_B_after',
+      'basicph_B_delta',
       'basicph_A_before',
       'basicph_A_after',
+      'basicph_A_delta',
       'basicph_S_before',
       'basicph_S_after',
+      'basicph_S_delta',
       'basicph_I_before',
       'basicph_I_after',
+      'basicph_I_delta',
       'basicph_C_before',
       'basicph_C_after',
+      'basicph_C_delta',
       'basicph_Ph_before',
       'basicph_Ph_after',
-      // Савченко-Сукач (3 metrics × 2)
-      'personal_sufficiency_before',
-      'personal_sufficiency_after',
-      'personal_coping_before',
-      'personal_coping_after',
-      'personal_exhaustion_before',
-      'personal_exhaustion_after',
-      // Ryff (6 metrics × 2)
+      'basicph_Ph_delta',
+      'basicph_total_before',
+      'basicph_total_after',
+      'basicph_total_delta',
+      // Савченко-Сукач (3 metrics × 3 + totals)
+      'savchenko_sufficiency_before',
+      'savchenko_sufficiency_after',
+      'savchenko_sufficiency_delta',
+      'savchenko_coping_before',
+      'savchenko_coping_after',
+      'savchenko_coping_delta',
+      'savchenko_exhaustion_before',
+      'savchenko_exhaustion_after',
+      'savchenko_exhaustion_delta',
+      'savchenko_total_before',
+      'savchenko_total_after',
+      'savchenko_total_delta',
+      // Ryff (6 metrics × 3 + totals)
       'ryff_relationships_before',
       'ryff_relationships_after',
+      'ryff_relationships_delta',
       'ryff_autonomy_before',
       'ryff_autonomy_after',
+      'ryff_autonomy_delta',
       'ryff_environment_before',
       'ryff_environment_after',
+      'ryff_environment_delta',
       'ryff_growth_before',
       'ryff_growth_after',
+      'ryff_growth_delta',
       'ryff_purpose_before',
       'ryff_purpose_after',
+      'ryff_purpose_delta',
       'ryff_selfAcceptance_before',
       'ryff_selfAcceptance_after',
+      'ryff_selfAcceptance_delta',
+      'ryff_total_before',
+      'ryff_total_after',
+      'ryff_total_delta',
     ];
 
     // Build rows
@@ -1811,6 +1884,16 @@ export class AppComponent {
         return value !== undefined ? value.toString() : '';
       };
 
+      // Helper to calculate delta (after - before)
+      const getDelta = (
+        afterVal: number | undefined,
+        beforeVal: number | undefined
+      ): string => {
+        if (afterVal === undefined || beforeVal === undefined) return '';
+        const delta = afterVal - beforeVal;
+        return (Math.round(delta * 100) / 100).toString();
+      };
+
       // Helper to get Basic Ph category score
       const getBasicPhScore = (
         r: Respondent | undefined,
@@ -1821,6 +1904,49 @@ export class AppComponent {
         return cat ? cat.score.toString() : '';
       };
 
+      // Helper to get Basic Ph category value as number
+      const getBasicPhVal = (
+        r: Respondent | undefined,
+        code: string
+      ): number | undefined => {
+        if (!r) return undefined;
+        const cat = r.basicPh.categories.find((c) => c.code === code);
+        return cat ? cat.score : undefined;
+      };
+
+      // Helper to calculate САН total (sum of wellbeing, activity, mood)
+      const getSanTotal = (r: Respondent | undefined): string => {
+        if (!r) return '';
+        const total = r.san.wellbeing + r.san.activity + r.san.mood;
+        return (Math.round(total * 100) / 100).toString();
+      };
+
+      // Helper to get САН total as number
+      const getSanTotalVal = (
+        r: Respondent | undefined
+      ): number | undefined => {
+        if (!r) return undefined;
+        return r.san.wellbeing + r.san.activity + r.san.mood;
+      };
+
+      // Helper to get Штепа category score by index
+      const getShtepaScore = (
+        r: Respondent | undefined,
+        index: number
+      ): string => {
+        if (!r || !r.shtepa.categories[index]) return '';
+        return r.shtepa.categories[index].score.toString();
+      };
+
+      // Helper to get Штепа category value as number
+      const getShtepaVal = (
+        r: Respondent | undefined,
+        index: number
+      ): number | undefined => {
+        if (!r || !r.shtepa.categories[index]) return undefined;
+        return r.shtepa.categories[index].score;
+      };
+
       // Get group from before or after (should be same, use before as primary)
       const group = before?.group || after?.group || '';
 
@@ -1828,49 +1954,140 @@ export class AppComponent {
         email,
         userId.toString(),
         group,
-        // САН
+        // САН (3 metrics + total)
         getVal(before?.san.wellbeing),
         getVal(after?.san.wellbeing),
+        getDelta(after?.san.wellbeing, before?.san.wellbeing),
         getVal(before?.san.activity),
         getVal(after?.san.activity),
+        getDelta(after?.san.activity, before?.san.activity),
         getVal(before?.san.mood),
         getVal(after?.san.mood),
-        // Штепа
+        getDelta(after?.san.mood, before?.san.mood),
+        getSanTotal(before),
+        getSanTotal(after),
+        getDelta(getSanTotalVal(after), getSanTotalVal(before)),
+        // Штепа (14 categories + total)
+        getShtepaScore(before, 0), // Упевненість у собі
+        getShtepaScore(after, 0),
+        getDelta(getShtepaVal(after, 0), getShtepaVal(before, 0)),
+        getShtepaScore(before, 1), // Доброта до людей
+        getShtepaScore(after, 1),
+        getDelta(getShtepaVal(after, 1), getShtepaVal(before, 1)),
+        getShtepaScore(before, 2), // Допомога іншим
+        getShtepaScore(after, 2),
+        getDelta(getShtepaVal(after, 2), getShtepaVal(before, 2)),
+        getShtepaScore(before, 3), // Успіх
+        getShtepaScore(after, 3),
+        getDelta(getShtepaVal(after, 3), getShtepaVal(before, 3)),
+        getShtepaScore(before, 4), // Любов
+        getShtepaScore(after, 4),
+        getDelta(getShtepaVal(after, 4), getShtepaVal(before, 4)),
+        getShtepaScore(before, 5), // Творчість
+        getShtepaScore(after, 5),
+        getDelta(getShtepaVal(after, 5), getShtepaVal(before, 5)),
+        getShtepaScore(before, 6), // Віра у добро
+        getShtepaScore(after, 6),
+        getDelta(getShtepaVal(after, 6), getShtepaVal(before, 6)),
+        getShtepaScore(before, 7), // Прагнення до мудрості
+        getShtepaScore(after, 7),
+        getDelta(getShtepaVal(after, 7), getShtepaVal(before, 7)),
+        getShtepaScore(before, 8), // Робота над собою
+        getShtepaScore(after, 8),
+        getDelta(getShtepaVal(after, 8), getShtepaVal(before, 8)),
+        getShtepaScore(before, 9), // Самореалізація у професії
+        getShtepaScore(after, 9),
+        getDelta(getShtepaVal(after, 9), getShtepaVal(before, 9)),
+        getShtepaScore(before, 10), // Відповідальність
+        getShtepaScore(after, 10),
+        getDelta(getShtepaVal(after, 10), getShtepaVal(before, 10)),
+        getShtepaScore(before, 11), // Знання власних ресурсів
+        getShtepaScore(after, 11),
+        getDelta(getShtepaVal(after, 11), getShtepaVal(before, 11)),
+        getShtepaScore(before, 12), // Уміння оновлювати власні ресурси
+        getShtepaScore(after, 12),
+        getDelta(getShtepaVal(after, 12), getShtepaVal(before, 12)),
+        getShtepaScore(before, 13), // Уміння використовувати власні ресурси
+        getShtepaScore(after, 13),
+        getDelta(getShtepaVal(after, 13), getShtepaVal(before, 13)),
         getVal(before?.shtepa.totalScore),
         getVal(after?.shtepa.totalScore),
-        // Basic Ph
+        getDelta(after?.shtepa.totalScore, before?.shtepa.totalScore),
+        // Basic Ph (6 categories + total)
         getBasicPhScore(before, 'B'),
         getBasicPhScore(after, 'B'),
+        getDelta(getBasicPhVal(after, 'B'), getBasicPhVal(before, 'B')),
         getBasicPhScore(before, 'A'),
         getBasicPhScore(after, 'A'),
+        getDelta(getBasicPhVal(after, 'A'), getBasicPhVal(before, 'A')),
         getBasicPhScore(before, 'S'),
         getBasicPhScore(after, 'S'),
+        getDelta(getBasicPhVal(after, 'S'), getBasicPhVal(before, 'S')),
         getBasicPhScore(before, 'I'),
         getBasicPhScore(after, 'I'),
+        getDelta(getBasicPhVal(after, 'I'), getBasicPhVal(before, 'I')),
         getBasicPhScore(before, 'C'),
         getBasicPhScore(after, 'C'),
+        getDelta(getBasicPhVal(after, 'C'), getBasicPhVal(before, 'C')),
         getBasicPhScore(before, 'Ph'),
         getBasicPhScore(after, 'Ph'),
-        // Савченко-Сукач
+        getDelta(getBasicPhVal(after, 'Ph'), getBasicPhVal(before, 'Ph')),
+        getVal(before?.basicPh.totalScore),
+        getVal(after?.basicPh.totalScore),
+        getDelta(after?.basicPh.totalScore, before?.basicPh.totalScore),
+        // Савченко-Сукач (3 categories + total)
         getVal(before?.personalResource.sufficiency.score),
         getVal(after?.personalResource.sufficiency.score),
+        getDelta(
+          after?.personalResource.sufficiency.score,
+          before?.personalResource.sufficiency.score
+        ),
         getVal(before?.personalResource.copingStrategies.score),
         getVal(after?.personalResource.copingStrategies.score),
+        getDelta(
+          after?.personalResource.copingStrategies.score,
+          before?.personalResource.copingStrategies.score
+        ),
         getVal(before?.personalResource.emotionalExhaustion.score),
         getVal(after?.personalResource.emotionalExhaustion.score),
-        // Ryff
+        getDelta(
+          after?.personalResource.emotionalExhaustion.score,
+          before?.personalResource.emotionalExhaustion.score
+        ),
+        getVal(before?.personalResource.totalScore),
+        getVal(after?.personalResource.totalScore),
+        getDelta(
+          after?.personalResource.totalScore,
+          before?.personalResource.totalScore
+        ),
+        // Ryff (6 categories + total)
         getVal(before?.ryff.relationships.score),
         getVal(after?.ryff.relationships.score),
+        getDelta(
+          after?.ryff.relationships.score,
+          before?.ryff.relationships.score
+        ),
         getVal(before?.ryff.autonomy.score),
         getVal(after?.ryff.autonomy.score),
+        getDelta(after?.ryff.autonomy.score, before?.ryff.autonomy.score),
         getVal(before?.ryff.environment.score),
         getVal(after?.ryff.environment.score),
+        getDelta(after?.ryff.environment.score, before?.ryff.environment.score),
         getVal(before?.ryff.growth.score),
         getVal(after?.ryff.growth.score),
+        getDelta(after?.ryff.growth.score, before?.ryff.growth.score),
         getVal(before?.ryff.purpose.score),
         getVal(after?.ryff.purpose.score),
+        getDelta(after?.ryff.purpose.score, before?.ryff.purpose.score),
         getVal(before?.ryff.selfAcceptance.score),
         getVal(after?.ryff.selfAcceptance.score),
+        getDelta(
+          after?.ryff.selfAcceptance.score,
+          before?.ryff.selfAcceptance.score
+        ),
+        getVal(before?.ryff.totalScore),
+        getVal(after?.ryff.totalScore),
+        getDelta(after?.ryff.totalScore, before?.ryff.totalScore),
       ];
 
       rows.push(row);
