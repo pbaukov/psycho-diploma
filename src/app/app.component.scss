@@ -2125,3 +2125,48 @@ $basicph-ph-color: #ef4444; // Physical
     background: lighten($border-color, 10%);
   }
 }
+
+// ============================================================================
+// GROUP COMPARISON STYLES
+// ============================================================================
+
+.group-stats {
+  margin-top: 1.5rem;
+  border-top: 2px solid $border-color;
+  padding-top: 1.5rem;
+}
+
+.group-comparison {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+
+  @media (max-width: 900px) {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+}
+
+.group-section {
+  background: $bg-card-hover;
+  border-radius: 12px;
+  padding: 1.5rem;
+  border: 1px solid $border-color;
+}
+
+.group-title {
+  color: $text-primary;
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin: 0 0 1rem 0;
+  padding-bottom: 0.75rem;
+  border-bottom: 2px solid $primary;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+
+  &::before {
+    content: '👥';
+    font-size: 1.2rem;
+  }
+}

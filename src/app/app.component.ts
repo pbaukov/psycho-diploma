@@ -2144,6 +2144,234 @@ export class AppComponent {
   }
 
   // ============================================================================
+  // GROUP-SPECIFIC AVERAGES
+  // ============================================================================
+
+  /**
+   * Helper to filter respondents by group (normalize group values)
+   */
+  private getRespondentsByGroup(groupValue: string | number): Respondent[] {
+    const normalizedGroup = String(groupValue).trim();
+    return this.respondents.filter(
+      (r) => String(r.group || '').trim() === normalizedGroup
+    );
+  }
+
+  // САН Group-specific averages
+  getGroupWellbeing(group: string | number): number {
+    const groupRespondents = this.getRespondentsByGroup(group);
+    if (groupRespondents.length === 0) return 0;
+    const sum = groupRespondents.reduce((acc, r) => acc + r.san.wellbeing, 0);
+    return Math.round((sum / groupRespondents.length) * 100) / 100;
+  }
+
+  getGroupActivity(group: string | number): number {
+    const groupRespondents = this.getRespondentsByGroup(group);
+    if (groupRespondents.length === 0) return 0;
+    const sum = groupRespondents.reduce((acc, r) => acc + r.san.activity, 0);
+    return Math.round((sum / groupRespondents.length) * 100) / 100;
+  }
+
+  getGroupMood(group: string | number): number {
+    const groupRespondents = this.getRespondentsByGroup(group);
+    if (groupRespondents.length === 0) return 0;
+    const sum = groupRespondents.reduce((acc, r) => acc + r.san.mood, 0);
+    return Math.round((sum / groupRespondents.length) * 100) / 100;
+  }
+
+  // Штепа Group-specific averages
+  getGroupShtepaScore(group: string | number): number {
+    const groupRespondents = this.getRespondentsByGroup(group);
+    if (groupRespondents.length === 0) return 0;
+    const sum = groupRespondents.reduce(
+      (acc, r) => acc + r.shtepa.totalScore,
+      0
+    );
+    return Math.round((sum / groupRespondents.length) * 100) / 100;
+  }
+
+  getGroupShtepaLevel(group: string | number): {
+    level: string;
+    class: string;
+  } {
+    const score = this.getGroupShtepaScore(group);
+    if (score <= 56) {
+      return {
+        level: 'Психологічна ресурсність не діагностується',
+        class: 'not-diagnosed',
+      };
+    } else if (score <= 69) {
+      return { level: 'Низький рівень', class: 'low' };
+    } else if (score <= 92) {
+      return { level: 'Середній рівень', class: 'medium' };
+    } else if (score <= 106) {
+      return { level: 'Високий рівень', class: 'high' };
+    } else {
+      return { level: 'Сумнівні дані', class: 'doubtful' };
+    }
+  }
+
+  // Basic Ph Group-specific averages
+  getGroupBasicPhCategory(group: string | number, code: string): number {
+    const groupRespondents = this.getRespondentsByGroup(group);
+    if (groupRespondents.length === 0) return 0;
+    const sum = groupRespondents.reduce((acc, r) => {
+      const cat = r.basicPh.categories.find((c) => c.code === code);
+      return acc + (cat ? cat.score : 0);
+    }, 0);
+    return Math.round((sum / groupRespondents.length) * 100) / 100;
+  }
+
+  getGroupBasicPhTotal(group: string | number): number {
+    const groupRespondents = this.getRespondentsByGroup(group);
+    if (groupRespondents.length === 0) return 0;
+    const sum = groupRespondents.reduce(
+      (acc, r) => acc + r.basicPh.totalScore,
+      0
+    );
+    return Math.round((sum / groupRespondents.length) * 100) / 100;
+  }
+
+  // Personal Resource Group-specific averages
+  getGroupPersonalResourceSufficiency(group: string | number): number {
+    const groupRespondents = this.getRespondentsByGroup(group);
+    if (groupRespondents.length === 0) return 0;
+    const sum = groupRespondents.reduce(
+      (acc, r) => acc + r.personalResource.sufficiency.score,
+      0
+    );
+    return Math.round((sum / groupRespondents.length) * 100) / 100;
+  }
+
+  getGroupPersonalResourceCoping(group: string | number): number {
+    const groupRespondents = this.getRespondentsByGroup(group);
+    if (groupRespondents.length === 0) return 0;
+    const sum = groupRespondents.reduce(
+      (acc, r) => acc + r.personalResource.copingStrategies.score,
+      0
+    );
+    return Math.round((sum / groupRespondents.length) * 100) / 100;
+  }
+
+  getGroupPersonalResourceExhaustion(group: string | number): number {
+    const groupRespondents = this.getRespondentsByGroup(group);
+    if (groupRespondents.length === 0) return 0;
+    const sum = groupRespondents.reduce(
+      (acc, r) => acc + r.personalResource.emotionalExhaustion.score,
+      0
+    );
+    return Math.round((sum / groupRespondents.length) * 100) / 100;
+  }
+
+  getGroupPersonalResourceTotal(group: string | number): number {
+    const groupRespondents = this.getRespondentsByGroup(group);
+    if (groupRespondents.length === 0) return 0;
+    const sum = groupRespondents.reduce(
+      (acc, r) => acc + r.personalResource.totalScore,
+      0
+    );
+    return Math.round((sum / groupRespondents.length) * 100) / 100;
+  }
+
+  getGroupPersonalResourceLevel(group: string | number): {
+    level: string;
+    class: string;
+  } {
+    const score = this.getGroupPersonalResourceTotal(group);
+    if (score < 15) {
+      return { level: 'Низький', class: 'low' };
+    } else if (score <= 30) {
+      return { level: 'Середній', class: 'medium' };
+    } else {
+      return { level: 'Високий', class: 'high' };
+    }
+  }
+
+  // Ryff Group-specific averages
+  getGroupRyffRelationships(group: string | number): number {
+    const groupRespondents = this.getRespondentsByGroup(group);
+    if (groupRespondents.length === 0) return 0;
+    const sum = groupRespondents.reduce(
+      (acc, r) => acc + r.ryff.relationships.score,
+      0
+    );
+    return Math.round((sum / groupRespondents.length) * 100) / 100;
+  }
+
+  getGroupRyffAutonomy(group: string | number): number {
+    const groupRespondents = this.getRespondentsByGroup(group);
+    if (groupRespondents.length === 0) return 0;
+    const sum = groupRespondents.reduce(
+      (acc, r) => acc + r.ryff.autonomy.score,
+      0
+    );
+    return Math.round((sum / groupRespondents.length) * 100) / 100;
+  }
+
+  getGroupRyffEnvironment(group: string | number): number {
+    const groupRespondents = this.getRespondentsByGroup(group);
+    if (groupRespondents.length === 0) return 0;
+    const sum = groupRespondents.reduce(
+      (acc, r) => acc + r.ryff.environment.score,
+      0
+    );
+    return Math.round((sum / groupRespondents.length) * 100) / 100;
+  }
+
+  getGroupRyffGrowth(group: string | number): number {
+    const groupRespondents = this.getRespondentsByGroup(group);
+    if (groupRespondents.length === 0) return 0;
+    const sum = groupRespondents.reduce(
+      (acc, r) => acc + r.ryff.growth.score,
+      0
+    );
+    return Math.round((sum / groupRespondents.length) * 100) / 100;
+  }
+
+  getGroupRyffPurpose(group: string | number): number {
+    const groupRespondents = this.getRespondentsByGroup(group);
+    if (groupRespondents.length === 0) return 0;
+    const sum = groupRespondents.reduce(
+      (acc, r) => acc + r.ryff.purpose.score,
+      0
+    );
+    return Math.round((sum / groupRespondents.length) * 100) / 100;
+  }
+
+  getGroupRyffSelfAcceptance(group: string | number): number {
+    const groupRespondents = this.getRespondentsByGroup(group);
+    if (groupRespondents.length === 0) return 0;
+    const sum = groupRespondents.reduce(
+      (acc, r) => acc + r.ryff.selfAcceptance.score,
+      0
+    );
+    return Math.round((sum / groupRespondents.length) * 100) / 100;
+  }
+
+  getGroupRyffTotal(group: string | number): number {
+    const groupRespondents = this.getRespondentsByGroup(group);
+    if (groupRespondents.length === 0) return 0;
+    const sum = groupRespondents.reduce((acc, r) => acc + r.ryff.totalScore, 0);
+    return Math.round((sum / groupRespondents.length) * 100) / 100;
+  }
+
+  getGroupRyffLevel(group: string | number): { level: string; class: string } {
+    const score = this.getGroupRyffTotal(group);
+    if (score < this.ryffTotalLowThreshold) {
+      return { level: 'Низький', class: 'low' };
+    } else if (score > this.ryffTotalHighThreshold) {
+      return { level: 'Високий', class: 'high' };
+    } else {
+      return { level: 'Середній', class: 'medium' };
+    }
+  }
+
+  // Helper to get group count
+  getGroupCount(group: string | number): number {
+    return this.getRespondentsByGroup(group).length;
+  }
+
+  // ============================================================================
   // RYFF DETAIL MODAL
   // ============================================================================
 
