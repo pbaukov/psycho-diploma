@@ -1010,6 +1010,23 @@ $doubtful-color: #8b5cf6;
   }
 }
 
+.shtepa-categories-detail {
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid $border-color;
+
+  h4 {
+    color: $text-primary;
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+  }
+
+  .category-item {
+    margin-bottom: 0.5rem;
+  }
+}
+
 .category-item {
   display: grid;
   grid-template-columns: 1fr 100px 50px;

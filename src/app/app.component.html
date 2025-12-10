@@ -489,6 +489,24 @@
                   </div>
                 </div>
               </div>
+              <!-- Category Details -->
+              <div class="shtepa-categories-detail">
+                <h4>Середні значення категорій</h4>
+                <div class="category-item" *ngFor="let catDef of shtepaCategories; let idx = index">
+                  <span class="category-name">{{ catDef.name }}</span>
+                  <div class="category-bar-container">
+                    <div
+                      class="category-bar"
+                      [class]="getShtepaScoreClass(getGroupShtepaCategory('1', idx), 8)"
+                      [style.width.%]="(getGroupShtepaCategory('1', idx) / 8) * 100"></div>
+                  </div>
+                  <span
+                    class="category-score"
+                    [class]="getShtepaScoreClass(getGroupShtepaCategory('1', idx), 8)">
+                    {{ getGroupShtepaCategory('1', idx) }}/8
+                  </span>
+                </div>
+              </div>
             </div>
 
             <!-- Group 2 -->
@@ -504,6 +522,24 @@
                   <div class="level-badge" [class]="getGroupShtepaLevel('2').class">
                     {{ getGroupShtepaLevel('2').level }}
                   </div>
+                </div>
+              </div>
+              <!-- Category Details -->
+              <div class="shtepa-categories-detail">
+                <h4>Середні значення категорій</h4>
+                <div class="category-item" *ngFor="let catDef of shtepaCategories; let idx = index">
+                  <span class="category-name">{{ catDef.name }}</span>
+                  <div class="category-bar-container">
+                    <div
+                      class="category-bar"
+                      [class]="getShtepaScoreClass(getGroupShtepaCategory('2', idx), 8)"
+                      [style.width.%]="(getGroupShtepaCategory('2', idx) / 8) * 100"></div>
+                  </div>
+                  <span
+                    class="category-score"
+                    [class]="getShtepaScoreClass(getGroupShtepaCategory('2', idx), 8)">
+                    {{ getGroupShtepaCategory('2', idx) }}/8
+                  </span>
                 </div>
               </div>
             </div>

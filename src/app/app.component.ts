@@ -2407,6 +2407,18 @@ export class AppComponent {
     return Math.round((sum / groupRespondents.length) * 100) / 100;
   }
 
+  getGroupShtepaCategory(
+    group: string | number,
+    categoryIndex: number
+  ): number {
+    const groupRespondents = this.getRespondentsByGroup(group);
+    if (groupRespondents.length === 0) return 0;
+    const sum = groupRespondents.reduce((acc, r) => {
+      return acc + (r.shtepa.categories[categoryIndex]?.score || 0);
+    }, 0);
+    return Math.round((sum / groupRespondents.length) * 100) / 100;
+  }
+
   getGroupShtepaLevel(group: string | number): {
     level: string;
     class: string;
