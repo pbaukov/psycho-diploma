@@ -2570,6 +2570,56 @@ export class AppComponent {
     return Math.round((sum / groupRespondents.length) * 100) / 100;
   }
 
+  getGroupPersonalResourceDistribution(group: string | number): {
+    low: { count: number; percent: number };
+    medium: { count: number; percent: number };
+    high: { count: number; percent: number };
+  } {
+    const groupRespondents = this.getRespondentsByGroup(group);
+    const total = groupRespondents.length;
+
+    if (total === 0) {
+      return {
+        low: { count: 0, percent: 0 },
+        medium: { count: 0, percent: 0 },
+        high: { count: 0, percent: 0 },
+      };
+    }
+
+    const counts = {
+      low: 0,
+      medium: 0,
+      high: 0,
+    };
+
+    groupRespondents.forEach((r) => {
+      const score = r.personalResource.totalScore;
+      if (score <= 14) {
+        counts.low++;
+      } else if (score <= 30) {
+        counts.medium++;
+      } else {
+        counts.high++;
+      }
+    });
+
+    // Return both counts and percentages
+    return {
+      low: {
+        count: counts.low,
+        percent: Math.round((counts.low / total) * 100),
+      },
+      medium: {
+        count: counts.medium,
+        percent: Math.round((counts.medium / total) * 100),
+      },
+      high: {
+        count: counts.high,
+        percent: Math.round((counts.high / total) * 100),
+      },
+    };
+  }
+
   getGroupPersonalResourceLevel(group: string | number): {
     level: string;
     class: string;

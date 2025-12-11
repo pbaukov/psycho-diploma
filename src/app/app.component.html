@@ -1397,6 +1397,86 @@
                   </div>
                 </div>
               </div>
+              <!-- Distribution -->
+              <div class="shtepa-distribution">
+                <h4>Розподіл респондентів за рівнями</h4>
+                <div class="distribution-bars">
+                  <div
+                    class="distribution-item"
+                    *ngIf="
+                      getGroupPersonalResourceDistribution('1').low.count > 0
+                    ">
+                    <div class="distribution-label">
+                      <span class="level-name">Низький</span>
+                      <span class="level-range">(0–14 балів)</span>
+                    </div>
+                    <div class="distribution-bar-container">
+                      <div
+                        class="distribution-bar low"
+                        [style.width.%]="
+                          getGroupPersonalResourceDistribution('1').low.percent
+                        "></div>
+                    </div>
+                    <span class="distribution-percent"
+                      >{{
+                        getGroupPersonalResourceDistribution('1').low.percent
+                      }}% ({{
+                        getGroupPersonalResourceDistribution('1').low.count
+                      }})</span
+                    >
+                  </div>
+                  <div
+                    class="distribution-item"
+                    *ngIf="
+                      getGroupPersonalResourceDistribution('1').medium.count > 0
+                    ">
+                    <div class="distribution-label">
+                      <span class="level-name">Середній</span>
+                      <span class="level-range">(15–30 балів)</span>
+                    </div>
+                    <div class="distribution-bar-container">
+                      <div
+                        class="distribution-bar medium"
+                        [style.width.%]="
+                          getGroupPersonalResourceDistribution('1').medium
+                            .percent
+                        "></div>
+                    </div>
+                    <span class="distribution-percent"
+                      >{{
+                        getGroupPersonalResourceDistribution('1').medium
+                          .percent
+                      }}% ({{
+                        getGroupPersonalResourceDistribution('1').medium.count
+                      }})</span
+                    >
+                  </div>
+                  <div
+                    class="distribution-item"
+                    *ngIf="
+                      getGroupPersonalResourceDistribution('1').high.count > 0
+                    ">
+                    <div class="distribution-label">
+                      <span class="level-name">Високий</span>
+                      <span class="level-range">(31+ балів)</span>
+                    </div>
+                    <div class="distribution-bar-container">
+                      <div
+                        class="distribution-bar high"
+                        [style.width.%]="
+                          getGroupPersonalResourceDistribution('1').high.percent
+                        "></div>
+                    </div>
+                    <span class="distribution-percent"
+                      >{{
+                        getGroupPersonalResourceDistribution('1').high.percent
+                      }}% ({{
+                        getGroupPersonalResourceDistribution('1').high.count
+                      }})</span
+                    >
+                  </div>
+                </div>
+              </div>
             </div>
 
             <!-- Group 2 -->
@@ -1513,6 +1593,86 @@
                       [class]="getGroupPersonalResourceLevel('2').class">
                       {{ getGroupPersonalResourceLevel('2').level }}
                     </span>
+                  </div>
+                </div>
+              </div>
+              <!-- Distribution -->
+              <div class="shtepa-distribution">
+                <h4>Розподіл респондентів за рівнями</h4>
+                <div class="distribution-bars">
+                  <div
+                    class="distribution-item"
+                    *ngIf="
+                      getGroupPersonalResourceDistribution('2').low.count > 0
+                    ">
+                    <div class="distribution-label">
+                      <span class="level-name">Низький</span>
+                      <span class="level-range">(0–14 балів)</span>
+                    </div>
+                    <div class="distribution-bar-container">
+                      <div
+                        class="distribution-bar low"
+                        [style.width.%]="
+                          getGroupPersonalResourceDistribution('2').low.percent
+                        "></div>
+                    </div>
+                    <span class="distribution-percent"
+                      >{{
+                        getGroupPersonalResourceDistribution('2').low.percent
+                      }}% ({{
+                        getGroupPersonalResourceDistribution('2').low.count
+                      }})</span
+                    >
+                  </div>
+                  <div
+                    class="distribution-item"
+                    *ngIf="
+                      getGroupPersonalResourceDistribution('2').medium.count > 0
+                    ">
+                    <div class="distribution-label">
+                      <span class="level-name">Середній</span>
+                      <span class="level-range">(15–30 балів)</span>
+                    </div>
+                    <div class="distribution-bar-container">
+                      <div
+                        class="distribution-bar medium"
+                        [style.width.%]="
+                          getGroupPersonalResourceDistribution('2').medium
+                            .percent
+                        "></div>
+                    </div>
+                    <span class="distribution-percent"
+                      >{{
+                        getGroupPersonalResourceDistribution('2').medium
+                          .percent
+                      }}% ({{
+                        getGroupPersonalResourceDistribution('2').medium.count
+                      }})</span
+                    >
+                  </div>
+                  <div
+                    class="distribution-item"
+                    *ngIf="
+                      getGroupPersonalResourceDistribution('2').high.count > 0
+                    ">
+                    <div class="distribution-label">
+                      <span class="level-name">Високий</span>
+                      <span class="level-range">(31+ балів)</span>
+                    </div>
+                    <div class="distribution-bar-container">
+                      <div
+                        class="distribution-bar high"
+                        [style.width.%]="
+                          getGroupPersonalResourceDistribution('2').high.percent
+                        "></div>
+                    </div>
+                    <span class="distribution-percent"
+                      >{{
+                        getGroupPersonalResourceDistribution('2').high.percent
+                      }}% ({{
+                        getGroupPersonalResourceDistribution('2').high.count
+                      }})</span
+                    >
                   </div>
                 </div>
               </div>
