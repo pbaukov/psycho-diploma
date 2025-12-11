@@ -2254,6 +2254,72 @@
                   </div>
                 </div>
               </div>
+              <!-- Distribution -->
+              <div class="shtepa-distribution">
+                <h4>Розподіл респондентів за рівнями</h4>
+                <div class="distribution-bars">
+                  <div
+                    class="distribution-item"
+                    *ngIf="getGroupRyffDistribution('1').low.count > 0">
+                    <div class="distribution-label">
+                      <span class="level-name">Низький</span>
+                      <span class="level-range">(&lt;314 балів)</span>
+                    </div>
+                    <div class="distribution-bar-container">
+                      <div
+                        class="distribution-bar low"
+                        [style.width.%]="
+                          getGroupRyffDistribution('1').low.percent
+                        "></div>
+                    </div>
+                    <span class="distribution-percent"
+                      >{{ getGroupRyffDistribution('1').low.percent }}% ({{
+                        getGroupRyffDistribution('1').low.count
+                      }})</span
+                    >
+                  </div>
+                  <div
+                    class="distribution-item"
+                    *ngIf="getGroupRyffDistribution('1').medium.count > 0">
+                    <div class="distribution-label">
+                      <span class="level-name">Середній</span>
+                      <span class="level-range">(315–413 балів)</span>
+                    </div>
+                    <div class="distribution-bar-container">
+                      <div
+                        class="distribution-bar medium"
+                        [style.width.%]="
+                          getGroupRyffDistribution('1').medium.percent
+                        "></div>
+                    </div>
+                    <span class="distribution-percent"
+                      >{{ getGroupRyffDistribution('1').medium.percent }}% ({{
+                        getGroupRyffDistribution('1').medium.count
+                      }})</span
+                    >
+                  </div>
+                  <div
+                    class="distribution-item"
+                    *ngIf="getGroupRyffDistribution('1').high.count > 0">
+                    <div class="distribution-label">
+                      <span class="level-name">Високий</span>
+                      <span class="level-range">(≥414 балів)</span>
+                    </div>
+                    <div class="distribution-bar-container">
+                      <div
+                        class="distribution-bar high"
+                        [style.width.%]="
+                          getGroupRyffDistribution('1').high.percent
+                        "></div>
+                    </div>
+                    <span class="distribution-percent"
+                      >{{ getGroupRyffDistribution('1').high.percent }}% ({{
+                        getGroupRyffDistribution('1').high.count
+                      }})</span
+                    >
+                  </div>
+                </div>
+              </div>
             </div>
 
             <!-- Group 2 -->
@@ -2462,6 +2528,72 @@
                       [class]="getGroupRyffLevel('2').class">
                       {{ getGroupRyffLevel('2').level }}
                     </span>
+                  </div>
+                </div>
+              </div>
+              <!-- Distribution -->
+              <div class="shtepa-distribution">
+                <h4>Розподіл респондентів за рівнями</h4>
+                <div class="distribution-bars">
+                  <div
+                    class="distribution-item"
+                    *ngIf="getGroupRyffDistribution('2').low.count > 0">
+                    <div class="distribution-label">
+                      <span class="level-name">Низький</span>
+                      <span class="level-range">(&lt;314 балів)</span>
+                    </div>
+                    <div class="distribution-bar-container">
+                      <div
+                        class="distribution-bar low"
+                        [style.width.%]="
+                          getGroupRyffDistribution('2').low.percent
+                        "></div>
+                    </div>
+                    <span class="distribution-percent"
+                      >{{ getGroupRyffDistribution('2').low.percent }}% ({{
+                        getGroupRyffDistribution('2').low.count
+                      }})</span
+                    >
+                  </div>
+                  <div
+                    class="distribution-item"
+                    *ngIf="getGroupRyffDistribution('2').medium.count > 0">
+                    <div class="distribution-label">
+                      <span class="level-name">Середній</span>
+                      <span class="level-range">(315–413 балів)</span>
+                    </div>
+                    <div class="distribution-bar-container">
+                      <div
+                        class="distribution-bar medium"
+                        [style.width.%]="
+                          getGroupRyffDistribution('2').medium.percent
+                        "></div>
+                    </div>
+                    <span class="distribution-percent"
+                      >{{ getGroupRyffDistribution('2').medium.percent }}% ({{
+                        getGroupRyffDistribution('2').medium.count
+                      }})</span
+                    >
+                  </div>
+                  <div
+                    class="distribution-item"
+                    *ngIf="getGroupRyffDistribution('2').high.count > 0">
+                    <div class="distribution-label">
+                      <span class="level-name">Високий</span>
+                      <span class="level-range">(≥414 балів)</span>
+                    </div>
+                    <div class="distribution-bar-container">
+                      <div
+                        class="distribution-bar high"
+                        [style.width.%]="
+                          getGroupRyffDistribution('2').high.percent
+                        "></div>
+                    </div>
+                    <span class="distribution-percent"
+                      >{{ getGroupRyffDistribution('2').high.percent }}% ({{
+                        getGroupRyffDistribution('2').high.count
+                      }})</span
+                    >
                   </div>
                 </div>
               </div>

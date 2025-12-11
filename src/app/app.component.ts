@@ -2713,6 +2713,56 @@ export class AppComponent {
     }
   }
 
+  getGroupRyffDistribution(group: string | number): {
+    low: { count: number; percent: number };
+    medium: { count: number; percent: number };
+    high: { count: number; percent: number };
+  } {
+    const groupRespondents = this.getRespondentsByGroup(group);
+    const total = groupRespondents.length;
+
+    if (total === 0) {
+      return {
+        low: { count: 0, percent: 0 },
+        medium: { count: 0, percent: 0 },
+        high: { count: 0, percent: 0 },
+      };
+    }
+
+    const counts = {
+      low: 0,
+      medium: 0,
+      high: 0,
+    };
+
+    groupRespondents.forEach((r) => {
+      const score = r.ryff.totalScore;
+      if (score < 314) {
+        counts.low++;
+      } else if (score <= 413) {
+        counts.medium++;
+      } else {
+        counts.high++;
+      }
+    });
+
+    // Return both counts and percentages
+    return {
+      low: {
+        count: counts.low,
+        percent: Math.round((counts.low / total) * 100),
+      },
+      medium: {
+        count: counts.medium,
+        percent: Math.round((counts.medium / total) * 100),
+      },
+      high: {
+        count: counts.high,
+        percent: Math.round((counts.high / total) * 100),
+      },
+    };
+  }
+
   // Helper to get group count
   getGroupCount(group: string | number): number {
     return this.getRespondentsByGroup(group).length;
