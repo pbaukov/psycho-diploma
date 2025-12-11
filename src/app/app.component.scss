@@ -1010,6 +1010,103 @@ $doubtful-color: #8b5cf6;
   }
 }
 
+.shtepa-distribution {
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid $border-color;
+
+  h4 {
+    color: $text-primary;
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+  }
+}
+
+.distribution-bars {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.distribution-item {
+  display: grid;
+  grid-template-columns: 200px 1fr 100px;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.75rem;
+  background: $bg-card-hover;
+  border-radius: 8px;
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+  }
+}
+
+.distribution-label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+
+  .level-name {
+    font-weight: 600;
+    color: $text-primary;
+    font-size: 0.9rem;
+  }
+
+  .level-range {
+    font-size: 0.75rem;
+    color: $text-secondary;
+  }
+}
+
+.distribution-bar-container {
+  height: 24px;
+  background: rgba(white, 0.05);
+  border-radius: 12px;
+  overflow: hidden;
+  position: relative;
+}
+
+.distribution-bar {
+  height: 100%;
+  border-radius: 12px;
+  transition: width 0.5s ease;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding-right: 0.5rem;
+
+  &.not-diagnosed {
+    background: linear-gradient(90deg, $not-diagnosed-color, lighten($not-diagnosed-color, 10%));
+  }
+  &.low {
+    background: linear-gradient(90deg, $low-color, lighten($low-color, 10%));
+  }
+  &.medium {
+    background: linear-gradient(90deg, $medium-color, lighten($medium-color, 10%));
+  }
+  &.high {
+    background: linear-gradient(90deg, $high-color, lighten($high-color, 10%));
+  }
+  &.doubtful {
+    background: linear-gradient(90deg, $doubtful-color, lighten($doubtful-color, 10%));
+  }
+}
+
+.distribution-percent {
+  text-align: right;
+  font-weight: 700;
+  font-size: 1rem;
+  color: $text-primary;
+
+  @media (max-width: 768px) {
+    text-align: left;
+    margin-left: 0.75rem;
+  }
+}
+
 .shtepa-categories-detail {
   margin-top: 1.5rem;
   padding-top: 1.5rem;

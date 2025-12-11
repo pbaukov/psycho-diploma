@@ -2440,6 +2440,74 @@ export class AppComponent {
     }
   }
 
+  getGroupShtepaDistribution(group: string | number): {
+    notDiagnosed: { count: number; percent: number };
+    low: { count: number; percent: number };
+    medium: { count: number; percent: number };
+    high: { count: number; percent: number };
+    doubtful: { count: number; percent: number };
+  } {
+    const groupRespondents = this.getRespondentsByGroup(group);
+    const total = groupRespondents.length;
+
+    if (total === 0) {
+      return {
+        notDiagnosed: { count: 0, percent: 0 },
+        low: { count: 0, percent: 0 },
+        medium: { count: 0, percent: 0 },
+        high: { count: 0, percent: 0 },
+        doubtful: { count: 0, percent: 0 },
+      };
+    }
+
+    const counts = {
+      notDiagnosed: 0,
+      low: 0,
+      medium: 0,
+      high: 0,
+      doubtful: 0,
+    };
+
+    groupRespondents.forEach((r) => {
+      const score = r.shtepa.totalScore;
+      if (score <= 56) {
+        counts.notDiagnosed++;
+      } else if (score <= 69) {
+        counts.low++;
+      } else if (score <= 92) {
+        counts.medium++;
+      } else if (score <= 106) {
+        counts.high++;
+      } else {
+        counts.doubtful++;
+      }
+    });
+
+    // Return both counts and percentages
+    return {
+      notDiagnosed: {
+        count: counts.notDiagnosed,
+        percent: Math.round((counts.notDiagnosed / total) * 100),
+      },
+      low: {
+        count: counts.low,
+        percent: Math.round((counts.low / total) * 100),
+      },
+      medium: {
+        count: counts.medium,
+        percent: Math.round((counts.medium / total) * 100),
+      },
+      high: {
+        count: counts.high,
+        percent: Math.round((counts.high / total) * 100),
+      },
+      doubtful: {
+        count: counts.doubtful,
+        percent: Math.round((counts.doubtful / total) * 100),
+      },
+    };
+  }
+
   // Basic Ph Group-specific averages
   getGroupBasicPhCategory(group: string | number, code: string): number {
     const groupRespondents = this.getRespondentsByGroup(group);

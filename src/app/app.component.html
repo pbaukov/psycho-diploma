@@ -20,9 +20,20 @@
           (dragover)="onDragOver($event, 'before')"
           (dragleave)="onDragLeave($event, 'before')"
           (drop)="onDrop($event, 'before')">
-          <div class="upload-content" *ngIf="!isLoadingBefore && !hasBeforeData">
+          <div
+            class="upload-content"
+            *ngIf="!isLoadingBefore && !hasBeforeData">
             <div class="upload-icon">
-              <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="40"
+                height="40"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round">
                 <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
                 <polyline points="17 8 12 3 7 8" />
                 <line x1="12" y1="3" x2="12" y2="15" />
@@ -32,14 +43,22 @@
             <span class="upload-divider">або</span>
             <label class="upload-button">
               Обрати файл
-              <input type="file" accept=".csv" (change)="onFileSelected($event, 'before')" hidden />
+              <input
+                type="file"
+                accept=".csv"
+                (change)="onFileSelected($event, 'before')"
+                hidden />
             </label>
           </div>
           <div class="upload-success" *ngIf="hasBeforeData && !isLoadingBefore">
             <div class="success-icon">✓</div>
             <p class="success-filename">{{ beforeFileName }}</p>
-            <p class="success-count">{{ beforeRespondents.length }} респондентів</p>
-            <button class="clear-file-btn" (click)="clearData('before')">Змінити файл</button>
+            <p class="success-count">
+              {{ beforeRespondents.length }} респондентів
+            </p>
+            <button class="clear-file-btn" (click)="clearData('before')">
+              Змінити файл
+            </button>
           </div>
           <div class="loading-content" *ngIf="isLoadingBefore">
             <div class="spinner"></div>
@@ -47,7 +66,16 @@
           </div>
         </div>
         <div class="error-message" *ngIf="errorMessageBefore">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round">
             <circle cx="12" cy="12" r="10" />
             <line x1="12" y1="8" x2="12" y2="12" />
             <line x1="12" y1="16" x2="12.01" y2="16" />
@@ -71,7 +99,16 @@
           (drop)="onDrop($event, 'after')">
           <div class="upload-content" *ngIf="!isLoadingAfter && !hasAfterData">
             <div class="upload-icon">
-              <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="40"
+                height="40"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round">
                 <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
                 <polyline points="17 8 12 3 7 8" />
                 <line x1="12" y1="3" x2="12" y2="15" />
@@ -81,14 +118,22 @@
             <span class="upload-divider">або</span>
             <label class="upload-button">
               Обрати файл
-              <input type="file" accept=".csv" (change)="onFileSelected($event, 'after')" hidden />
+              <input
+                type="file"
+                accept=".csv"
+                (change)="onFileSelected($event, 'after')"
+                hidden />
             </label>
           </div>
           <div class="upload-success" *ngIf="hasAfterData && !isLoadingAfter">
             <div class="success-icon">✓</div>
             <p class="success-filename">{{ afterFileName }}</p>
-            <p class="success-count">{{ afterRespondents.length }} респондентів</p>
-            <button class="clear-file-btn" (click)="clearData('after')">Змінити файл</button>
+            <p class="success-count">
+              {{ afterRespondents.length }} респондентів
+            </p>
+            <button class="clear-file-btn" (click)="clearData('after')">
+              Змінити файл
+            </button>
           </div>
           <div class="loading-content" *ngIf="isLoadingAfter">
             <div class="spinner"></div>
@@ -96,7 +141,16 @@
           </div>
         </div>
         <div class="error-message" *ngIf="errorMessageAfter">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round">
             <circle cx="12" cy="12" r="10" />
             <line x1="12" y1="8" x2="12" y2="12" />
             <line x1="12" y1="16" x2="12.01" y2="16" />
@@ -107,7 +161,9 @@
     </div>
 
     <!-- Hint when only one file is uploaded -->
-    <div class="continue-section" *ngIf="hasAnyData && (!hasBeforeData || !hasAfterData)">
+    <div
+      class="continue-section"
+      *ngIf="hasAnyData && (!hasBeforeData || !hasAfterData)">
       <p class="continue-hint">
         Завантажте обидва файли для повного порівняння результатів
       </p>
@@ -125,9 +181,15 @@
           (click)="setActiveDataset('before')">
           <span class="dataset-icon">📋</span>
           <span class="dataset-label">ДО</span>
-          <span class="dataset-filename" *ngIf="hasBeforeData">{{ beforeFileName }}</span>
-          <span class="dataset-count" *ngIf="hasBeforeData">{{ beforeRespondents.length }}</span>
-          <span class="no-data-hint" *ngIf="!hasBeforeData">Не завантажено</span>
+          <span class="dataset-filename" *ngIf="hasBeforeData">{{
+            beforeFileName
+          }}</span>
+          <span class="dataset-count" *ngIf="hasBeforeData">{{
+            beforeRespondents.length
+          }}</span>
+          <span class="no-data-hint" *ngIf="!hasBeforeData"
+            >Не завантажено</span
+          >
         </button>
         <button
           class="dataset-btn after-btn"
@@ -137,8 +199,12 @@
           (click)="setActiveDataset('after')">
           <span class="dataset-icon">📊</span>
           <span class="dataset-label">ПІСЛЯ</span>
-          <span class="dataset-filename" *ngIf="hasAfterData">{{ afterFileName }}</span>
-          <span class="dataset-count" *ngIf="hasAfterData">{{ afterRespondents.length }}</span>
+          <span class="dataset-filename" *ngIf="hasAfterData">{{
+            afterFileName
+          }}</span>
+          <span class="dataset-count" *ngIf="hasAfterData">{{
+            afterRespondents.length
+          }}</span>
           <span class="no-data-hint" *ngIf="!hasAfterData">Не завантажено</span>
         </button>
       </div>
@@ -162,7 +228,9 @@
           </svg>
           Експорт для SPSS (CSV)
         </button>
-        <span class="export-hint">Об'єднані дані "до" та "після" для статистичного аналізу</span>
+        <span class="export-hint"
+          >Об'єднані дані "до" та "після" для статистичного аналізу</span
+        >
       </div>
 
       <!-- Header with file info -->
@@ -189,7 +257,9 @@
             <polyline points="10 9 9 9 8 9" />
           </svg>
           <span class="file-name">{{ fileName }}</span>
-          <span class="respondent-count">{{ respondents.length }} респондентів</span>
+          <span class="respondent-count"
+            >{{ respondents.length }} респондентів</span
+          >
         </div>
         <button class="clear-button" (click)="clearData()">
           <svg
@@ -295,7 +365,9 @@
         </div>
 
         <!-- Group-Specific Statistics -->
-        <div class="overall-stats group-stats" *ngIf="getGroupCount('1') > 0 || getGroupCount('2') > 0">
+        <div
+          class="overall-stats group-stats"
+          *ngIf="getGroupCount('1') > 0 || getGroupCount('2') > 0">
           <h2>Показники САН за групами</h2>
           <div class="group-comparison">
             <!-- Group 1 -->
@@ -304,29 +376,43 @@
               <div class="stats-grid">
                 <div class="stat-card wellbeing">
                   <div class="stat-label">Самопочуття</div>
-                  <div class="stat-value" [class]="getSanScaleClass(getGroupWellbeing('1'))">
+                  <div
+                    class="stat-value"
+                    [class]="getSanScaleClass(getGroupWellbeing('1'))">
                     {{ getGroupWellbeing('1') }}
                   </div>
                   <div class="stat-bar">
-                    <div class="stat-bar-fill" [style.width.%]="(getGroupWellbeing('1') / 7) * 100"></div>
+                    <div
+                      class="stat-bar-fill"
+                      [style.width.%]="
+                        (getGroupWellbeing('1') / 7) * 100
+                      "></div>
                   </div>
                 </div>
                 <div class="stat-card activity">
                   <div class="stat-label">Активність</div>
-                  <div class="stat-value" [class]="getSanScaleClass(getGroupActivity('1'))">
+                  <div
+                    class="stat-value"
+                    [class]="getSanScaleClass(getGroupActivity('1'))">
                     {{ getGroupActivity('1') }}
                   </div>
                   <div class="stat-bar">
-                    <div class="stat-bar-fill" [style.width.%]="(getGroupActivity('1') / 7) * 100"></div>
+                    <div
+                      class="stat-bar-fill"
+                      [style.width.%]="(getGroupActivity('1') / 7) * 100"></div>
                   </div>
                 </div>
                 <div class="stat-card mood">
                   <div class="stat-label">Настрій</div>
-                  <div class="stat-value" [class]="getSanScaleClass(getGroupMood('1'))">
+                  <div
+                    class="stat-value"
+                    [class]="getSanScaleClass(getGroupMood('1'))">
                     {{ getGroupMood('1') }}
                   </div>
                   <div class="stat-bar">
-                    <div class="stat-bar-fill" [style.width.%]="(getGroupMood('1') / 7) * 100"></div>
+                    <div
+                      class="stat-bar-fill"
+                      [style.width.%]="(getGroupMood('1') / 7) * 100"></div>
                   </div>
                 </div>
               </div>
@@ -338,29 +424,43 @@
               <div class="stats-grid">
                 <div class="stat-card wellbeing">
                   <div class="stat-label">Самопочуття</div>
-                  <div class="stat-value" [class]="getSanScaleClass(getGroupWellbeing('2'))">
+                  <div
+                    class="stat-value"
+                    [class]="getSanScaleClass(getGroupWellbeing('2'))">
                     {{ getGroupWellbeing('2') }}
                   </div>
                   <div class="stat-bar">
-                    <div class="stat-bar-fill" [style.width.%]="(getGroupWellbeing('2') / 7) * 100"></div>
+                    <div
+                      class="stat-bar-fill"
+                      [style.width.%]="
+                        (getGroupWellbeing('2') / 7) * 100
+                      "></div>
                   </div>
                 </div>
                 <div class="stat-card activity">
                   <div class="stat-label">Активність</div>
-                  <div class="stat-value" [class]="getSanScaleClass(getGroupActivity('2'))">
+                  <div
+                    class="stat-value"
+                    [class]="getSanScaleClass(getGroupActivity('2'))">
                     {{ getGroupActivity('2') }}
                   </div>
                   <div class="stat-bar">
-                    <div class="stat-bar-fill" [style.width.%]="(getGroupActivity('2') / 7) * 100"></div>
+                    <div
+                      class="stat-bar-fill"
+                      [style.width.%]="(getGroupActivity('2') / 7) * 100"></div>
                   </div>
                 </div>
                 <div class="stat-card mood">
                   <div class="stat-label">Настрій</div>
-                  <div class="stat-value" [class]="getSanScaleClass(getGroupMood('2'))">
+                  <div
+                    class="stat-value"
+                    [class]="getSanScaleClass(getGroupMood('2'))">
                     {{ getGroupMood('2') }}
                   </div>
                   <div class="stat-bar">
-                    <div class="stat-bar-fill" [style.width.%]="(getGroupMood('2') / 7) * 100"></div>
+                    <div
+                      class="stat-bar-fill"
+                      [style.width.%]="(getGroupMood('2') / 7) * 100"></div>
                   </div>
                 </div>
               </div>
@@ -471,7 +571,9 @@
         </div>
 
         <!-- Group-Specific Штепа Statistics -->
-        <div class="overall-stats shtepa-stats group-stats" *ngIf="getGroupCount('1') > 0 || getGroupCount('2') > 0">
+        <div
+          class="overall-stats shtepa-stats group-stats"
+          *ngIf="getGroupCount('1') > 0 || getGroupCount('2') > 0">
           <h2>Показники психологічної ресурсності за групами</h2>
           <div class="group-comparison">
             <!-- Group 1 -->
@@ -480,29 +582,152 @@
               <div class="shtepa-overall">
                 <div class="shtepa-total-card">
                   <div class="stat-label">Загальний рівень</div>
-                  <div class="stat-value large" [class]="getGroupShtepaLevel('1').class">
+                  <div
+                    class="stat-value large"
+                    [class]="getGroupShtepaLevel('1').class">
                     {{ getGroupShtepaScore('1') }}
                   </div>
                   <div class="stat-sublabel">балів (середнє)</div>
-                  <div class="level-badge" [class]="getGroupShtepaLevel('1').class">
+                  <div
+                    class="level-badge"
+                    [class]="getGroupShtepaLevel('1').class">
                     {{ getGroupShtepaLevel('1').level }}
+                  </div>
+                </div>
+              </div>
+              <!-- Distribution -->
+              <div class="shtepa-distribution">
+                <h4>Розподіл респондентів за рівнями</h4>
+                <div class="distribution-bars">
+                  <div
+                    class="distribution-item"
+                    *ngIf="
+                      getGroupShtepaDistribution('1').notDiagnosed.count > 0
+                    ">
+                    <div class="distribution-label">
+                      <span class="level-name">Не діагностується</span>
+                      <span class="level-range">(0–56 балів)</span>
+                    </div>
+                    <div class="distribution-bar-container">
+                      <div
+                        class="distribution-bar not-diagnosed"
+                        [style.width.%]="
+                          getGroupShtepaDistribution('1').notDiagnosed.percent
+                        "></div>
+                    </div>
+                    <span class="distribution-percent"
+                      >{{
+                        getGroupShtepaDistribution('1').notDiagnosed.percent
+                      }}% ({{
+                        getGroupShtepaDistribution('1').notDiagnosed.count
+                      }})</span
+                    >
+                  </div>
+                  <div
+                    class="distribution-item"
+                    *ngIf="getGroupShtepaDistribution('1').low.count > 0">
+                    <div class="distribution-label">
+                      <span class="level-name">Низький</span>
+                      <span class="level-range">(57–69 балів)</span>
+                    </div>
+                    <div class="distribution-bar-container">
+                      <div
+                        class="distribution-bar low"
+                        [style.width.%]="
+                          getGroupShtepaDistribution('1').low.percent
+                        "></div>
+                    </div>
+                    <span class="distribution-percent"
+                      >{{ getGroupShtepaDistribution('1').low.percent }}% ({{
+                        getGroupShtepaDistribution('1').low.count
+                      }})</span
+                    >
+                  </div>
+                  <div
+                    class="distribution-item"
+                    *ngIf="getGroupShtepaDistribution('1').medium.count > 0">
+                    <div class="distribution-label">
+                      <span class="level-name">Середній</span>
+                      <span class="level-range">(70–92 балів)</span>
+                    </div>
+                    <div class="distribution-bar-container">
+                      <div
+                        class="distribution-bar medium"
+                        [style.width.%]="
+                          getGroupShtepaDistribution('1').medium.percent
+                        "></div>
+                    </div>
+                    <span class="distribution-percent"
+                      >{{ getGroupShtepaDistribution('1').medium.percent }}% ({{
+                        getGroupShtepaDistribution('1').medium.count
+                      }})</span
+                    >
+                  </div>
+                  <div
+                    class="distribution-item"
+                    *ngIf="getGroupShtepaDistribution('1').high.count > 0">
+                    <div class="distribution-label">
+                      <span class="level-name">Високий</span>
+                      <span class="level-range">(93–106 балів)</span>
+                    </div>
+                    <div class="distribution-bar-container">
+                      <div
+                        class="distribution-bar high"
+                        [style.width.%]="
+                          getGroupShtepaDistribution('1').high.percent
+                        "></div>
+                    </div>
+                    <span class="distribution-percent"
+                      >{{ getGroupShtepaDistribution('1').high.percent }}% ({{
+                        getGroupShtepaDistribution('1').high.count
+                      }})</span
+                    >
+                  </div>
+                  <div
+                    class="distribution-item"
+                    *ngIf="getGroupShtepaDistribution('1').doubtful.count > 0">
+                    <div class="distribution-label">
+                      <span class="level-name">Сумнівні дані</span>
+                      <span class="level-range">(107–112 балів)</span>
+                    </div>
+                    <div class="distribution-bar-container">
+                      <div
+                        class="distribution-bar doubtful"
+                        [style.width.%]="
+                          getGroupShtepaDistribution('1').doubtful.percent
+                        "></div>
+                    </div>
+                    <span class="distribution-percent"
+                      >{{ getGroupShtepaDistribution('1').doubtful.percent }}%
+                      ({{
+                        getGroupShtepaDistribution('1').doubtful.count
+                      }})</span
+                    >
                   </div>
                 </div>
               </div>
               <!-- Category Details -->
               <div class="shtepa-categories-detail">
                 <h4>Середні значення категорій</h4>
-                <div class="category-item" *ngFor="let catDef of shtepaCategories; let idx = index">
+                <div
+                  class="category-item"
+                  *ngFor="let catDef of shtepaCategories; let idx = index">
                   <span class="category-name">{{ catDef.name }}</span>
                   <div class="category-bar-container">
                     <div
                       class="category-bar"
-                      [class]="getShtepaScoreClass(getGroupShtepaCategory('1', idx), 8)"
-                      [style.width.%]="(getGroupShtepaCategory('1', idx) / 8) * 100"></div>
+                      [class]="
+                        getShtepaScoreClass(getGroupShtepaCategory('1', idx), 8)
+                      "
+                      [style.width.%]="
+                        (getGroupShtepaCategory('1', idx) / 8) * 100
+                      "></div>
                   </div>
                   <span
                     class="category-score"
-                    [class]="getShtepaScoreClass(getGroupShtepaCategory('1', idx), 8)">
+                    [class]="
+                      getShtepaScoreClass(getGroupShtepaCategory('1', idx), 8)
+                    ">
                     {{ getGroupShtepaCategory('1', idx) }}/8
                   </span>
                 </div>
@@ -515,29 +740,152 @@
               <div class="shtepa-overall">
                 <div class="shtepa-total-card">
                   <div class="stat-label">Загальний рівень</div>
-                  <div class="stat-value large" [class]="getGroupShtepaLevel('2').class">
+                  <div
+                    class="stat-value large"
+                    [class]="getGroupShtepaLevel('2').class">
                     {{ getGroupShtepaScore('2') }}
                   </div>
                   <div class="stat-sublabel">балів (середнє)</div>
-                  <div class="level-badge" [class]="getGroupShtepaLevel('2').class">
+                  <div
+                    class="level-badge"
+                    [class]="getGroupShtepaLevel('2').class">
                     {{ getGroupShtepaLevel('2').level }}
+                  </div>
+                </div>
+              </div>
+              <!-- Distribution -->
+              <div class="shtepa-distribution">
+                <h4>Розподіл респондентів за рівнями</h4>
+                <div class="distribution-bars">
+                  <div
+                    class="distribution-item"
+                    *ngIf="
+                      getGroupShtepaDistribution('2').notDiagnosed.count > 0
+                    ">
+                    <div class="distribution-label">
+                      <span class="level-name">Не діагностується</span>
+                      <span class="level-range">(0–56 балів)</span>
+                    </div>
+                    <div class="distribution-bar-container">
+                      <div
+                        class="distribution-bar not-diagnosed"
+                        [style.width.%]="
+                          getGroupShtepaDistribution('2').notDiagnosed.percent
+                        "></div>
+                    </div>
+                    <span class="distribution-percent"
+                      >{{
+                        getGroupShtepaDistribution('2').notDiagnosed.percent
+                      }}% ({{
+                        getGroupShtepaDistribution('2').notDiagnosed.count
+                      }})</span
+                    >
+                  </div>
+                  <div
+                    class="distribution-item"
+                    *ngIf="getGroupShtepaDistribution('2').low.count > 0">
+                    <div class="distribution-label">
+                      <span class="level-name">Низький</span>
+                      <span class="level-range">(57–69 балів)</span>
+                    </div>
+                    <div class="distribution-bar-container">
+                      <div
+                        class="distribution-bar low"
+                        [style.width.%]="
+                          getGroupShtepaDistribution('2').low.percent
+                        "></div>
+                    </div>
+                    <span class="distribution-percent"
+                      >{{ getGroupShtepaDistribution('2').low.percent }}% ({{
+                        getGroupShtepaDistribution('2').low.count
+                      }})</span
+                    >
+                  </div>
+                  <div
+                    class="distribution-item"
+                    *ngIf="getGroupShtepaDistribution('2').medium.count > 0">
+                    <div class="distribution-label">
+                      <span class="level-name">Середній</span>
+                      <span class="level-range">(70–92 балів)</span>
+                    </div>
+                    <div class="distribution-bar-container">
+                      <div
+                        class="distribution-bar medium"
+                        [style.width.%]="
+                          getGroupShtepaDistribution('2').medium.percent
+                        "></div>
+                    </div>
+                    <span class="distribution-percent"
+                      >{{ getGroupShtepaDistribution('2').medium.percent }}% ({{
+                        getGroupShtepaDistribution('2').medium.count
+                      }})</span
+                    >
+                  </div>
+                  <div
+                    class="distribution-item"
+                    *ngIf="getGroupShtepaDistribution('2').high.count > 0">
+                    <div class="distribution-label">
+                      <span class="level-name">Високий</span>
+                      <span class="level-range">(93–106 балів)</span>
+                    </div>
+                    <div class="distribution-bar-container">
+                      <div
+                        class="distribution-bar high"
+                        [style.width.%]="
+                          getGroupShtepaDistribution('2').high.percent
+                        "></div>
+                    </div>
+                    <span class="distribution-percent"
+                      >{{ getGroupShtepaDistribution('2').high.percent }}% ({{
+                        getGroupShtepaDistribution('2').high.count
+                      }})</span
+                    >
+                  </div>
+                  <div
+                    class="distribution-item"
+                    *ngIf="getGroupShtepaDistribution('2').doubtful.count > 0">
+                    <div class="distribution-label">
+                      <span class="level-name">Сумнівні дані</span>
+                      <span class="level-range">(107–112 балів)</span>
+                    </div>
+                    <div class="distribution-bar-container">
+                      <div
+                        class="distribution-bar doubtful"
+                        [style.width.%]="
+                          getGroupShtepaDistribution('2').doubtful.percent
+                        "></div>
+                    </div>
+                    <span class="distribution-percent"
+                      >{{ getGroupShtepaDistribution('2').doubtful.percent }}%
+                      ({{
+                        getGroupShtepaDistribution('2').doubtful.count
+                      }})</span
+                    >
                   </div>
                 </div>
               </div>
               <!-- Category Details -->
               <div class="shtepa-categories-detail">
                 <h4>Середні значення категорій</h4>
-                <div class="category-item" *ngFor="let catDef of shtepaCategories; let idx = index">
+                <div
+                  class="category-item"
+                  *ngFor="let catDef of shtepaCategories; let idx = index">
                   <span class="category-name">{{ catDef.name }}</span>
                   <div class="category-bar-container">
                     <div
                       class="category-bar"
-                      [class]="getShtepaScoreClass(getGroupShtepaCategory('2', idx), 8)"
-                      [style.width.%]="(getGroupShtepaCategory('2', idx) / 8) * 100"></div>
+                      [class]="
+                        getShtepaScoreClass(getGroupShtepaCategory('2', idx), 8)
+                      "
+                      [style.width.%]="
+                        (getGroupShtepaCategory('2', idx) / 8) * 100
+                      "></div>
                   </div>
                   <span
                     class="category-score"
-                    [class]="getShtepaScoreClass(getGroupShtepaCategory('2', idx), 8)">
+                    [class]="
+                      getShtepaScoreClass(getGroupShtepaCategory('2', idx), 8)
+                    ">
                     {{ getGroupShtepaCategory('2', idx) }}/8
                   </span>
                 </div>
@@ -641,7 +989,9 @@
         </div>
 
         <!-- Group-Specific Basic Ph Statistics -->
-        <div class="overall-stats basicph-stats group-stats" *ngIf="getGroupCount('1') > 0 || getGroupCount('2') > 0">
+        <div
+          class="overall-stats basicph-stats group-stats"
+          *ngIf="getGroupCount('1') > 0 || getGroupCount('2') > 0">
           <h2>Показники Basic Ph за групами</h2>
           <div class="group-comparison">
             <!-- Group 1 -->
@@ -649,22 +999,42 @@
               <h3 class="group-title">Група 1 (n={{ getGroupCount('1') }})</h3>
               <div class="basicph-overall">
                 <div class="basicph-categories-grid">
-                  <div class="basicph-stat-card" *ngFor="let catDef of basicPhCategories">
+                  <div
+                    class="basicph-stat-card"
+                    *ngFor="let catDef of basicPhCategories">
                     <div class="basicph-code">{{ catDef.code }}</div>
                     <div class="basicph-name">{{ catDef.name }}</div>
-                    <div class="basicph-value" [class]="getBasicPhScoreClass(getGroupBasicPhCategory('1', catDef.code), 36)">
+                    <div
+                      class="basicph-value"
+                      [class]="
+                        getBasicPhScoreClass(
+                          getGroupBasicPhCategory('1', catDef.code),
+                          36
+                        )
+                      ">
                       {{ getGroupBasicPhCategory('1', catDef.code) }}
                     </div>
                     <div class="basicph-max">/ 36</div>
                     <div class="basicph-bar">
-                      <div class="basicph-bar-fill" [class]="getBasicPhScoreClass(getGroupBasicPhCategory('1', catDef.code), 36)"
-                        [style.width.%]="(getGroupBasicPhCategory('1', catDef.code) / 36) * 100"></div>
+                      <div
+                        class="basicph-bar-fill"
+                        [class]="
+                          getBasicPhScoreClass(
+                            getGroupBasicPhCategory('1', catDef.code),
+                            36
+                          )
+                        "
+                        [style.width.%]="
+                          (getGroupBasicPhCategory('1', catDef.code) / 36) * 100
+                        "></div>
                     </div>
                   </div>
                 </div>
                 <div class="basicph-total-summary">
                   <span class="total-label">Загальна сума (середнє):</span>
-                  <span class="total-value">{{ getGroupBasicPhTotal('1') }}</span>
+                  <span class="total-value">{{
+                    getGroupBasicPhTotal('1')
+                  }}</span>
                   <span class="total-max">/ 216</span>
                 </div>
               </div>
@@ -675,22 +1045,42 @@
               <h3 class="group-title">Група 2 (n={{ getGroupCount('2') }})</h3>
               <div class="basicph-overall">
                 <div class="basicph-categories-grid">
-                  <div class="basicph-stat-card" *ngFor="let catDef of basicPhCategories">
+                  <div
+                    class="basicph-stat-card"
+                    *ngFor="let catDef of basicPhCategories">
                     <div class="basicph-code">{{ catDef.code }}</div>
                     <div class="basicph-name">{{ catDef.name }}</div>
-                    <div class="basicph-value" [class]="getBasicPhScoreClass(getGroupBasicPhCategory('2', catDef.code), 36)">
+                    <div
+                      class="basicph-value"
+                      [class]="
+                        getBasicPhScoreClass(
+                          getGroupBasicPhCategory('2', catDef.code),
+                          36
+                        )
+                      ">
                       {{ getGroupBasicPhCategory('2', catDef.code) }}
                     </div>
                     <div class="basicph-max">/ 36</div>
                     <div class="basicph-bar">
-                      <div class="basicph-bar-fill" [class]="getBasicPhScoreClass(getGroupBasicPhCategory('2', catDef.code), 36)"
-                        [style.width.%]="(getGroupBasicPhCategory('2', catDef.code) / 36) * 100"></div>
+                      <div
+                        class="basicph-bar-fill"
+                        [class]="
+                          getBasicPhScoreClass(
+                            getGroupBasicPhCategory('2', catDef.code),
+                            36
+                          )
+                        "
+                        [style.width.%]="
+                          (getGroupBasicPhCategory('2', catDef.code) / 36) * 100
+                        "></div>
                     </div>
                   </div>
                 </div>
                 <div class="basicph-total-summary">
                   <span class="total-label">Загальна сума (середнє):</span>
-                  <span class="total-value">{{ getGroupBasicPhTotal('2') }}</span>
+                  <span class="total-value">{{
+                    getGroupBasicPhTotal('2')
+                  }}</span>
                   <span class="total-max">/ 216</span>
                 </div>
               </div>
@@ -885,7 +1275,9 @@
         </div>
 
         <!-- Group-Specific Personal Resource Statistics -->
-        <div class="overall-stats pr-stats group-stats" *ngIf="getGroupCount('1') > 0 || getGroupCount('2') > 0">
+        <div
+          class="overall-stats pr-stats group-stats"
+          *ngIf="getGroupCount('1') > 0 || getGroupCount('2') > 0">
           <h2>Показники особистісних ресурсів за групами</h2>
           <div class="group-comparison">
             <!-- Group 1 -->
@@ -896,50 +1288,110 @@
                   <div class="pr-stat-card sufficiency">
                     <div class="pr-category-name">Достатність</div>
                     <div class="pr-score-row">
-                      <span class="pr-value" [class]="getGroupPersonalResourceSufficiency('1') < 13 ? 'low' : getGroupPersonalResourceSufficiency('1') <= 21 ? 'medium' : 'high'">
+                      <span
+                        class="pr-value"
+                        [class]="
+                          getGroupPersonalResourceSufficiency('1') < 13
+                            ? 'low'
+                            : getGroupPersonalResourceSufficiency('1') <= 21
+                            ? 'medium'
+                            : 'high'
+                        ">
                         {{ getGroupPersonalResourceSufficiency('1') }}
                       </span>
                       <span class="pr-max">/ 30</span>
                     </div>
                     <div class="pr-bar">
-                      <div class="pr-bar-fill" [class]="getGroupPersonalResourceSufficiency('1') < 13 ? 'low' : getGroupPersonalResourceSufficiency('1') <= 21 ? 'medium' : 'high'"
-                        [style.width.%]="(getGroupPersonalResourceSufficiency('1') / 30) * 100"></div>
+                      <div
+                        class="pr-bar-fill"
+                        [class]="
+                          getGroupPersonalResourceSufficiency('1') < 13
+                            ? 'low'
+                            : getGroupPersonalResourceSufficiency('1') <= 21
+                            ? 'medium'
+                            : 'high'
+                        "
+                        [style.width.%]="
+                          (getGroupPersonalResourceSufficiency('1') / 30) * 100
+                        "></div>
                     </div>
                   </div>
                   <div class="pr-stat-card coping">
                     <div class="pr-category-name">Стратегії подолання</div>
                     <div class="pr-score-row">
-                      <span class="pr-value" [class]="getGroupPersonalResourceCoping('1') < 13 ? 'low' : getGroupPersonalResourceCoping('1') <= 18 ? 'medium' : 'high'">
+                      <span
+                        class="pr-value"
+                        [class]="
+                          getGroupPersonalResourceCoping('1') < 13
+                            ? 'low'
+                            : getGroupPersonalResourceCoping('1') <= 18
+                            ? 'medium'
+                            : 'high'
+                        ">
                         {{ getGroupPersonalResourceCoping('1') }}
                       </span>
                       <span class="pr-max">/ 20</span>
                     </div>
                     <div class="pr-bar">
-                      <div class="pr-bar-fill" [class]="getGroupPersonalResourceCoping('1') < 13 ? 'low' : getGroupPersonalResourceCoping('1') <= 18 ? 'medium' : 'high'"
-                        [style.width.%]="(getGroupPersonalResourceCoping('1') / 20) * 100"></div>
+                      <div
+                        class="pr-bar-fill"
+                        [class]="
+                          getGroupPersonalResourceCoping('1') < 13
+                            ? 'low'
+                            : getGroupPersonalResourceCoping('1') <= 18
+                            ? 'medium'
+                            : 'high'
+                        "
+                        [style.width.%]="
+                          (getGroupPersonalResourceCoping('1') / 20) * 100
+                        "></div>
                     </div>
                   </div>
                   <div class="pr-stat-card exhaustion">
                     <div class="pr-category-name">Емоційна спустошеність</div>
                     <div class="pr-score-row">
-                      <span class="pr-value" [class]="getGroupPersonalResourceExhaustion('1') < 8 ? 'high' : getGroupPersonalResourceExhaustion('1') <= 12 ? 'medium' : 'low'">
+                      <span
+                        class="pr-value"
+                        [class]="
+                          getGroupPersonalResourceExhaustion('1') < 8
+                            ? 'high'
+                            : getGroupPersonalResourceExhaustion('1') <= 12
+                            ? 'medium'
+                            : 'low'
+                        ">
                         {{ getGroupPersonalResourceExhaustion('1') }}
                       </span>
                       <span class="pr-max">/ 15</span>
                     </div>
                     <div class="pr-bar">
-                      <div class="pr-bar-fill exhaustion-bar" [class]="getGroupPersonalResourceExhaustion('1') < 8 ? 'high' : getGroupPersonalResourceExhaustion('1') <= 12 ? 'medium' : 'low'"
-                        [style.width.%]="(getGroupPersonalResourceExhaustion('1') / 15) * 100"></div>
+                      <div
+                        class="pr-bar-fill exhaustion-bar"
+                        [class]="
+                          getGroupPersonalResourceExhaustion('1') < 8
+                            ? 'high'
+                            : getGroupPersonalResourceExhaustion('1') <= 12
+                            ? 'medium'
+                            : 'low'
+                        "
+                        [style.width.%]="
+                          (getGroupPersonalResourceExhaustion('1') / 15) * 100
+                        "></div>
                     </div>
                   </div>
                 </div>
                 <div class="pr-total-card">
-                  <div class="pr-formula">Загальний рівень = Достатність + Стратегії − Спустошеність</div>
+                  <div class="pr-formula">
+                    Загальний рівень = Достатність + Стратегії − Спустошеність
+                  </div>
                   <div class="pr-total-row">
-                    <span class="pr-total-value" [class]="getGroupPersonalResourceLevel('1').class">
+                    <span
+                      class="pr-total-value"
+                      [class]="getGroupPersonalResourceLevel('1').class">
                       {{ getGroupPersonalResourceTotal('1') }}
                     </span>
-                    <span class="level-badge" [class]="getGroupPersonalResourceLevel('1').class">
+                    <span
+                      class="level-badge"
+                      [class]="getGroupPersonalResourceLevel('1').class">
                       {{ getGroupPersonalResourceLevel('1').level }}
                     </span>
                   </div>
@@ -955,50 +1407,110 @@
                   <div class="pr-stat-card sufficiency">
                     <div class="pr-category-name">Достатність</div>
                     <div class="pr-score-row">
-                      <span class="pr-value" [class]="getGroupPersonalResourceSufficiency('2') < 13 ? 'low' : getGroupPersonalResourceSufficiency('2') <= 21 ? 'medium' : 'high'">
+                      <span
+                        class="pr-value"
+                        [class]="
+                          getGroupPersonalResourceSufficiency('2') < 13
+                            ? 'low'
+                            : getGroupPersonalResourceSufficiency('2') <= 21
+                            ? 'medium'
+                            : 'high'
+                        ">
                         {{ getGroupPersonalResourceSufficiency('2') }}
                       </span>
                       <span class="pr-max">/ 30</span>
                     </div>
                     <div class="pr-bar">
-                      <div class="pr-bar-fill" [class]="getGroupPersonalResourceSufficiency('2') < 13 ? 'low' : getGroupPersonalResourceSufficiency('2') <= 21 ? 'medium' : 'high'"
-                        [style.width.%]="(getGroupPersonalResourceSufficiency('2') / 30) * 100"></div>
+                      <div
+                        class="pr-bar-fill"
+                        [class]="
+                          getGroupPersonalResourceSufficiency('2') < 13
+                            ? 'low'
+                            : getGroupPersonalResourceSufficiency('2') <= 21
+                            ? 'medium'
+                            : 'high'
+                        "
+                        [style.width.%]="
+                          (getGroupPersonalResourceSufficiency('2') / 30) * 100
+                        "></div>
                     </div>
                   </div>
                   <div class="pr-stat-card coping">
                     <div class="pr-category-name">Стратегії подолання</div>
                     <div class="pr-score-row">
-                      <span class="pr-value" [class]="getGroupPersonalResourceCoping('2') < 13 ? 'low' : getGroupPersonalResourceCoping('2') <= 18 ? 'medium' : 'high'">
+                      <span
+                        class="pr-value"
+                        [class]="
+                          getGroupPersonalResourceCoping('2') < 13
+                            ? 'low'
+                            : getGroupPersonalResourceCoping('2') <= 18
+                            ? 'medium'
+                            : 'high'
+                        ">
                         {{ getGroupPersonalResourceCoping('2') }}
                       </span>
                       <span class="pr-max">/ 20</span>
                     </div>
                     <div class="pr-bar">
-                      <div class="pr-bar-fill" [class]="getGroupPersonalResourceCoping('2') < 13 ? 'low' : getGroupPersonalResourceCoping('2') <= 18 ? 'medium' : 'high'"
-                        [style.width.%]="(getGroupPersonalResourceCoping('2') / 20) * 100"></div>
+                      <div
+                        class="pr-bar-fill"
+                        [class]="
+                          getGroupPersonalResourceCoping('2') < 13
+                            ? 'low'
+                            : getGroupPersonalResourceCoping('2') <= 18
+                            ? 'medium'
+                            : 'high'
+                        "
+                        [style.width.%]="
+                          (getGroupPersonalResourceCoping('2') / 20) * 100
+                        "></div>
                     </div>
                   </div>
                   <div class="pr-stat-card exhaustion">
                     <div class="pr-category-name">Емоційна спустошеність</div>
                     <div class="pr-score-row">
-                      <span class="pr-value" [class]="getGroupPersonalResourceExhaustion('2') < 8 ? 'high' : getGroupPersonalResourceExhaustion('2') <= 12 ? 'medium' : 'low'">
+                      <span
+                        class="pr-value"
+                        [class]="
+                          getGroupPersonalResourceExhaustion('2') < 8
+                            ? 'high'
+                            : getGroupPersonalResourceExhaustion('2') <= 12
+                            ? 'medium'
+                            : 'low'
+                        ">
                         {{ getGroupPersonalResourceExhaustion('2') }}
                       </span>
                       <span class="pr-max">/ 15</span>
                     </div>
                     <div class="pr-bar">
-                      <div class="pr-bar-fill exhaustion-bar" [class]="getGroupPersonalResourceExhaustion('2') < 8 ? 'high' : getGroupPersonalResourceExhaustion('2') <= 12 ? 'medium' : 'low'"
-                        [style.width.%]="(getGroupPersonalResourceExhaustion('2') / 15) * 100"></div>
+                      <div
+                        class="pr-bar-fill exhaustion-bar"
+                        [class]="
+                          getGroupPersonalResourceExhaustion('2') < 8
+                            ? 'high'
+                            : getGroupPersonalResourceExhaustion('2') <= 12
+                            ? 'medium'
+                            : 'low'
+                        "
+                        [style.width.%]="
+                          (getGroupPersonalResourceExhaustion('2') / 15) * 100
+                        "></div>
                     </div>
                   </div>
                 </div>
                 <div class="pr-total-card">
-                  <div class="pr-formula">Загальний рівень = Достатність + Стратегії − Спустошеність</div>
+                  <div class="pr-formula">
+                    Загальний рівень = Достатність + Стратегії − Спустошеність
+                  </div>
                   <div class="pr-total-row">
-                    <span class="pr-total-value" [class]="getGroupPersonalResourceLevel('2').class">
+                    <span
+                      class="pr-total-value"
+                      [class]="getGroupPersonalResourceLevel('2').class">
                       {{ getGroupPersonalResourceTotal('2') }}
                     </span>
-                    <span class="level-badge" [class]="getGroupPersonalResourceLevel('2').class">
+                    <span
+                      class="level-badge"
+                      [class]="getGroupPersonalResourceLevel('2').class">
                       {{ getGroupPersonalResourceLevel('2').level }}
                     </span>
                   </div>
@@ -1368,7 +1880,9 @@
         </div>
 
         <!-- Group-Specific Ryff Statistics -->
-        <div class="overall-stats ryff-stats group-stats" *ngIf="getGroupCount('1') > 0 || getGroupCount('2') > 0">
+        <div
+          class="overall-stats ryff-stats group-stats"
+          *ngIf="getGroupCount('1') > 0 || getGroupCount('2') > 0">
           <h2>Психологічне благополуччя (Ryff) за групами</h2>
           <div class="group-comparison">
             <!-- Group 1 -->
@@ -1379,90 +1893,202 @@
                   <div class="ryff-stat-card">
                     <div class="ryff-category-name">Відносини</div>
                     <div class="ryff-score-row">
-                      <span class="ryff-value" [class]="getRyffCategoryLevel(getGroupRyffRelationships('1'), ryffCategories.relationships.lowThreshold, ryffCategories.relationships.highThreshold).class">
+                      <span
+                        class="ryff-value"
+                        [class]="
+                          getRyffCategoryLevel(
+                            getGroupRyffRelationships('1'),
+                            ryffCategories.relationships.lowThreshold,
+                            ryffCategories.relationships.highThreshold
+                          ).class
+                        ">
                         {{ getGroupRyffRelationships('1') }}
                       </span>
                       <span class="ryff-max">/ 84</span>
                     </div>
                     <div class="ryff-bar">
-                      <div class="ryff-bar-fill" [class]="getRyffCategoryLevel(getGroupRyffRelationships('1'), ryffCategories.relationships.lowThreshold, ryffCategories.relationships.highThreshold).class"
-                        [style.width.%]="(getGroupRyffRelationships('1') / 84) * 100"></div>
+                      <div
+                        class="ryff-bar-fill"
+                        [class]="
+                          getRyffCategoryLevel(
+                            getGroupRyffRelationships('1'),
+                            ryffCategories.relationships.lowThreshold,
+                            ryffCategories.relationships.highThreshold
+                          ).class
+                        "
+                        [style.width.%]="
+                          (getGroupRyffRelationships('1') / 84) * 100
+                        "></div>
                     </div>
                   </div>
                   <div class="ryff-stat-card">
                     <div class="ryff-category-name">Автономія</div>
                     <div class="ryff-score-row">
-                      <span class="ryff-value" [class]="getRyffCategoryLevel(getGroupRyffAutonomy('1'), ryffCategories.autonomy.lowThreshold, ryffCategories.autonomy.highThreshold).class">
+                      <span
+                        class="ryff-value"
+                        [class]="
+                          getRyffCategoryLevel(
+                            getGroupRyffAutonomy('1'),
+                            ryffCategories.autonomy.lowThreshold,
+                            ryffCategories.autonomy.highThreshold
+                          ).class
+                        ">
                         {{ getGroupRyffAutonomy('1') }}
                       </span>
                       <span class="ryff-max">/ 84</span>
                     </div>
                     <div class="ryff-bar">
-                      <div class="ryff-bar-fill" [class]="getRyffCategoryLevel(getGroupRyffAutonomy('1'), ryffCategories.autonomy.lowThreshold, ryffCategories.autonomy.highThreshold).class"
-                        [style.width.%]="(getGroupRyffAutonomy('1') / 84) * 100"></div>
+                      <div
+                        class="ryff-bar-fill"
+                        [class]="
+                          getRyffCategoryLevel(
+                            getGroupRyffAutonomy('1'),
+                            ryffCategories.autonomy.lowThreshold,
+                            ryffCategories.autonomy.highThreshold
+                          ).class
+                        "
+                        [style.width.%]="
+                          (getGroupRyffAutonomy('1') / 84) * 100
+                        "></div>
                     </div>
                   </div>
                   <div class="ryff-stat-card">
                     <div class="ryff-category-name">Середовище</div>
                     <div class="ryff-score-row">
-                      <span class="ryff-value" [class]="getRyffCategoryLevel(getGroupRyffEnvironment('1'), ryffCategories.environment.lowThreshold, ryffCategories.environment.highThreshold).class">
+                      <span
+                        class="ryff-value"
+                        [class]="
+                          getRyffCategoryLevel(
+                            getGroupRyffEnvironment('1'),
+                            ryffCategories.environment.lowThreshold,
+                            ryffCategories.environment.highThreshold
+                          ).class
+                        ">
                         {{ getGroupRyffEnvironment('1') }}
                       </span>
                       <span class="ryff-max">/ 84</span>
                     </div>
                     <div class="ryff-bar">
-                      <div class="ryff-bar-fill" [class]="getRyffCategoryLevel(getGroupRyffEnvironment('1'), ryffCategories.environment.lowThreshold, ryffCategories.environment.highThreshold).class"
-                        [style.width.%]="(getGroupRyffEnvironment('1') / 84) * 100"></div>
+                      <div
+                        class="ryff-bar-fill"
+                        [class]="
+                          getRyffCategoryLevel(
+                            getGroupRyffEnvironment('1'),
+                            ryffCategories.environment.lowThreshold,
+                            ryffCategories.environment.highThreshold
+                          ).class
+                        "
+                        [style.width.%]="
+                          (getGroupRyffEnvironment('1') / 84) * 100
+                        "></div>
                     </div>
                   </div>
                   <div class="ryff-stat-card">
                     <div class="ryff-category-name">Зростання</div>
                     <div class="ryff-score-row">
-                      <span class="ryff-value" [class]="getRyffCategoryLevel(getGroupRyffGrowth('1'), ryffCategories.growth.lowThreshold, ryffCategories.growth.highThreshold).class">
+                      <span
+                        class="ryff-value"
+                        [class]="
+                          getRyffCategoryLevel(
+                            getGroupRyffGrowth('1'),
+                            ryffCategories.growth.lowThreshold,
+                            ryffCategories.growth.highThreshold
+                          ).class
+                        ">
                         {{ getGroupRyffGrowth('1') }}
                       </span>
                       <span class="ryff-max">/ 84</span>
                     </div>
                     <div class="ryff-bar">
-                      <div class="ryff-bar-fill" [class]="getRyffCategoryLevel(getGroupRyffGrowth('1'), ryffCategories.growth.lowThreshold, ryffCategories.growth.highThreshold).class"
-                        [style.width.%]="(getGroupRyffGrowth('1') / 84) * 100"></div>
+                      <div
+                        class="ryff-bar-fill"
+                        [class]="
+                          getRyffCategoryLevel(
+                            getGroupRyffGrowth('1'),
+                            ryffCategories.growth.lowThreshold,
+                            ryffCategories.growth.highThreshold
+                          ).class
+                        "
+                        [style.width.%]="
+                          (getGroupRyffGrowth('1') / 84) * 100
+                        "></div>
                     </div>
                   </div>
                   <div class="ryff-stat-card">
                     <div class="ryff-category-name">Цілі</div>
                     <div class="ryff-score-row">
-                      <span class="ryff-value" [class]="getRyffCategoryLevel(getGroupRyffPurpose('1'), ryffCategories.purpose.lowThreshold, ryffCategories.purpose.highThreshold).class">
+                      <span
+                        class="ryff-value"
+                        [class]="
+                          getRyffCategoryLevel(
+                            getGroupRyffPurpose('1'),
+                            ryffCategories.purpose.lowThreshold,
+                            ryffCategories.purpose.highThreshold
+                          ).class
+                        ">
                         {{ getGroupRyffPurpose('1') }}
                       </span>
                       <span class="ryff-max">/ 84</span>
                     </div>
                     <div class="ryff-bar">
-                      <div class="ryff-bar-fill" [class]="getRyffCategoryLevel(getGroupRyffPurpose('1'), ryffCategories.purpose.lowThreshold, ryffCategories.purpose.highThreshold).class"
-                        [style.width.%]="(getGroupRyffPurpose('1') / 84) * 100"></div>
+                      <div
+                        class="ryff-bar-fill"
+                        [class]="
+                          getRyffCategoryLevel(
+                            getGroupRyffPurpose('1'),
+                            ryffCategories.purpose.lowThreshold,
+                            ryffCategories.purpose.highThreshold
+                          ).class
+                        "
+                        [style.width.%]="
+                          (getGroupRyffPurpose('1') / 84) * 100
+                        "></div>
                     </div>
                   </div>
                   <div class="ryff-stat-card">
                     <div class="ryff-category-name">Самосприйняття</div>
                     <div class="ryff-score-row">
-                      <span class="ryff-value" [class]="getRyffCategoryLevel(getGroupRyffSelfAcceptance('1'), ryffCategories.selfAcceptance.lowThreshold, ryffCategories.selfAcceptance.highThreshold).class">
+                      <span
+                        class="ryff-value"
+                        [class]="
+                          getRyffCategoryLevel(
+                            getGroupRyffSelfAcceptance('1'),
+                            ryffCategories.selfAcceptance.lowThreshold,
+                            ryffCategories.selfAcceptance.highThreshold
+                          ).class
+                        ">
                         {{ getGroupRyffSelfAcceptance('1') }}
                       </span>
                       <span class="ryff-max">/ 84</span>
                     </div>
                     <div class="ryff-bar">
-                      <div class="ryff-bar-fill" [class]="getRyffCategoryLevel(getGroupRyffSelfAcceptance('1'), ryffCategories.selfAcceptance.lowThreshold, ryffCategories.selfAcceptance.highThreshold).class"
-                        [style.width.%]="(getGroupRyffSelfAcceptance('1') / 84) * 100"></div>
+                      <div
+                        class="ryff-bar-fill"
+                        [class]="
+                          getRyffCategoryLevel(
+                            getGroupRyffSelfAcceptance('1'),
+                            ryffCategories.selfAcceptance.lowThreshold,
+                            ryffCategories.selfAcceptance.highThreshold
+                          ).class
+                        "
+                        [style.width.%]="
+                          (getGroupRyffSelfAcceptance('1') / 84) * 100
+                        "></div>
                     </div>
                   </div>
                 </div>
                 <div class="ryff-total-card">
                   <div class="ryff-total-label">Загальний бал</div>
                   <div class="ryff-total-row">
-                    <span class="ryff-total-value" [class]="getGroupRyffLevel('1').class">
+                    <span
+                      class="ryff-total-value"
+                      [class]="getGroupRyffLevel('1').class">
                       {{ getGroupRyffTotal('1') }}
                     </span>
                     <span class="ryff-total-max">/ 504</span>
-                    <span class="level-badge" [class]="getGroupRyffLevel('1').class">
+                    <span
+                      class="level-badge"
+                      [class]="getGroupRyffLevel('1').class">
                       {{ getGroupRyffLevel('1').level }}
                     </span>
                   </div>
@@ -1478,90 +2104,202 @@
                   <div class="ryff-stat-card">
                     <div class="ryff-category-name">Відносини</div>
                     <div class="ryff-score-row">
-                      <span class="ryff-value" [class]="getRyffCategoryLevel(getGroupRyffRelationships('2'), ryffCategories.relationships.lowThreshold, ryffCategories.relationships.highThreshold).class">
+                      <span
+                        class="ryff-value"
+                        [class]="
+                          getRyffCategoryLevel(
+                            getGroupRyffRelationships('2'),
+                            ryffCategories.relationships.lowThreshold,
+                            ryffCategories.relationships.highThreshold
+                          ).class
+                        ">
                         {{ getGroupRyffRelationships('2') }}
                       </span>
                       <span class="ryff-max">/ 84</span>
                     </div>
                     <div class="ryff-bar">
-                      <div class="ryff-bar-fill" [class]="getRyffCategoryLevel(getGroupRyffRelationships('2'), ryffCategories.relationships.lowThreshold, ryffCategories.relationships.highThreshold).class"
-                        [style.width.%]="(getGroupRyffRelationships('2') / 84) * 100"></div>
+                      <div
+                        class="ryff-bar-fill"
+                        [class]="
+                          getRyffCategoryLevel(
+                            getGroupRyffRelationships('2'),
+                            ryffCategories.relationships.lowThreshold,
+                            ryffCategories.relationships.highThreshold
+                          ).class
+                        "
+                        [style.width.%]="
+                          (getGroupRyffRelationships('2') / 84) * 100
+                        "></div>
                     </div>
                   </div>
                   <div class="ryff-stat-card">
                     <div class="ryff-category-name">Автономія</div>
                     <div class="ryff-score-row">
-                      <span class="ryff-value" [class]="getRyffCategoryLevel(getGroupRyffAutonomy('2'), ryffCategories.autonomy.lowThreshold, ryffCategories.autonomy.highThreshold).class">
+                      <span
+                        class="ryff-value"
+                        [class]="
+                          getRyffCategoryLevel(
+                            getGroupRyffAutonomy('2'),
+                            ryffCategories.autonomy.lowThreshold,
+                            ryffCategories.autonomy.highThreshold
+                          ).class
+                        ">
                         {{ getGroupRyffAutonomy('2') }}
                       </span>
                       <span class="ryff-max">/ 84</span>
                     </div>
                     <div class="ryff-bar">
-                      <div class="ryff-bar-fill" [class]="getRyffCategoryLevel(getGroupRyffAutonomy('2'), ryffCategories.autonomy.lowThreshold, ryffCategories.autonomy.highThreshold).class"
-                        [style.width.%]="(getGroupRyffAutonomy('2') / 84) * 100"></div>
+                      <div
+                        class="ryff-bar-fill"
+                        [class]="
+                          getRyffCategoryLevel(
+                            getGroupRyffAutonomy('2'),
+                            ryffCategories.autonomy.lowThreshold,
+                            ryffCategories.autonomy.highThreshold
+                          ).class
+                        "
+                        [style.width.%]="
+                          (getGroupRyffAutonomy('2') / 84) * 100
+                        "></div>
                     </div>
                   </div>
                   <div class="ryff-stat-card">
                     <div class="ryff-category-name">Середовище</div>
                     <div class="ryff-score-row">
-                      <span class="ryff-value" [class]="getRyffCategoryLevel(getGroupRyffEnvironment('2'), ryffCategories.environment.lowThreshold, ryffCategories.environment.highThreshold).class">
+                      <span
+                        class="ryff-value"
+                        [class]="
+                          getRyffCategoryLevel(
+                            getGroupRyffEnvironment('2'),
+                            ryffCategories.environment.lowThreshold,
+                            ryffCategories.environment.highThreshold
+                          ).class
+                        ">
                         {{ getGroupRyffEnvironment('2') }}
                       </span>
                       <span class="ryff-max">/ 84</span>
                     </div>
                     <div class="ryff-bar">
-                      <div class="ryff-bar-fill" [class]="getRyffCategoryLevel(getGroupRyffEnvironment('2'), ryffCategories.environment.lowThreshold, ryffCategories.environment.highThreshold).class"
-                        [style.width.%]="(getGroupRyffEnvironment('2') / 84) * 100"></div>
+                      <div
+                        class="ryff-bar-fill"
+                        [class]="
+                          getRyffCategoryLevel(
+                            getGroupRyffEnvironment('2'),
+                            ryffCategories.environment.lowThreshold,
+                            ryffCategories.environment.highThreshold
+                          ).class
+                        "
+                        [style.width.%]="
+                          (getGroupRyffEnvironment('2') / 84) * 100
+                        "></div>
                     </div>
                   </div>
                   <div class="ryff-stat-card">
                     <div class="ryff-category-name">Зростання</div>
                     <div class="ryff-score-row">
-                      <span class="ryff-value" [class]="getRyffCategoryLevel(getGroupRyffGrowth('2'), ryffCategories.growth.lowThreshold, ryffCategories.growth.highThreshold).class">
+                      <span
+                        class="ryff-value"
+                        [class]="
+                          getRyffCategoryLevel(
+                            getGroupRyffGrowth('2'),
+                            ryffCategories.growth.lowThreshold,
+                            ryffCategories.growth.highThreshold
+                          ).class
+                        ">
                         {{ getGroupRyffGrowth('2') }}
                       </span>
                       <span class="ryff-max">/ 84</span>
                     </div>
                     <div class="ryff-bar">
-                      <div class="ryff-bar-fill" [class]="getRyffCategoryLevel(getGroupRyffGrowth('2'), ryffCategories.growth.lowThreshold, ryffCategories.growth.highThreshold).class"
-                        [style.width.%]="(getGroupRyffGrowth('2') / 84) * 100"></div>
+                      <div
+                        class="ryff-bar-fill"
+                        [class]="
+                          getRyffCategoryLevel(
+                            getGroupRyffGrowth('2'),
+                            ryffCategories.growth.lowThreshold,
+                            ryffCategories.growth.highThreshold
+                          ).class
+                        "
+                        [style.width.%]="
+                          (getGroupRyffGrowth('2') / 84) * 100
+                        "></div>
                     </div>
                   </div>
                   <div class="ryff-stat-card">
                     <div class="ryff-category-name">Цілі</div>
                     <div class="ryff-score-row">
-                      <span class="ryff-value" [class]="getRyffCategoryLevel(getGroupRyffPurpose('2'), ryffCategories.purpose.lowThreshold, ryffCategories.purpose.highThreshold).class">
+                      <span
+                        class="ryff-value"
+                        [class]="
+                          getRyffCategoryLevel(
+                            getGroupRyffPurpose('2'),
+                            ryffCategories.purpose.lowThreshold,
+                            ryffCategories.purpose.highThreshold
+                          ).class
+                        ">
                         {{ getGroupRyffPurpose('2') }}
                       </span>
                       <span class="ryff-max">/ 84</span>
                     </div>
                     <div class="ryff-bar">
-                      <div class="ryff-bar-fill" [class]="getRyffCategoryLevel(getGroupRyffPurpose('2'), ryffCategories.purpose.lowThreshold, ryffCategories.purpose.highThreshold).class"
-                        [style.width.%]="(getGroupRyffPurpose('2') / 84) * 100"></div>
+                      <div
+                        class="ryff-bar-fill"
+                        [class]="
+                          getRyffCategoryLevel(
+                            getGroupRyffPurpose('2'),
+                            ryffCategories.purpose.lowThreshold,
+                            ryffCategories.purpose.highThreshold
+                          ).class
+                        "
+                        [style.width.%]="
+                          (getGroupRyffPurpose('2') / 84) * 100
+                        "></div>
                     </div>
                   </div>
                   <div class="ryff-stat-card">
                     <div class="ryff-category-name">Самосприйняття</div>
                     <div class="ryff-score-row">
-                      <span class="ryff-value" [class]="getRyffCategoryLevel(getGroupRyffSelfAcceptance('2'), ryffCategories.selfAcceptance.lowThreshold, ryffCategories.selfAcceptance.highThreshold).class">
+                      <span
+                        class="ryff-value"
+                        [class]="
+                          getRyffCategoryLevel(
+                            getGroupRyffSelfAcceptance('2'),
+                            ryffCategories.selfAcceptance.lowThreshold,
+                            ryffCategories.selfAcceptance.highThreshold
+                          ).class
+                        ">
                         {{ getGroupRyffSelfAcceptance('2') }}
                       </span>
                       <span class="ryff-max">/ 84</span>
                     </div>
                     <div class="ryff-bar">
-                      <div class="ryff-bar-fill" [class]="getRyffCategoryLevel(getGroupRyffSelfAcceptance('2'), ryffCategories.selfAcceptance.lowThreshold, ryffCategories.selfAcceptance.highThreshold).class"
-                        [style.width.%]="(getGroupRyffSelfAcceptance('2') / 84) * 100"></div>
+                      <div
+                        class="ryff-bar-fill"
+                        [class]="
+                          getRyffCategoryLevel(
+                            getGroupRyffSelfAcceptance('2'),
+                            ryffCategories.selfAcceptance.lowThreshold,
+                            ryffCategories.selfAcceptance.highThreshold
+                          ).class
+                        "
+                        [style.width.%]="
+                          (getGroupRyffSelfAcceptance('2') / 84) * 100
+                        "></div>
                     </div>
                   </div>
                 </div>
                 <div class="ryff-total-card">
                   <div class="ryff-total-label">Загальний бал</div>
                   <div class="ryff-total-row">
-                    <span class="ryff-total-value" [class]="getGroupRyffLevel('2').class">
+                    <span
+                      class="ryff-total-value"
+                      [class]="getGroupRyffLevel('2').class">
                       {{ getGroupRyffTotal('2') }}
                     </span>
                     <span class="ryff-total-max">/ 504</span>
-                    <span class="level-badge" [class]="getGroupRyffLevel('2').class">
+                    <span
+                      class="level-badge"
+                      [class]="getGroupRyffLevel('2').class">
                       {{ getGroupRyffLevel('2').level }}
                     </span>
                   </div>
