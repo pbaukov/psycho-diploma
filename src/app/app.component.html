@@ -900,6 +900,116 @@
           </div>
         </div>
 
+        <!-- Overall Штепа Distribution (All Groups Combined) -->
+        <div class="overall-stats shtepa-stats" *ngIf="respondents.length > 0">
+          <h2>Загальний розподіл (обидві групи разом)</h2>
+          <div class="shtepa-distribution">
+            <div class="distribution-bars">
+              <div
+                class="distribution-item"
+                *ngIf="getOverallShtepaDistribution().notDiagnosed.count > 0">
+                <div class="distribution-label">
+                  <span class="level-name">Не діагностується</span>
+                  <span class="level-range">(0–56 балів)</span>
+                </div>
+                <div class="distribution-bar-container">
+                  <div
+                    class="distribution-bar not-diagnosed"
+                    [style.width.%]="
+                      getOverallShtepaDistribution().notDiagnosed.percent
+                    "></div>
+                </div>
+                <span class="distribution-percent"
+                  >{{ getOverallShtepaDistribution().notDiagnosed.percent }}%
+                  ({{
+                    getOverallShtepaDistribution().notDiagnosed.count
+                  }})</span
+                >
+              </div>
+              <div
+                class="distribution-item"
+                *ngIf="getOverallShtepaDistribution().low.count > 0">
+                <div class="distribution-label">
+                  <span class="level-name">Низький</span>
+                  <span class="level-range">(57–69 балів)</span>
+                </div>
+                <div class="distribution-bar-container">
+                  <div
+                    class="distribution-bar low"
+                    [style.width.%]="
+                      getOverallShtepaDistribution().low.percent
+                    "></div>
+                </div>
+                <span class="distribution-percent"
+                  >{{ getOverallShtepaDistribution().low.percent }}% ({{
+                    getOverallShtepaDistribution().low.count
+                  }})</span
+                >
+              </div>
+              <div
+                class="distribution-item"
+                *ngIf="getOverallShtepaDistribution().medium.count > 0">
+                <div class="distribution-label">
+                  <span class="level-name">Середній</span>
+                  <span class="level-range">(70–92 балів)</span>
+                </div>
+                <div class="distribution-bar-container">
+                  <div
+                    class="distribution-bar medium"
+                    [style.width.%]="
+                      getOverallShtepaDistribution().medium.percent
+                    "></div>
+                </div>
+                <span class="distribution-percent"
+                  >{{ getOverallShtepaDistribution().medium.percent }}% ({{
+                    getOverallShtepaDistribution().medium.count
+                  }})</span
+                >
+              </div>
+              <div
+                class="distribution-item"
+                *ngIf="getOverallShtepaDistribution().high.count > 0">
+                <div class="distribution-label">
+                  <span class="level-name">Високий</span>
+                  <span class="level-range">(93–106 балів)</span>
+                </div>
+                <div class="distribution-bar-container">
+                  <div
+                    class="distribution-bar high"
+                    [style.width.%]="
+                      getOverallShtepaDistribution().high.percent
+                    "></div>
+                </div>
+                <span class="distribution-percent"
+                  >{{ getOverallShtepaDistribution().high.percent }}% ({{
+                    getOverallShtepaDistribution().high.count
+                  }})</span
+                >
+              </div>
+              <div
+                class="distribution-item"
+                *ngIf="getOverallShtepaDistribution().doubtful.count > 0">
+                <div class="distribution-label">
+                  <span class="level-name">Сумнівні дані</span>
+                  <span class="level-range">(107–112 балів)</span>
+                </div>
+                <div class="distribution-bar-container">
+                  <div
+                    class="distribution-bar doubtful"
+                    [style.width.%]="
+                      getOverallShtepaDistribution().doubtful.percent
+                    "></div>
+                </div>
+                <span class="distribution-percent"
+                  >{{ getOverallShtepaDistribution().doubtful.percent }}% ({{
+                    getOverallShtepaDistribution().doubtful.count
+                  }})</span
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+
         <!-- Individual Штепа Results -->
         <div class="individual-results">
           <h2>Результати по респондентах</h2>
@@ -1687,6 +1797,81 @@
                     >
                   </div>
                 </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Overall Personal Resource Distribution (All Groups Combined) -->
+        <div class="overall-stats pr-stats" *ngIf="respondents.length > 0">
+          <h2>Загальний розподіл (обидві групи разом)</h2>
+          <div class="shtepa-distribution">
+            <div class="distribution-bars">
+              <div
+                class="distribution-item"
+                *ngIf="getOverallPersonalResourceDistribution().low.count > 0">
+                <div class="distribution-label">
+                  <span class="level-name">Низький</span>
+                  <span class="level-range">(0–14 балів)</span>
+                </div>
+                <div class="distribution-bar-container">
+                  <div
+                    class="distribution-bar low"
+                    [style.width.%]="
+                      getOverallPersonalResourceDistribution().low.percent
+                    "></div>
+                </div>
+                <span class="distribution-percent"
+                  >{{ getOverallPersonalResourceDistribution().low.percent }}%
+                  ({{
+                    getOverallPersonalResourceDistribution().low.count
+                  }})</span
+                >
+              </div>
+              <div
+                class="distribution-item"
+                *ngIf="
+                  getOverallPersonalResourceDistribution().medium.count > 0
+                ">
+                <div class="distribution-label">
+                  <span class="level-name">Середній</span>
+                  <span class="level-range">(15–30 балів)</span>
+                </div>
+                <div class="distribution-bar-container">
+                  <div
+                    class="distribution-bar medium"
+                    [style.width.%]="
+                      getOverallPersonalResourceDistribution().medium.percent
+                    "></div>
+                </div>
+                <span class="distribution-percent"
+                  >{{
+                    getOverallPersonalResourceDistribution().medium.percent
+                  }}% ({{
+                    getOverallPersonalResourceDistribution().medium.count
+                  }})</span
+                >
+              </div>
+              <div
+                class="distribution-item"
+                *ngIf="getOverallPersonalResourceDistribution().high.count > 0">
+                <div class="distribution-label">
+                  <span class="level-name">Високий</span>
+                  <span class="level-range">(31+ балів)</span>
+                </div>
+                <div class="distribution-bar-container">
+                  <div
+                    class="distribution-bar high"
+                    [style.width.%]="
+                      getOverallPersonalResourceDistribution().high.percent
+                    "></div>
+                </div>
+                <span class="distribution-percent"
+                  >{{ getOverallPersonalResourceDistribution().high.percent }}%
+                  ({{
+                    getOverallPersonalResourceDistribution().high.count
+                  }})</span
+                >
               </div>
             </div>
           </div>
@@ -2608,6 +2793,75 @@
                     >
                   </div>
                 </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Overall Ryff Distribution (All Groups Combined) -->
+        <div class="overall-stats ryff-stats" *ngIf="respondents.length > 0">
+          <h2>Загальний розподіл (обидві групи разом)</h2>
+          <div class="shtepa-distribution">
+            <div class="distribution-bars">
+              <div
+                class="distribution-item"
+                *ngIf="getOverallRyffDistribution().low.count > 0">
+                <div class="distribution-label">
+                  <span class="level-name">Низький</span>
+                  <span class="level-range">(&lt;314 балів)</span>
+                </div>
+                <div class="distribution-bar-container">
+                  <div
+                    class="distribution-bar low"
+                    [style.width.%]="
+                      getOverallRyffDistribution().low.percent
+                    "></div>
+                </div>
+                <span class="distribution-percent"
+                  >{{ getOverallRyffDistribution().low.percent }}% ({{
+                    getOverallRyffDistribution().low.count
+                  }})</span
+                >
+              </div>
+              <div
+                class="distribution-item"
+                *ngIf="getOverallRyffDistribution().medium.count > 0">
+                <div class="distribution-label">
+                  <span class="level-name">Середній</span>
+                  <span class="level-range">(315–413 балів)</span>
+                </div>
+                <div class="distribution-bar-container">
+                  <div
+                    class="distribution-bar medium"
+                    [style.width.%]="
+                      getOverallRyffDistribution().medium.percent
+                    "></div>
+                </div>
+                <span class="distribution-percent"
+                  >{{ getOverallRyffDistribution().medium.percent }}% ({{
+                    getOverallRyffDistribution().medium.count
+                  }})</span
+                >
+              </div>
+              <div
+                class="distribution-item"
+                *ngIf="getOverallRyffDistribution().high.count > 0">
+                <div class="distribution-label">
+                  <span class="level-name">Високий</span>
+                  <span class="level-range">(≥414 балів)</span>
+                </div>
+                <div class="distribution-bar-container">
+                  <div
+                    class="distribution-bar high"
+                    [style.width.%]="
+                      getOverallRyffDistribution().high.percent
+                    "></div>
+                </div>
+                <span class="distribution-percent"
+                  >{{ getOverallRyffDistribution().high.percent }}% ({{
+                    getOverallRyffDistribution().high.count
+                  }})</span
+                >
               </div>
             </div>
           </div>

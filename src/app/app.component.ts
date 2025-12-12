@@ -2822,6 +2822,169 @@ export class AppComponent {
     return this.getRespondentsByGroup(group).length;
   }
 
+  // Overall distributions (combining all groups)
+  getOverallShtepaDistribution(): {
+    notDiagnosed: { count: number; percent: number };
+    low: { count: number; percent: number };
+    medium: { count: number; percent: number };
+    high: { count: number; percent: number };
+    doubtful: { count: number; percent: number };
+  } {
+    const total = this.respondents.length;
+
+    if (total === 0) {
+      return {
+        notDiagnosed: { count: 0, percent: 0 },
+        low: { count: 0, percent: 0 },
+        medium: { count: 0, percent: 0 },
+        high: { count: 0, percent: 0 },
+        doubtful: { count: 0, percent: 0 },
+      };
+    }
+
+    const counts = {
+      notDiagnosed: 0,
+      low: 0,
+      medium: 0,
+      high: 0,
+      doubtful: 0,
+    };
+
+    this.respondents.forEach((r) => {
+      const score = r.shtepa.totalScore;
+      if (score <= 56) {
+        counts.notDiagnosed++;
+      } else if (score <= 69) {
+        counts.low++;
+      } else if (score <= 92) {
+        counts.medium++;
+      } else if (score <= 106) {
+        counts.high++;
+      } else {
+        counts.doubtful++;
+      }
+    });
+
+    return {
+      notDiagnosed: {
+        count: counts.notDiagnosed,
+        percent: Math.round((counts.notDiagnosed / total) * 100),
+      },
+      low: {
+        count: counts.low,
+        percent: Math.round((counts.low / total) * 100),
+      },
+      medium: {
+        count: counts.medium,
+        percent: Math.round((counts.medium / total) * 100),
+      },
+      high: {
+        count: counts.high,
+        percent: Math.round((counts.high / total) * 100),
+      },
+      doubtful: {
+        count: counts.doubtful,
+        percent: Math.round((counts.doubtful / total) * 100),
+      },
+    };
+  }
+
+  getOverallPersonalResourceDistribution(): {
+    low: { count: number; percent: number };
+    medium: { count: number; percent: number };
+    high: { count: number; percent: number };
+  } {
+    const total = this.respondents.length;
+
+    if (total === 0) {
+      return {
+        low: { count: 0, percent: 0 },
+        medium: { count: 0, percent: 0 },
+        high: { count: 0, percent: 0 },
+      };
+    }
+
+    const counts = {
+      low: 0,
+      medium: 0,
+      high: 0,
+    };
+
+    this.respondents.forEach((r) => {
+      const score = r.personalResource.totalScore;
+      if (score <= 14) {
+        counts.low++;
+      } else if (score <= 30) {
+        counts.medium++;
+      } else {
+        counts.high++;
+      }
+    });
+
+    return {
+      low: {
+        count: counts.low,
+        percent: Math.round((counts.low / total) * 100),
+      },
+      medium: {
+        count: counts.medium,
+        percent: Math.round((counts.medium / total) * 100),
+      },
+      high: {
+        count: counts.high,
+        percent: Math.round((counts.high / total) * 100),
+      },
+    };
+  }
+
+  getOverallRyffDistribution(): {
+    low: { count: number; percent: number };
+    medium: { count: number; percent: number };
+    high: { count: number; percent: number };
+  } {
+    const total = this.respondents.length;
+
+    if (total === 0) {
+      return {
+        low: { count: 0, percent: 0 },
+        medium: { count: 0, percent: 0 },
+        high: { count: 0, percent: 0 },
+      };
+    }
+
+    const counts = {
+      low: 0,
+      medium: 0,
+      high: 0,
+    };
+
+    this.respondents.forEach((r) => {
+      const score = r.ryff.totalScore;
+      if (score < 314) {
+        counts.low++;
+      } else if (score <= 413) {
+        counts.medium++;
+      } else {
+        counts.high++;
+      }
+    });
+
+    return {
+      low: {
+        count: counts.low,
+        percent: Math.round((counts.low / total) * 100),
+      },
+      medium: {
+        count: counts.medium,
+        percent: Math.round((counts.medium / total) * 100),
+      },
+      high: {
+        count: counts.high,
+        percent: Math.round((counts.high / total) * 100),
+      },
+    };
+  }
+
   // ============================================================================
   // RYFF DETAIL MODAL
   // ============================================================================
