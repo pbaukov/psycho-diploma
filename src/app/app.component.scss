@@ -677,7 +677,7 @@ $doubtful-color: #8b5cf6;
 .stat-value {
   font-size: 2.5rem;
   font-weight: 700;
-  margin-bottom: 0.75rem;
+  margin-bottom: 0.5rem;
 
   &.large {
     font-size: 3.5rem;
@@ -698,6 +698,13 @@ $doubtful-color: #8b5cf6;
   &.doubtful {
     color: $doubtful-color;
   }
+}
+
+.stat-sd {
+  color: $text-secondary;
+  font-size: 0.85rem;
+  margin-bottom: 0.75rem;
+  font-weight: 500;
 }
 
 .stat-bar {
@@ -1261,6 +1268,13 @@ $basicph-ph-color: #ef4444; // Physical
     &.low {
       color: $low-color;
     }
+  }
+
+  .basicph-sd {
+    color: $text-secondary;
+    font-size: 0.8rem;
+    margin-top: 0.25rem;
+    font-weight: 500;
   }
 
   .basicph-max {

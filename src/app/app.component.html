@@ -381,6 +381,7 @@
                     [class]="getSanScaleClass(getGroupWellbeing('1'))">
                     {{ getGroupWellbeing('1') }}
                   </div>
+                  <div class="stat-sd">SD: {{ getGroupWellbeingSD('1') }}</div>
                   <div class="stat-bar">
                     <div
                       class="stat-bar-fill"
@@ -396,6 +397,7 @@
                     [class]="getSanScaleClass(getGroupActivity('1'))">
                     {{ getGroupActivity('1') }}
                   </div>
+                  <div class="stat-sd">SD: {{ getGroupActivitySD('1') }}</div>
                   <div class="stat-bar">
                     <div
                       class="stat-bar-fill"
@@ -409,6 +411,7 @@
                     [class]="getSanScaleClass(getGroupMood('1'))">
                     {{ getGroupMood('1') }}
                   </div>
+                  <div class="stat-sd">SD: {{ getGroupMoodSD('1') }}</div>
                   <div class="stat-bar">
                     <div
                       class="stat-bar-fill"
@@ -429,6 +432,7 @@
                     [class]="getSanScaleClass(getGroupWellbeing('2'))">
                     {{ getGroupWellbeing('2') }}
                   </div>
+                  <div class="stat-sd">SD: {{ getGroupWellbeingSD('2') }}</div>
                   <div class="stat-bar">
                     <div
                       class="stat-bar-fill"
@@ -444,6 +448,7 @@
                     [class]="getSanScaleClass(getGroupActivity('2'))">
                     {{ getGroupActivity('2') }}
                   </div>
+                  <div class="stat-sd">SD: {{ getGroupActivitySD('2') }}</div>
                   <div class="stat-bar">
                     <div
                       class="stat-bar-fill"
@@ -457,6 +462,7 @@
                     [class]="getSanScaleClass(getGroupMood('2'))">
                     {{ getGroupMood('2') }}
                   </div>
+                  <div class="stat-sd">SD: {{ getGroupMoodSD('2') }}</div>
                   <div class="stat-bar">
                     <div
                       class="stat-bar-fill"
@@ -1014,6 +1020,9 @@
                       ">
                       {{ getGroupBasicPhCategory('1', catDef.code) }}
                     </div>
+                    <div class="basicph-sd">
+                      SD: {{ getGroupBasicPhCategorySD('1', catDef.code) }}
+                    </div>
                     <div class="basicph-max">/ 36</div>
                     <div class="basicph-bar">
                       <div
@@ -1059,6 +1068,9 @@
                         )
                       ">
                       {{ getGroupBasicPhCategory('2', catDef.code) }}
+                    </div>
+                    <div class="basicph-sd">
+                      SD: {{ getGroupBasicPhCategorySD('2', catDef.code) }}
                     </div>
                     <div class="basicph-max">/ 36</div>
                     <div class="basicph-bar">

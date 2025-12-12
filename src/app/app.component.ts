@@ -2382,6 +2382,19 @@ export class AppComponent {
     return Math.round((sum / groupRespondents.length) * 100) / 100;
   }
 
+  getGroupWellbeingSD(group: string | number): number {
+    const groupRespondents = this.getRespondentsByGroup(group);
+    if (groupRespondents.length <= 1) return 0;
+    const mean = this.getGroupWellbeing(group);
+    const squaredDiffs = groupRespondents.map((r) =>
+      Math.pow(r.san.wellbeing - mean, 2)
+    );
+    const variance =
+      squaredDiffs.reduce((acc, val) => acc + val, 0) /
+      (groupRespondents.length - 1);
+    return Math.round(Math.sqrt(variance) * 100) / 100;
+  }
+
   getGroupActivity(group: string | number): number {
     const groupRespondents = this.getRespondentsByGroup(group);
     if (groupRespondents.length === 0) return 0;
@@ -2389,11 +2402,37 @@ export class AppComponent {
     return Math.round((sum / groupRespondents.length) * 100) / 100;
   }
 
+  getGroupActivitySD(group: string | number): number {
+    const groupRespondents = this.getRespondentsByGroup(group);
+    if (groupRespondents.length <= 1) return 0;
+    const mean = this.getGroupActivity(group);
+    const squaredDiffs = groupRespondents.map((r) =>
+      Math.pow(r.san.activity - mean, 2)
+    );
+    const variance =
+      squaredDiffs.reduce((acc, val) => acc + val, 0) /
+      (groupRespondents.length - 1);
+    return Math.round(Math.sqrt(variance) * 100) / 100;
+  }
+
   getGroupMood(group: string | number): number {
     const groupRespondents = this.getRespondentsByGroup(group);
     if (groupRespondents.length === 0) return 0;
     const sum = groupRespondents.reduce((acc, r) => acc + r.san.mood, 0);
     return Math.round((sum / groupRespondents.length) * 100) / 100;
+  }
+
+  getGroupMoodSD(group: string | number): number {
+    const groupRespondents = this.getRespondentsByGroup(group);
+    if (groupRespondents.length <= 1) return 0;
+    const mean = this.getGroupMood(group);
+    const squaredDiffs = groupRespondents.map((r) =>
+      Math.pow(r.san.mood - mean, 2)
+    );
+    const variance =
+      squaredDiffs.reduce((acc, val) => acc + val, 0) /
+      (groupRespondents.length - 1);
+    return Math.round(Math.sqrt(variance) * 100) / 100;
   }
 
   // Штепа Group-specific averages
@@ -2517,6 +2556,21 @@ export class AppComponent {
       return acc + (cat ? cat.score : 0);
     }, 0);
     return Math.round((sum / groupRespondents.length) * 100) / 100;
+  }
+
+  getGroupBasicPhCategorySD(group: string | number, code: string): number {
+    const groupRespondents = this.getRespondentsByGroup(group);
+    if (groupRespondents.length <= 1) return 0;
+    const mean = this.getGroupBasicPhCategory(group, code);
+    const squaredDiffs = groupRespondents.map((r) => {
+      const cat = r.basicPh.categories.find((c) => c.code === code);
+      const value = cat ? cat.score : 0;
+      return Math.pow(value - mean, 2);
+    });
+    const variance =
+      squaredDiffs.reduce((acc, val) => acc + val, 0) /
+      (groupRespondents.length - 1);
+    return Math.round(Math.sqrt(variance) * 100) / 100;
   }
 
   getGroupBasicPhTotal(group: string | number): number {
